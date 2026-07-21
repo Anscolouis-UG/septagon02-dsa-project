@@ -6,6 +6,6 @@ To keep our `main` branch stable and organized for **Team Septagon**, please fol
 
 ### 1. Branching Rules
 * **Never push directly to `main`.**
-* Always create a new branch for your task or feature:
+* Always use the branch assign to your development codebase:
   ```bash
   git checkout -b feature/your-feature-name
