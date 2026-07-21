@@ -6,6 +6,17 @@ To keep our `main` branch stable and organized for **Team Septagon**, please fol
 
 ### 1. Branching Rules
 * **Never push directly to `main`.**
-* Always use the branch assign to your development codebase:
-  ```bash
-  git checkout -b <branch-name>
+* Create a new branch directly from `main` using your assigned branch name (e.g., `ds/prince-core-ds`).
+
+### 2. Add Your Code
+* Place your files in the appropriate folder (`src/`, `data_base/`, or `tests/`).
+* Ensure you use unique file names to avoid conflicts with teammates.
+
+### 3. Open a Pull Request (PR)
+* Go to GitHub and click **Compare & pull request**.
+* Set **base:** `main` and **compare:** `your-branch-name`.
+* Add a short description of what you built and click **Create pull request**.
+
+### 4. Notify the Tech Lead
+* Send a message in the team chat or tag the Tech Lead on GitHub to review your PR.
+* Once approved, your PR will be merged into `main`!
