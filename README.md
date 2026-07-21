@@ -1,4 +1,4 @@
-# septagon-dsa-project
+# septagon02-dsa-project
 Data Structures and Algorithms group assignment implementation by Team Septagon.
 ## 🚀 Team Guidelines & Git Workflow
 
