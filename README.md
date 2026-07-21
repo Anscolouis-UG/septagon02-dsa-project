@@ -8,4 +8,4 @@ To keep our `main` branch stable and organized for **Team Septagon**, please fol
 * **Never push directly to `main`.**
 * Always use the branch assign to your development codebase:
   ```bash
-  git checkout -b feature/your-feature-name
+  git checkout -b <branch-name>
