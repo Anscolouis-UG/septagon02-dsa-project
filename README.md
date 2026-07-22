@@ -20,3 +20,12 @@ To keep our `main` branch stable and organized for **Team Septagon**, please fol
 ### 4. Notify the Tech Lead
 * Send a message in the team chat or tag the Tech Lead on GitHub to review your PR.
 * Once approved, your PR will be merged into `main`!
+
+### Project Overview
+This repository contains our team's 4-week implementation of a dataset processing system built using custom data structures, searching and sorting algorithms, graph optimization techniques, and persistent database integration.
+
+---
+
+## 🗺️ Project Milestones & Roadmap
+
+Our project execution is divided into **7 sequential milestones** over a 4-week timeline. Progress is tracked automatically via GitHub Issues and Pull Requests assigned to each milestone.To see the milestones visit the repository , click on the "pull request" tab close to the "issues" tab .In the next click the "milestones" tab in between the new pull resquest and the lables tab . After this you will see the 7 milestones set up for this four week project.
