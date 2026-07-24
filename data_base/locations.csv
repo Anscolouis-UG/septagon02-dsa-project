@@ -1,0 +1,51 @@
+location_id,name,district,area_type,latitude,longitude,operating_hours,building_code
+1,Main Gate,Entrance,Security,5.65085,-0.18605,00:00-24:00,MGT
+2,University Square,Central,Landmark,5.65092,-0.18745,00:00-24:00,USQ
+3,Balme Library,Central,Educational,5.65098,-0.18780,08:00-22:00,BAL
+4,Great Hall,Central,Administrative,5.65155,-0.18835,08:00-18:00,GHL
+5,Registry,Central,Administrative,5.65142,-0.18815,08:00-17:00,REG
+6,Cedi Conference Centre,Central,Meeting,5.65138,-0.18855,08:00-20:00,CCC
+7,School of Physical and Mathematical Sciences,Central,Educational,5.65110,-0.18885,07:00-20:00,SPMS
+8,Department of Computer Science,Central,Educational,5.65115,-0.18895,07:00-20:00,DCIT
+9,Department of Physics,Central,Educational,5.65118,-0.18910,07:00-20:00,PHY
+10,Department of Chemistry,Central,Educational,5.65124,-0.18900,07:00-20:00,CHE
+11,Department of Mathematics,Central,Educational,5.65106,-0.18872,07:00-20:00,MTH
+12,Department of Statistics,Central,Educational,5.65102,-0.18863,07:00-20:00,STA
+13,UG Business School,East Academic,Educational,5.65120,-0.18620,08:00-20:00,UGBS
+14,School of Law,Central,Educational,5.65075,-0.18720,08:00-18:00,LAW
+15,College of Humanities,Central,Educational,5.65082,-0.18760,08:00-18:00,HUM
+16,Institute of African Studies,Central,Educational,5.65132,-0.18735,08:00-18:00,IAS
+17,Noguchi Memorial Institute,Medical,Research,5.65210,-0.18570,08:00-17:00,NOG
+18,School of Public Health,Medical,Educational,5.65205,-0.18595,08:00-18:00,SPH
+19,University Hospital,Medical,Medical,5.65188,-0.18618,00:00-24:00,HOS
+20,Pharmacy,Medical,Medical,5.65180,-0.18610,08:00-17:00,PHA
+21,Student Centre,Central,Commercial,5.65072,-0.18662,07:00-22:00,STC
+22,Central Cafeteria,Central,Commercial,5.65060,-0.18715,06:00-21:00,CAF
+23,Bookshop,Central,Commercial,5.65055,-0.18695,08:00-18:00,BKS
+24,Banking Square,Central,Commercial,5.65045,-0.18670,08:00-17:00,BNK
+25,Night Market,East Residential,Commercial,5.65195,-0.18490,17:00-02:00,NMK
+26,Legon Hall,Residential,Residential,5.65220,-0.18790,00:00-24:00,LGH
+27,Commonwealth Hall,Residential,Residential,5.65280,-0.18980,00:00-24:00,COM
+28,Mensah Sarbah Hall,Residential,Residential,5.65262,-0.18890,00:00-24:00,MSH
+29,Volta Hall,Residential,Residential,5.65205,-0.18765,00:00-24:00,VOL
+30,Akuafo Hall,Residential,Residential,5.65235,-0.18830,00:00-24:00,AKU
+31,Jubilee Hall,Residential,Residential,5.65195,-0.18460,00:00-24:00,JUB
+32,Hilla Limann Hall,Residential,Residential,5.65175,-0.18420,00:00-24:00,HIL
+33,Jean Nelson Hall,Residential,Residential,5.65158,-0.18445,00:00-24:00,JNH
+34,Alexander Kwapong Hall,Residential,Residential,5.65148,-0.18410,00:00-24:00,AKH
+35,Elizabeth Frances Sey Hall,Residential,Residential,5.65168,-0.18400,00:00-24:00,EFS
+36,Pentagon Hostel,Residential,Residential,5.65192,-0.18405,00:00-24:00,PEN
+37,International Students Hostel,Residential,Residential,5.65145,-0.18390,00:00-24:00,ISH
+38,Sports Stadium,West Campus,Recreation,5.65135,-0.19070,06:00-21:00,STD
+39,Athletic Oval,West Campus,Recreation,5.65162,-0.19055,06:00-20:00,OVL
+40,Tennis Courts,West Campus,Recreation,5.65182,-0.19095,06:00-20:00,TEN
+41,Basketball Court,West Campus,Recreation,5.65192,-0.19082,06:00-20:00,BBC
+42,Football Pitch,West Campus,Recreation,5.65155,-0.19110,06:00-20:00,FTP
+43,Botanical Gardens,North Campus,Recreation,5.65300,-0.18870,06:00-18:00,BTG
+44,Open Air Theatre,North Campus,Recreation,5.65290,-0.18950,08:00-20:00,OAT
+45,University Chapel,Central,Religious,5.65170,-0.18655,06:00-20:00,CHP
+46,Islamic Centre,East Campus,Religious,5.65195,-0.18535,05:00-21:00,ISC
+47,East Gate,East Entrance,Security,5.65135,-0.18370,00:00-24:00,EGT
+48,West Gate,West Entrance,Security,5.65178,-0.19190,00:00-24:00,WGT
+49,Transport Office,Central,Administrative,5.65095,-0.18645,08:00-17:00,TRN
+50,Directorate of Student Affairs,Central,Administrative,5.65080,-0.18660,08:00-17:00,DSA
