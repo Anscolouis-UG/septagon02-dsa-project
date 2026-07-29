@@ -1,7 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-import structures.CustomLinkedList;
+import datastructures.CustomLinkedList;
 
 import java.util.Iterator;
 
