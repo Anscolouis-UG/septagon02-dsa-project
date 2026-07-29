@@ -61,4 +61,26 @@ public class CustomDeque<T> {
 
     public boolean isEmpty() { return size == 0; }
     public int size() { return size; }
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  Ghana Smart Service Operations Optimizer");
+        System.out.println("  Testing CustomDeque (Core Developer 2)");
+        System.out.println("==================================================\n");
+
+        CustomDeque<String> deque = new CustomDeque<>();
+
+        System.out.println("--- Testing Queue Insertions ---");
+        deque.addLast("Standard Operation #1");
+        deque.addLast("Standard Operation #2");
+        deque.addFirst("URGENT: Power Outage Task"); // Adds to front
+
+        System.out.println("Deque size: " + deque.size());
+
+        System.out.println("\n--- Testing Queue Removals ---");
+        System.out.println("Removed from Front: " + deque.removeFirst());
+        System.out.println("Removed from Back:  " + deque.removeLast());
+        System.out.println("Remaining Size:    " + deque.size());
+
+        System.out.println("\nExecution successful!");
+    }
 }

@@ -85,4 +85,23 @@ public class CustomRedBlackTree<K extends Comparable<K>, V> {
     }
 
     public int size() { return size; }
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  Ghana Smart Service Operations Optimizer");
+        System.out.println("  Testing CustomRedBlackTree (Core Developer 2)");
+        System.out.println("==================================================\n");
+
+        CustomRedBlackTree<Integer, String> tree = new CustomRedBlackTree<>();
+
+        System.out.println("--- Inserting Nodes & Testing Rotations ---");
+        tree.insert(10, "Task #101 - Urgent Maintenance");
+        tree.insert(20, "Task #102 - Field Dispatch");
+        tree.insert(30, "Task #103 - Network Audit"); // Triggers Left Rotation
+
+        System.out.println("\n--- Search Tests ---");
+        System.out.println("Searching Key 20: " + tree.search(20));
+        System.out.println("Searching Key 99: " + tree.search(99));
+
+        System.out.println("\nExecution successful!");
+    }
 }

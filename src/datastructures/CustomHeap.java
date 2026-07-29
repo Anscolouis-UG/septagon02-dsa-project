@@ -72,4 +72,24 @@ public class CustomHeap<T extends Comparable<T>> {
 
     public boolean isEmpty() { return size == 0; }
     public int size() { return size; }
+   public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  Ghana Smart Service Operations Optimizer");
+        System.out.println("  Testing CustomHeap / Priority Queue (Core Dev 2)");
+        System.out.println("==================================================\n");
+
+        CustomHeap<Integer> heap = new CustomHeap<>();
+
+        System.out.println("--- Inserting Operations (Priority Values) ---");
+        System.out.println("Inserting: 45, 15, 30, 5, 20");
+        heap.insert(45);
+        heap.insert(15);
+        heap.insert(30);
+        heap.insert(5);
+        heap.insert(20);
+
+        System.out.println("\nHeap Size: " + heap.size());
+
+        System.out.println("\nExecution & compilation successful!");
+    }
 }

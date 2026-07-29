@@ -57,4 +57,26 @@ public class CustomBST<K extends Comparable<K>, V> {
     }
 
     public int size() { return size; }
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  Ghana Smart Service Operations Optimizer");
+        System.out.println("  Testing CustomBST (Core Developer 2)");
+        System.out.println("==================================================\n");
+
+        CustomBST<Integer, String> bst = new CustomBST<>();
+
+        System.out.println("--- Inserting Nodes ---");
+        bst.insert(50, "Central Server");
+        bst.insert(30, "Substation A");
+        bst.insert(70, "Substation B");
+        bst.insert(20, "Relay Station 1");
+        bst.insert(40, "Relay Station 2");
+
+        System.out.println("\n--- Search Tests ---");
+        System.out.println("Searching Key 30: " + bst.search(30));
+        System.out.println("Searching Key 50: " + bst.search(50));
+        System.out.println("Searching Key 99: " + bst.search(99));
+
+        System.out.println("\nExecution successful!");
+    }
 }
