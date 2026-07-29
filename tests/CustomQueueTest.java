@@ -1,7 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-import structures.CustomQueue;
+import datastructures.CustomQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
