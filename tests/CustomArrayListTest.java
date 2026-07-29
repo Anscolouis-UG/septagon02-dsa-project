@@ -1,7 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-import structures.CustomArrayList;
+import datastructures.CustomArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
