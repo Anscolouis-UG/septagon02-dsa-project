@@ -1,4 +1,4 @@
-import structures.CustomArrayList;
+import datastructures.CustomArrayList;
 
 public class RunDemo {
     public static void main(String[] args) {
