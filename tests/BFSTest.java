@@ -79,7 +79,7 @@ public class BFSTest {
 
         List<Integer> order = BFS.run(graph, 0);
         System.out.println("  Trace: BFSAlgorithm.run(0) = " + order);
-        assertEquals("test4_singleIsolatedVertex", Arrays.asList(0), order);
+        assertEquals("test4_singleIsolatedVertex", List.of(0), order);
         System.out.println();
     }
 

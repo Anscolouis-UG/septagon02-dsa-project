@@ -77,7 +77,7 @@ public class DFSTest {
 
         List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
-        assertEquals("test4_singleIsolatedVertex", Arrays.asList(0), order);
+        assertEquals("test4_singleIsolatedVertex", List.of(0), order);
         System.out.println();
     }
 
