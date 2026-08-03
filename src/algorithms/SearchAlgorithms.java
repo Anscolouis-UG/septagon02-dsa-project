@@ -1,4 +1,4 @@
-package Alogrithms;
+package algorithms;
 
 public class SearchAlgorithms {
 
