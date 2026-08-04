@@ -1,55 +1,29 @@
 # Custom Data Structures Module
 
-This folder (`src/datastructures`) contains the custom, zero-dependency data structure implementations developed for the **Ghana Smart Service Operations Optimizer** project (**DCIT 204/308**).
+This folder contains the current zero-dependency Java implementations used by the Ghana Smart Service Operations Optimizer demo.
 
----
+## Compile and run
 
-## 📂 Included Components
+From the project root, compile the four Java applications into `out`:
 
-* **`CustomDeque.java`**: Doubly-linked double-ended queue.
-* **`CustomHeap.java`**: Dynamic array-backed Min-Heap priority queue.
-* **`CustomBST.java`**: Binary Search Tree with recursive search, insert, and node deletion.
-* **`CustomRedBlackTree.java`**: Self-balancing Red-Black Tree with rotation logging and structural trace tracking.
-
----
-
-## 🛠 Compilation Instructions
-
-Before running any application, compile all Java source files from the project root directory (`septagon02-dsa-project`):
-
-```bash
-javac src/datastructures/*.java
+```powershell
+javac -d out src/datastructures/CustomHeap.java src/datastructures/CustomRedBlackTree.java src/datastructures/DispatchDeque.java src/datastructures/ResourceBST.java
 ```
 
----
+Then run any demo with the compiled output on the classpath:
 
-## 🚀 How to Run Each Data Structure Application
-
-Run each driver application from the project root directory using the `-cp src` classpath flag:
-
-### 1. Run Custom Deque (`CustomDeque.java`)
-```bash
-javac src/datastructures/*.java
-java -cp src datastructures.CustomDeque
+```powershell
+java -cp out datastructures.DispatchDeque
+java -cp out datastructures.CustomHeap
+java -cp out datastructures.ResourceBST
+java -cp out datastructures.CustomRedBlackTree
 ```
 
-### 2. Run Custom Min-Heap (`CustomHeap.java`)
-```bash
-javac src/datastructures/*.java
-java -cp src datastructures.CustomHeap
-```
+No arguments are required. Each `main` method reads every record from its matching CSV file in `data_base`; run the command from the project root so the file paths resolve correctly.
 
-### 3. Run Custom Binary Search Tree (`CustomBST.java`)
-```bash
-javac src/datastructures/*.java
-java -cp src datastructures.CustomBST
-```
+## Components
 
-### 4. Run Custom Red-Black Tree (`CustomRedBlackTree.java`)
-```bash
-javac src/datastructures/*.java
-java -cp src datastructures.CustomRedBlackTree
-```
-
----
-*Developed by Benjamin (Core Developer 2) — University of Ghana*
+- `DispatchDeque.java`: doubly linked deque for road-segment dispatching.
+- `CustomHeap.java`: array-backed maximum-priority queue for service requests.
+- `ResourceBST.java`: binary search tree for resources.
+- `CustomRedBlackTree.java`: red-black tree for locations.
