@@ -1,0 +1,40 @@
+resource_id,resource_name,resource_type,capacity,current_location_id,availability_status,cost_per_hour
+1,Electrical Maintenance Team,Personnel,4,5,Available,180
+2,Civil Maintenance Team,Personnel,4,5,Available,180
+3,Plumbing Team,Personnel,3,5,Available,170
+4,HVAC Maintenance Team,Personnel,3,5,In_Use,200
+5,Campus Security Patrol Alpha,Personnel,5,1,Available,150
+6,Campus Security Patrol Bravo,Personnel,5,47,Available,150
+7,Medical Emergency Team,Personnel,4,19,Available,250
+8,Grounds Maintenance Crew,Personnel,6,43,Available,140
+9,Cleaning Services Team A,Personnel,5,21,Available,130
+10,Cleaning Services Team B,Personnel,5,21,In_Use,130
+11,ICT Support Team,Personnel,4,8,Available,190
+12,Transport Services Team,Personnel,3,49,Available,160
+13,Waste Collection Truck 1,Vehicle,5000,49,Available,320
+14,Waste Collection Truck 2,Vehicle,5000,49,In_Use,320
+15,Campus Delivery Van 1,Vehicle,2000,49,Available,220
+16,Campus Delivery Van 2,Vehicle,2000,49,Available,220
+17,Maintenance Pickup Truck,Vehicle,3000,5,Available,260
+18,Emergency Ambulance,Vehicle,4,19,Available,600
+19,Campus Shuttle Bus,Vehicle,40,49,Available,350
+20,Standby Generator,Equipment,50000,19,Available,500
+21,Portable Generator,Equipment,12000,5,Available,220
+22,Water Pump Unit,Equipment,10000,19,Available,300
+23,Hydraulic Lift,Equipment,5000,5,Available,280
+24,Air Compressor,Equipment,2000,5,Available,180
+25,Welding Machine,Equipment,1000,5,Available,220
+26,Industrial Tool Kit A,Equipment,500,5,Available,40
+27,Industrial Tool Kit B,Equipment,500,5,Available,40
+28,Industrial Tool Kit C,Equipment,500,5,Available,40
+29,Pressure Washer,Equipment,1000,5,Available,120
+30,Ride-on Lawn Mower,Equipment,500,43,Available,110
+31,Push Lawn Mower,Equipment,300,43,Available,80
+32,Hedge Trimmer,Equipment,100,43,Available,60
+33,Tree Pruning Kit,Equipment,100,43,Available,70
+34,Chainsaw,Equipment,100,43,Available,90
+35,Portable Flood Lights,Equipment,2000,5,Available,130
+36,Traffic Cones Set,Equipment,100,1,Available,25
+37,Barricade Kit,Equipment,50,1,Available,35
+38,First Aid Kit,Equipment,50,19,Available,20
+39,Network Diagnostic Kit,Equipment,100,8,Available,90

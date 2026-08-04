@@ -1,4 +1,4 @@
-
+package datastructures;
 
 /**
  * A set implementation backed by a custom hash table using a dummy placeholder object.
