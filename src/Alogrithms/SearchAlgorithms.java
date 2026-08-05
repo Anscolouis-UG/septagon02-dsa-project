@@ -1,29 +1,33 @@
-package Alogrithms;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class SearchAlgorithms {
 
-    public  void main() {
+    public static <T> int linearSearch(List<T> list, Predicate<T> predicate) {
+        if (list == null || predicate == null) return -1;
 
-    } static int linearSearch(int[] array, int target) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == target) {
+        for (int i = 0; i < list.size(); i++) {
+            if (predicate.test(list.get(i))) {
                 return i;
             }
         }
         return -1;
     }
 
+    public static <T> int binarySearch(List<T> list, T key, Comparator<T> comparator) {
+        if (list == null || key == null || comparator == null) return -1;
 
-    public static int binarySearch(int[] array, int target) {
         int low = 0;
-        int high = array.length - 1;
+        int high = list.size() - 1;
 
         while (low <= high) {
-            int mid = (low + high) / 2;
+            int mid = low + (high - low) / 2;
+            int cmp = comparator.compare(list.get(mid), key);
 
-            if (array[mid] == target) {
+            if (cmp == 0) {
                 return mid;
-            } else if (array[mid] < target) {
+            } else if (cmp < 0) {
                 low = mid + 1;
             } else {
                 high = mid - 1;
@@ -32,4 +36,3 @@ public class SearchAlgorithms {
         return -1;
     }
 }
-
