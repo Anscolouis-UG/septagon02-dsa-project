@@ -1,6 +1,7 @@
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+package algorithms;
 
 public class SearchAlgorithms {
 
