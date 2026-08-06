@@ -1,4 +1,4 @@
-
+package datastructures;
 
 /**
  * A simple map abstraction implemented on top of a custom hash table.

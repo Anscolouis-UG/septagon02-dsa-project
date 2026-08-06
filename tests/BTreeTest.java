@@ -1,11 +1,11 @@
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import datastructures.BTree;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class BTreeTest {
 
     @Test
-    void testInsertAndSearch() {
+    public void testInsertAndSearch() {
         BTree<Integer, String> tree = new BTree<>();
         tree.insert(10, "ten");
         tree.insert(20, "twenty");
@@ -20,7 +20,7 @@ public class BTreeTest {
     }
 
     @Test
-    void testSplitTriggeringInsertion() {
+    public void testSplitTriggeringInsertion() {
         BTree<Integer, String> tree = new BTree<>(2);
         for (int i = 1; i <= 10; i++) {
             tree.insert(i, "value" + i);

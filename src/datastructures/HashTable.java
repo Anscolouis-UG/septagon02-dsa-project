@@ -1,4 +1,4 @@
-
+package datastructures;
 
 /**
  * A hash table implementation using separate chaining with custom linked-entry nodes.
