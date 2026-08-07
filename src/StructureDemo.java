@@ -165,14 +165,33 @@ public class StructureDemo {
                 String line = sc.nextLine().trim();
                 if (line.isEmpty()) continue;
                 String[] parts = line.split(",");
-                if (parts.length >= 2) {
+                
+                // Parse full 11-column CSV format
+                if (parts.length >= 8) {
                     int id = Integer.parseInt(parts[0].trim());
                     String type = parts[1].trim();
+                    int locId = Integer.parseInt(parts[2].trim());
 
-                    // Determine location ID (use 3rd column if present, otherwise match ID)
+                    String realLocationName = locationNamesMap.get(locId);
+                    if (realLocationName == null) {
+                        realLocationName = "Location #" + locId;
+                    }
+
+                    String priority = parts[3].trim();
+                    String status = parts[4].trim();
+                    String assignedTeam = parts[7].trim(); // Column 8 is assigned_team
+
+                    ServiceRequest request = new ServiceRequest(id, type, realLocationName, priority, status, assignedTeam);
+
+                    btree.insert(id, request);
+                    hash.put(id, request);
+                    count++;
+                } else if (parts.length >= 2) {
+                    // Fallback for shorter legacy CSV formats
+                    int id = Integer.parseInt(parts[0].trim());
+                    String type = parts[1].trim();
                     int locId = (parts.length >= 3) ? Integer.parseInt(parts[2].trim()) : id;
 
-                    // Look up real building name from locations.csv data
                     String realLocationName = locationNamesMap.get(locId);
                     if (realLocationName == null) {
                         realLocationName = "Location #" + locId;
