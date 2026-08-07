@@ -1,6 +1,5 @@
 package datastructures;
 
-import java.util.*;
 
 /**
  * CustomGraph.java
@@ -33,12 +32,12 @@ public class CustomGraph {
     private final boolean directed;
 
     // Adjacency list: vertex -> list of (neighbor, weight) edges
-    private final Map<Integer, List<Edge>> adjList;
+    private final java.util.Map<Integer, java.util.List<Edge>> adjList;
 
     // Adjacency matrix: matrix[i][j] = weight of edge i->j, or POSITIVE_INFINITY if none
     private final double[][] adjMatrix;
 
-    private final Set<Integer> vertices;
+    private final java.util.Set<Integer> vertices;
 
     /** Represents one edge in the adjacency list. */
     public static class Edge {
@@ -66,12 +65,12 @@ public class CustomGraph {
         }
         this.numVertices = numVertices;
         this.directed = directed;
-        this.adjList = new HashMap<>(HASH_TABLE_SIZE);
+        this.adjList = new java.util.HashMap<>(HASH_TABLE_SIZE);
         this.adjMatrix = new double[numVertices][numVertices];
-        this.vertices = new LinkedHashSet<>();
+        this.vertices = new java.util.LinkedHashSet<>();
 
         for (double[] row : adjMatrix) {
-            Arrays.fill(row, Double.POSITIVE_INFINITY);
+            java.util.Arrays.fill(row, Double.POSITIVE_INFINITY);
         }
     }
 
@@ -79,7 +78,7 @@ public class CustomGraph {
     public void addVertex(int id) {
         validateId(id);
         vertices.add(id);
-        adjList.putIfAbsent(id, new ArrayList<>());
+        adjList.putIfAbsent(id, new java.util.ArrayList<>());
     }
 
     /**
@@ -106,35 +105,35 @@ public class CustomGraph {
     }
 
     /** Returns the ids of all locations directly reachable from the given vertex. */
-    public List<Integer> getNeighbors(int vertex) {
+    public java.util.List<Integer> getNeighbors(int vertex) {
         validateId(vertex);
-        List<Integer> neighbors = new ArrayList<>();
-        for (Edge e : adjList.getOrDefault(vertex, Collections.emptyList())) {
+        java.util.List<Integer> neighbors = new java.util.ArrayList<>();
+        for (Edge e : adjList.getOrDefault(vertex, java.util.Collections.emptyList())) {
             neighbors.add(e.target);
         }
         return neighbors;
     }
 
     /** Returns the raw edge list (target + distance) for a vertex — used by routing algorithms. */
-    public List<Edge> getEdges(int vertex) {
+    public java.util.List<Edge> getEdges(int vertex) {
         validateId(vertex);
-        return new ArrayList<>(adjList.getOrDefault(vertex, Collections.emptyList()));
+        return new java.util.ArrayList<>(adjList.getOrDefault(vertex, java.util.Collections.emptyList()));
     }
 
     /** Depth-First Search, returns visit order starting from `start`. */
-    public List<Integer> dfs(int start) {
+    public java.util.List<Integer> dfs(int start) {
         validateId(start);
-        List<Integer> visitOrder = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
+        java.util.List<Integer> visitOrder = new java.util.ArrayList<>();
+        java.util.Set<Integer> visited = new java.util.HashSet<>();
         dfsHelper(start, visited, visitOrder);
         return visitOrder;
     }
 
-    private void dfsHelper(int current, Set<Integer> visited, List<Integer> visitOrder) {
+    private void dfsHelper(int current, java.util.Set<Integer> visited, java.util.List<Integer> visitOrder) {
         if (visited.contains(current)) return;
         visited.add(current);
         visitOrder.add(current);
-        for (Edge e : adjList.getOrDefault(current, Collections.emptyList())) {
+        for (Edge e : adjList.getOrDefault(current, java.util.Collections.emptyList())) {
             if (!visited.contains(e.target)) {
                 dfsHelper(e.target, visited, visitOrder);
             }
@@ -142,11 +141,11 @@ public class CustomGraph {
     }
 
     /** Breadth-First Search, returns visit order starting from `start`. */
-    public List<Integer> bfs(int start) {
+    public java.util.List<Integer> bfs(int start) {
         validateId(start);
-        List<Integer> visitOrder = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
-        Queue<Integer> queue = new LinkedList<>();
+        java.util.List<Integer> visitOrder = new java.util.ArrayList<>();
+        java.util.Set<Integer> visited = new java.util.HashSet<>();
+        java.util.Queue<Integer> queue = new java.util.LinkedList<>();
 
         visited.add(start);
         queue.add(start);
@@ -154,7 +153,7 @@ public class CustomGraph {
         while (!queue.isEmpty()) {
             int current = queue.poll();
             visitOrder.add(current);
-            for (Edge e : adjList.getOrDefault(current, Collections.emptyList())) {
+            for (Edge e : adjList.getOrDefault(current, java.util.Collections.emptyList())) {
                 if (!visited.contains(e.target)) {
                     visited.add(e.target);
                     queue.add(e.target);

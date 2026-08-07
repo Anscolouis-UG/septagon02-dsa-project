@@ -6,7 +6,6 @@ import algorithms.Prim;
 import datastructures.CustomDisjointSet;
 import datastructures.CustomGraph;
 
-import java.util.*;
 
 public class KruskalTest {
     private static int passed = 0;
@@ -43,7 +42,7 @@ public class KruskalTest {
 
     private static void test1_totalWeightMatchesKnownMST() {
         System.out.println("Test 1: Known MST weight on a 5-node graph");
-        List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
+        java.util.List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
         double total = totalWeight(mst);
         System.out.println("  Trace: MST edges = " + mst + ", total = " + total);
         assertEquals("test1_totalMSTWeight", 7.0, total);
@@ -52,7 +51,7 @@ public class KruskalTest {
 
     private static void test2_edgeCountIsVMinusOne() {
         System.out.println("Test 2: Edge count is V-1 for a connected graph");
-        List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
+        java.util.List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
         System.out.println("  Trace: MST edge count = " + mst.size());
         assertEquals("test2_edgeCountIsFour", 4, mst.size());
         System.out.println();
@@ -60,7 +59,7 @@ public class KruskalTest {
 
     private static void test3_resultFormsSingleConnectedTree() {
         System.out.println("Test 3: MST forms a single connected component (checked via CustomDisjointSet)");
-        List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
+        java.util.List<GraphEdge> mst = Kruskal.run(sampleGraph(), 5);
         System.out.println("  Trace: MST edges = " + mst);
 
         CustomDisjointSet dsu = new CustomDisjointSet(5);
@@ -86,7 +85,7 @@ public class KruskalTest {
 
         graph.addEdge(3, 4, 1);
 
-        List<GraphEdge> mst = Kruskal.run(graph, 5);
+        java.util.List<GraphEdge> mst = Kruskal.run(graph, 5);
         System.out.println("  Trace: forest edges = " + mst);
         assertEquals("test5_forestHasThreeEdges", 3, mst.size());
 
@@ -97,8 +96,8 @@ public class KruskalTest {
     }
 
     private static void test6_edgeListOverloadMatchesGraphOverload() {
-        System.out.println("Test 6: List<GraphEdge> overload matches CustomGraph overload");
-        List<GraphEdge> edges = new ArrayList<>();
+        System.out.println("Test 6: java.util.List<GraphEdge> overload matches CustomGraph overload");
+        java.util.List<GraphEdge> edges = new java.util.ArrayList<>();
         edges.add(new GraphEdge(0, 1, 4));
         edges.add(new GraphEdge(0, 2, 1));
         edges.add(new GraphEdge(2, 1, 2));
@@ -113,7 +112,7 @@ public class KruskalTest {
         System.out.println();
     }
 
-    private static double totalWeight(List<GraphEdge> edges) {
+    private static double totalWeight(java.util.List<GraphEdge> edges) {
         double total = 0;
         for (GraphEdge e : edges) total += e.weight;
         return total;

@@ -39,7 +39,7 @@ public class CustomQueue<T> {
     public T dequeue() {
 
         if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty");
+            throw new IllegalStateException("java.util.Queue is empty");
         }
 
         T item = (T) elements[front];
@@ -55,7 +55,7 @@ public class CustomQueue<T> {
     public T peek() {
 
         if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty");
+            throw new IllegalStateException("java.util.Queue is empty");
         }
 
         return (T) elements[front];

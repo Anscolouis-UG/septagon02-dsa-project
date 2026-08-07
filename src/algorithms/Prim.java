@@ -3,8 +3,6 @@ package algorithms;
 import datastructures.CustomGraph;
 import datastructures.CustomHeap;
 
-import java.util.List;
-import java.util.ArrayList;
 
 public class Prim {
 
@@ -25,9 +23,9 @@ public class Prim {
         }
     }
 
-    public static List<GraphEdge> run(CustomGraph graph, int numVertices, int startNode) {
+    public static java.util.List<GraphEdge> run(CustomGraph graph, int numVertices, int startNode) {
         boolean[] inMST = new boolean[numVertices];
-        List<GraphEdge> mstEdges = new ArrayList<>();
+        java.util.List<GraphEdge> mstEdges = new java.util.ArrayList<>();
         double totalWeight = 0;
 
         CustomHeap<MinEntry> minHeap = new CustomHeap<>();
@@ -74,7 +72,7 @@ public class Prim {
         graph.addEdge(3, 4, 3);
 
         System.out.println("Minimum Spanning Tree edges (Prim's), starting at 0:");
-        List<GraphEdge> mst = run(graph, n, 0);
+        java.util.List<GraphEdge> mst = run(graph, n, 0);
         for (GraphEdge e : mst) {
             System.out.println("  " + e);
         }

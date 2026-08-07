@@ -3,7 +3,6 @@ package datastructures;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class CustomRedBlackTree {
 
@@ -122,7 +121,7 @@ public class CustomRedBlackTree {
     public static void main(String[] args) throws IOException {
         CustomRedBlackTree tree = new CustomRedBlackTree();
 
-        List<String> rows = Files.readAllLines(Path.of("data_base", "locations.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "locations.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
             tree.insert(Integer.parseInt(columns[0]), new Location(

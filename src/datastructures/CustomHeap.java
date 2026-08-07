@@ -3,9 +3,6 @@ package datastructures;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class CustomHeap {
 
@@ -75,7 +72,7 @@ public class CustomHeap {
     public void insert(ServiceRequest item) {
         if (item == null) throw new IllegalArgumentException("Cannot insert null");
         if (size == heap.length) {
-            heap = Arrays.copyOf(heap, heap.length * 2);
+            heap = java.util.Arrays.copyOf(heap, heap.length * 2);
         }
         heap[size] = item;
         siftUp(size);
@@ -83,7 +80,7 @@ public class CustomHeap {
     }
 
     public ServiceRequest extractMax() {
-        if (isEmpty()) throw new NoSuchElementException("Heap is empty");
+        if (isEmpty()) throw new java.util.NoSuchElementException("Heap is empty");
         ServiceRequest max = heap[0];
         heap[0] = heap[size - 1];
         heap[size - 1] = null;
@@ -130,7 +127,7 @@ public class CustomHeap {
     public static void main(String[] args) throws IOException {
         CustomHeap priorityQueue = new CustomHeap();
 
-        List<String> rows = Files.readAllLines(Path.of("data_base", "service_requests.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "service_requests.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
             priorityQueue.insert(new ServiceRequest(

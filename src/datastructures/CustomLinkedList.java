@@ -1,7 +1,5 @@
 package datastructures;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class CustomLinkedList<T> implements Iterable<T> {
 
@@ -140,9 +138,9 @@ public class CustomLinkedList<T> implements Iterable<T> {
 }
 
 @Override
-public Iterator<T> iterator() {
+public java.util.Iterator<T> iterator() {
 
-    return new Iterator<T>() {
+    return new java.util.Iterator<T>() {
 
         private Node current = head;
 
@@ -155,7 +153,7 @@ public Iterator<T> iterator() {
         public T next() {
 
             if (!hasNext()) {
-                throw new NoSuchElementException();
+                throw new java.util.NoSuchElementException();
             }
 
             T data = current.data;

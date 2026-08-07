@@ -3,7 +3,6 @@
 import algorithms.DFS;
 import datastructures.CustomGraph;
 
-import java.util.*;
 
 public class DFSTest {
     private static int passed = 0;
@@ -33,9 +32,9 @@ public class DFSTest {
         graph.addEdge(1, 2, 1);
         graph.addEdge(2, 3, 1);
 
-        List<Integer> order = DFS.run(graph, 0);
+        java.util.List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
-        assertEquals("test1_linearChainVisitsInOrder", Arrays.asList(0, 1, 2, 3), order);
+        assertEquals("test1_linearChainVisitsInOrder", java.util.Arrays.asList(0, 1, 2, 3), order);
         System.out.println();
     }
 
@@ -48,10 +47,10 @@ public class DFSTest {
         graph.addEdge(2, 4, 1);
         graph.addEdge(4, 5, 1);
 
-        List<Integer> order = DFS.run(graph, 0);
+        java.util.List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
 
-        assertEquals("test2_depthFirstOrder", Arrays.asList(0, 1, 3, 2, 4, 5), order);
+        assertEquals("test2_depthFirstOrder", java.util.Arrays.asList(0, 1, 3, 2, 4, 5), order);
         System.out.println();
     }
 
@@ -62,7 +61,7 @@ public class DFSTest {
         graph.addEdge(1, 2, 1);
         graph.addEdge(3, 4, 1);
 
-        List<Integer> order = DFS.run(graph, 0);
+        java.util.List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
         assertTrue("test3_disconnectedComponentIsUnreachable",
                 !order.contains(3) && !order.contains(4),
@@ -75,9 +74,9 @@ public class DFSTest {
         CustomGraph graph = new CustomGraph(3, false);
         graph.addVertex(0);
 
-        List<Integer> order = DFS.run(graph, 0);
+        java.util.List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
-        assertEquals("test4_singleIsolatedVertex", List.of(0), order);
+        assertEquals("test4_singleIsolatedVertex", java.util.List.of(0), order);
         System.out.println();
     }
 
@@ -89,9 +88,9 @@ public class DFSTest {
         graph.addEdge(2, 3, 1);
         graph.addEdge(3, 0, 1);
 
-        List<Integer> order = DFS.run(graph, 0);
+        java.util.List<Integer> order = DFS.run(graph, 0);
         System.out.println("  Trace: DFSAlgorithm.run(0) = " + order);
-        Set<Integer> unique = new HashSet<>(order);
+        java.util.Set<Integer> unique = new java.util.HashSet<>(order);
         assertEquals("test5_cycleVisitsEachVertexOnce", 4, unique.size());
         System.out.println();
     }

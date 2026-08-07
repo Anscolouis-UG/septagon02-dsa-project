@@ -3,8 +3,6 @@ package datastructures;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class DispatchDeque {
 
@@ -72,7 +70,7 @@ public class DispatchDeque {
     }
 
     public RoadSegment removeFirst() {
-        if (isEmpty()) throw new NoSuchElementException("Deque is empty");
+        if (isEmpty()) throw new java.util.NoSuchElementException("java.util.Deque is empty");
         RoadSegment data = head.data;
         head = head.next;
         if (head == null) tail = null;
@@ -82,7 +80,7 @@ public class DispatchDeque {
     }
 
     public RoadSegment removeLast() {
-        if (isEmpty()) throw new NoSuchElementException("Deque is empty");
+        if (isEmpty()) throw new java.util.NoSuchElementException("java.util.Deque is empty");
         RoadSegment data = tail.data;
         tail = tail.prev;
         if (tail == null) head = null;
@@ -97,7 +95,7 @@ public class DispatchDeque {
     public static void main(String[] args) throws IOException {
         DispatchDeque deque = new DispatchDeque();
 
-        List<String> rows = Files.readAllLines(Path.of("data_base", "roads.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "roads.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
             deque.addLast(new RoadSegment(
