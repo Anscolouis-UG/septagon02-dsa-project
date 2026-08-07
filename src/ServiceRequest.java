@@ -5,20 +5,27 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
     private String priority;
     private String status;
     private String assignedTeam;
+    private String description;
 
-    // Primary constructor containing tracking fields
-    public ServiceRequest(int id, String type, String location, String priority, String status, String assignedTeam) {
+    // Full constructor supporting all tracking fields
+    public ServiceRequest(int id, String type, String location, String priority, String status, String assignedTeam, String description) {
         this.id = id;
         this.type = type;
         this.location = location;
         this.priority = priority;
         this.status = status;
         this.assignedTeam = assignedTeam;
+        this.description = description;
+    }
+
+    // Overloaded constructor for 6 parameters
+    public ServiceRequest(int id, String type, String location, String priority, String status, String assignedTeam) {
+        this(id, type, location, priority, status, assignedTeam, "No description provided");
     }
 
     // Overloaded constructor for backward compatibility
     public ServiceRequest(int id, String type, String location) {
-        this(id, type, location, "Normal", "Pending", "Unassigned");
+        this(id, type, location, "Normal", "Pending", "Unassigned", "No description provided");
     }
 
     // Getters
@@ -46,6 +53,10 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
         return assignedTeam;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     // Setters
     public void setStatus(String status) {
         this.status = status;
@@ -53,6 +64,10 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
 
     public void setAssignedTeam(String assignedTeam) {
         this.assignedTeam = assignedTeam;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -67,6 +82,7 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
                ", Location='" + location + '\'' + 
                ", Priority='" + priority + '\'' + 
                ", Status='" + status + '\'' + 
-               ", Team='" + assignedTeam + "']";
+               ", Team='" + assignedTeam + '\'' + 
+               ", Description='" + description + "']";
     }
 }

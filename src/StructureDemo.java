@@ -166,8 +166,8 @@ public class StructureDemo {
                 if (line.isEmpty()) continue;
                 String[] parts = line.split(",");
                 
-                // Parse full 11-column CSV format
-                if (parts.length >= 8) {
+                // Full 11-column CSV format
+                if (parts.length >= 11) {
                     int id = Integer.parseInt(parts[0].trim());
                     String type = parts[1].trim();
                     int locId = Integer.parseInt(parts[2].trim());
@@ -179,7 +179,27 @@ public class StructureDemo {
 
                     String priority = parts[3].trim();
                     String status = parts[4].trim();
-                    String assignedTeam = parts[7].trim(); // Column 8 is assigned_team
+                    String assignedTeam = parts[7].trim(); // Index 7: assigned_team
+                    String description = parts[10].trim(); // Index 10: description
+
+                    ServiceRequest request = new ServiceRequest(id, type, realLocationName, priority, status, assignedTeam, description);
+
+                    btree.insert(id, request);
+                    hash.put(id, request);
+                    count++;
+                } else if (parts.length >= 8) {
+                    int id = Integer.parseInt(parts[0].trim());
+                    String type = parts[1].trim();
+                    int locId = Integer.parseInt(parts[2].trim());
+
+                    String realLocationName = locationNamesMap.get(locId);
+                    if (realLocationName == null) {
+                        realLocationName = "Location #" + locId;
+                    }
+
+                    String priority = parts[3].trim();
+                    String status = parts[4].trim();
+                    String assignedTeam = parts[7].trim();
 
                     ServiceRequest request = new ServiceRequest(id, type, realLocationName, priority, status, assignedTeam);
 
@@ -187,7 +207,6 @@ public class StructureDemo {
                     hash.put(id, request);
                     count++;
                 } else if (parts.length >= 2) {
-                    // Fallback for shorter legacy CSV formats
                     int id = Integer.parseInt(parts[0].trim());
                     String type = parts[1].trim();
                     int locId = (parts.length >= 3) ? Integer.parseInt(parts[2].trim()) : id;
