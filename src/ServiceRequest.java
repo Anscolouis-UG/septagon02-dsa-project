@@ -1,4 +1,4 @@
-public class ServiceRequest implements Comparable<ServiceRequest> {
+public class ServiceRequest {
     private int id;
     private String type;
     private String location;
@@ -7,8 +7,9 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
     private String assignedTeam;
     private String description;
 
-    // Full constructor supporting all tracking fields
-    public ServiceRequest(int id, String type, String location, String priority, String status, String assignedTeam, String description) {
+    // 11-column full constructor
+    public ServiceRequest(int id, String type, String location, String priority, 
+                          String status, String assignedTeam, String description) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -18,17 +19,17 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
         this.description = description;
     }
 
-    // Overloaded constructor for 6 parameters
-    public ServiceRequest(int id, String type, String location, String priority, String status, String assignedTeam) {
-        this(id, type, location, priority, status, assignedTeam, "No description provided");
+    // 8-column constructor fallback
+    public ServiceRequest(int id, String type, String location, String priority, 
+                          String status, String assignedTeam) {
+        this(id, type, location, priority, status, assignedTeam, "No description available");
     }
 
-    // Overloaded constructor for backward compatibility
+    // 3-column minimal constructor fallback
     public ServiceRequest(int id, String type, String location) {
-        this(id, type, location, "Normal", "Pending", "Unassigned", "No description provided");
+        this(id, type, location, "Medium", "Open", "Unassigned", "No description available");
     }
 
-    // Getters
     public int getId() {
         return id;
     }
@@ -57,32 +58,11 @@ public class ServiceRequest implements Comparable<ServiceRequest> {
         return description;
     }
 
-    // Setters
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setAssignedTeam(String assignedTeam) {
-        this.assignedTeam = assignedTeam;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public int compareTo(ServiceRequest other) {
-        return Integer.compare(this.id, other.id);
-    }
-
     @Override
     public String toString() {
-        return "ServiceRequest[ID=" + id + 
-               ", Type='" + type + '\'' + 
-               ", Location='" + location + '\'' + 
-               ", Priority='" + priority + '\'' + 
-               ", Status='" + status + '\'' + 
-               ", Team='" + assignedTeam + '\'' + 
-               ", Description='" + description + "']";
+        return String.format(
+            "ServiceRequest [ID=%d, Type=%s, Location=%s, Priority=%s, Status=%s, Team=%s, Description=\"%s\"]",
+            id, type, location, priority, status, assignedTeam, description
+        );
     }
 }
