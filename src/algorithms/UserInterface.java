@@ -1,11 +1,9 @@
 package algorithms;
 
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class UserInterface {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
         boolean running = true;
 
         System.out.println("=============================================");
@@ -44,7 +42,7 @@ public class UserInterface {
         scanner.close();
     }
 
-    private static int[] acceptArrayInput(Scanner scanner) {
+    private static int[] acceptArrayInput(java.util.Scanner scanner) {
         System.out.print("\nHow many integers are in your list? ");
         int size = scanner.nextInt();
         int[] array = new int[size];
@@ -57,7 +55,7 @@ public class UserInterface {
         return array;
     }
 
-    private static void handleSearching(Scanner scanner, int[] array) {
+    private static void handleSearching(java.util.Scanner scanner, int[] array) {
         System.out.println("\n--- SEARCHING MENU ---");
         System.out.println("1. Linear Search");
         System.out.println("2. Binary Search");
@@ -74,9 +72,9 @@ public class UserInterface {
         } else if (searchChoice == 2) {
 
             System.out.println("Note: Sorting array first (required for Binary Search)...");
-            int[] sortedCopy = Arrays.copyOf(array, array.length);
-            Arrays.sort(sortedCopy);
-            System.out.println("Sorted array: " + Arrays.toString(sortedCopy));
+            int[] sortedCopy = java.util.Arrays.copyOf(array, array.length);
+            java.util.Arrays.sort(sortedCopy);
+            System.out.println("Sorted array: " + java.util.Arrays.toString(sortedCopy));
 
             resultIndex = SearchAlgorithms.binarySearch(sortedCopy, target);
         } else {
@@ -91,7 +89,7 @@ public class UserInterface {
         }
     }
 
-    private static void handleSorting(Scanner scanner, int[] array) {
+    private static void handleSorting(java.util.Scanner scanner, int[] array) {
         System.out.println("\n--- SORTING MENU ---");
         System.out.println("1. Bubble Sort");
         System.out.println("2. Selection Sort");
@@ -102,7 +100,7 @@ public class UserInterface {
         int sortChoice = scanner.nextInt();
 
         int[] sortedArray;
-        int[] arrayCopy = Arrays.copyOf(array, array.length);
+        int[] arrayCopy = java.util.Arrays.copyOf(array, array.length);
 
         switch (sortChoice) {
             case 1:
@@ -125,7 +123,7 @@ public class UserInterface {
                 return;
         }
 
-        System.out.println("Original List: " + Arrays.toString(array));
-        System.out.println("Sorted List:   " + Arrays.toString(sortedArray));
+        System.out.println("Original java.util.List: " + java.util.Arrays.toString(array));
+        System.out.println("Sorted java.util.List:   " + java.util.Arrays.toString(sortedArray));
     }
 }

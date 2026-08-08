@@ -3,7 +3,6 @@ package tests;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import datastructures.CustomGraph;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,7 +65,7 @@ public class CustomGraphTest {
 
     @Test
     void testGetNeighborsReturnsDirectConnections() {
-        List<Integer> neighbors = graph.getNeighbors(BALME_LIBRARY);
+        java.util.List<Integer> neighbors = graph.getNeighbors(BALME_LIBRARY);
         assertTrue(neighbors.contains(MAIN_GATE));
         assertTrue(neighbors.contains(GREAT_HALL));
         assertEquals(2, neighbors.size());
@@ -74,7 +73,7 @@ public class CustomGraphTest {
 
     @Test
     void testBfsVisitsAllReachableLocationsFromMainGate() {
-        List<Integer> order = graph.bfs(MAIN_GATE);
+        java.util.List<Integer> order = graph.bfs(MAIN_GATE);
         // Reachable set: Main Gate, Balme Library, Great Hall, DCS, Night Market
         assertEquals(5, order.size());
         assertTrue(order.contains(MAIN_GATE));
@@ -84,7 +83,7 @@ public class CustomGraphTest {
 
     @Test
     void testDfsVisitsAllReachableLocationsFromMainGate() {
-        List<Integer> order = graph.dfs(MAIN_GATE);
+        java.util.List<Integer> order = graph.dfs(MAIN_GATE);
         assertEquals(order.size(), graph.bfs(MAIN_GATE).size()); // same reachable set
         assertEquals(MAIN_GATE, (int) order.get(0)); // DFS always starts at the source
     }

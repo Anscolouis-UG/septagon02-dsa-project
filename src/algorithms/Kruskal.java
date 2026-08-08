@@ -3,22 +3,19 @@ package algorithms;
 import datastructures.CustomDisjointSet;
 import datastructures.CustomGraph;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Kruskal {
 
-    public static List<GraphEdge> run(CustomGraph graph, int numVertices) {
+    public static java.util.List<GraphEdge> run(CustomGraph graph, int numVertices) {
         return run(extractEdges(graph, numVertices), numVertices);
     }
 
-    public static List<GraphEdge> run(List<GraphEdge> allEdges, int numVertices) {
-        List<GraphEdge> sortedEdges = new ArrayList<>(allEdges);
-        Collections.sort(sortedEdges);
+    public static java.util.List<GraphEdge> run(java.util.List<GraphEdge> allEdges, int numVertices) {
+        java.util.List<GraphEdge> sortedEdges = new java.util.ArrayList<>(allEdges);
+        java.util.Collections.sort(sortedEdges);
 
         CustomDisjointSet dsu = new CustomDisjointSet(numVertices);
-        List<GraphEdge> mstEdges = new ArrayList<>();
+        java.util.List<GraphEdge> mstEdges = new java.util.ArrayList<>();
         double totalWeight = 0;
 
         for (GraphEdge edge : sortedEdges) {
@@ -37,8 +34,8 @@ public class Kruskal {
         return mstEdges;
     }
 
-    private static List<GraphEdge> extractEdges(CustomGraph graph, int numVertices) {
-        List<GraphEdge> edges = new ArrayList<>();
+    private static java.util.List<GraphEdge> extractEdges(CustomGraph graph, int numVertices) {
+        java.util.List<GraphEdge> edges = new java.util.ArrayList<>();
         for (int u = 0; u < numVertices; u++) {
             for (CustomGraph.Edge e : graph.getEdges(u)) {
                 int v = e.target;
@@ -68,7 +65,7 @@ public class Kruskal {
         graph.addEdge(3, 4, 3);
 
         System.out.println("Minimum Spanning Tree edges (Kruskal's):");
-        List<GraphEdge> mst = run(graph, n);
+        java.util.List<GraphEdge> mst = run(graph, n);
         for (GraphEdge e : mst) {
             System.out.println("  " + e);
         }

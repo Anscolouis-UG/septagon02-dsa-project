@@ -1,10 +1,7 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class SortAlgorithms {
 
-    public static <T> void selectionSort(List<T> list, Comparator<T> comparator) {
+    public static <T> void selectionSort(java.util.List<T> list, java.util.Comparator<T> comparator) {
         if (list == null || list.size() <= 1) return;
         int n = list.size();
 
@@ -21,7 +18,7 @@ public class SortAlgorithms {
         }
     }
 
-    public static <T> void insertionSort(List<T> list, Comparator<T> comparator) {
+    public static <T> void insertionSort(java.util.List<T> list, java.util.Comparator<T> comparator) {
         if (list == null || list.size() <= 1) return;
         int n = list.size();
 
@@ -37,12 +34,12 @@ public class SortAlgorithms {
         }
     }
 
-    public static <T> void mergeSort(List<T> list, Comparator<T> comparator) {
+    public static <T> void mergeSort(java.util.List<T> list, java.util.Comparator<T> comparator) {
         if (list == null || list.size() <= 1) return;
         mergeSortRecursive(list, 0, list.size() - 1, comparator);
     }
 
-    private static <T> void mergeSortRecursive(List<T> list, int left, int right, Comparator<T> comparator) {
+    private static <T> void mergeSortRecursive(java.util.List<T> list, int left, int right, java.util.Comparator<T> comparator) {
         if (left < right) {
             int mid = left + (right - left) / 2;
             mergeSortRecursive(list, left, mid, comparator);
@@ -51,9 +48,9 @@ public class SortAlgorithms {
         }
     }
 
-    private static <T> void merge(List<T> list, int left, int mid, int right, Comparator<T> comparator) {
-        List<T> leftList = new ArrayList<>(list.subList(left, mid + 1));
-        List<T> rightList = new ArrayList<>(list.subList(mid + 1, right + 1));
+    private static <T> void merge(java.util.List<T> list, int left, int mid, int right, java.util.Comparator<T> comparator) {
+        java.util.List<T> leftList = new java.util.ArrayList<>(list.subList(left, mid + 1));
+        java.util.List<T> rightList = new java.util.ArrayList<>(list.subList(mid + 1, right + 1));
 
         int i = 0, j = 0, k = left;
         while (i < leftList.size() && j < rightList.size()) {
@@ -72,12 +69,12 @@ public class SortAlgorithms {
         }
     }
 
-    public static <T> void quickSort(List<T> list, Comparator<T> comparator) {
+    public static <T> void quickSort(java.util.List<T> list, java.util.Comparator<T> comparator) {
         if (list == null || list.size() <= 1) return;
         quickSortRecursive(list, 0, list.size() - 1, comparator);
     }
 
-    private static <T> void quickSortRecursive(List<T> list, int low, int high, Comparator<T> comparator) {
+    private static <T> void quickSortRecursive(java.util.List<T> list, int low, int high, java.util.Comparator<T> comparator) {
         if (low < high) {
             int pivotIndex = partition(list, low, high, comparator);
             quickSortRecursive(list, low, pivotIndex - 1, comparator);
@@ -85,7 +82,7 @@ public class SortAlgorithms {
         }
     }
 
-    private static <T> int partition(List<T> list, int low, int high, Comparator<T> comparator) {
+    private static <T> int partition(java.util.List<T> list, int low, int high, java.util.Comparator<T> comparator) {
         T pivot = list.get(high);
         int i = low - 1;
 

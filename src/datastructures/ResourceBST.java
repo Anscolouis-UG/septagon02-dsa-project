@@ -3,8 +3,6 @@ package datastructures;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResourceBST {
 
@@ -76,13 +74,13 @@ public class ResourceBST {
         return null;
     }
 
-    public List<Resource> inorder() {
-        List<Resource> list = new ArrayList<>();
+    public java.util.List<Resource> inorder() {
+        java.util.List<Resource> list = new java.util.ArrayList<>();
         inorderRecursive(root, list);
         return list;
     }
 
-    private void inorderRecursive(Node node, List<Resource> list) {
+    private void inorderRecursive(Node node, java.util.List<Resource> list) {
         if (node != null) {
             inorderRecursive(node.left, list);
             list.add(node.value);
@@ -95,7 +93,7 @@ public class ResourceBST {
     public static void main(String[] args) throws IOException {
         ResourceBST bst = new ResourceBST();
 
-        List<String> rows = Files.readAllLines(Path.of("data_base", "resources.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "resources.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
             bst.insert(Integer.parseInt(columns[0]), new Resource(

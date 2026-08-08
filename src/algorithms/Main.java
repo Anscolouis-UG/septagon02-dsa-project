@@ -1,7 +1,4 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class Main {
 
@@ -23,7 +20,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        List<ServiceRequest> requests = new ArrayList<>();
+        java.util.List<ServiceRequest> requests = new java.util.ArrayList<>();
         requests.add(new ServiceRequest(103, "Maintenance", LocalDateTime.now().plusHours(5)));
         requests.add(new ServiceRequest(101, "Delivery", LocalDateTime.now().plusHours(2)));
         requests.add(new ServiceRequest(102, "Security", LocalDateTime.now().plusHours(1)));
@@ -32,7 +29,7 @@ public class Main {
         requests.forEach(req -> System.out.println(req));
 
         // Test Quicksort
-        SortAlgorithms.quickSort(requests, Comparator.comparing(r -> r.deadline));
+        SortAlgorithms.quickSort(requests, java.util.Comparator.comparing(r -> r.deadline));
         System.out.println("\n=== AFTER QUICKSORT (By Deadline) ===");
         requests.forEach(req -> System.out.println(req));
 
@@ -42,9 +39,9 @@ public class Main {
         System.out.println("First 'Maintenance' request found at index: " + maintenanceIdx);
 
         // Test Binary Search (Requires sorting by ID first)
-        SortAlgorithms.mergeSort(requests, Comparator.comparingInt(r -> r.id));
+        SortAlgorithms.mergeSort(requests, java.util.Comparator.comparingInt(r -> r.id));
         ServiceRequest key = new ServiceRequest(102, null, null);
-        int binaryIdx = SearchAlgorithms.binarySearch(requests, key, Comparator.comparingInt(r -> r.id));
+        int binaryIdx = SearchAlgorithms.binarySearch(requests, key, java.util.Comparator.comparingInt(r -> r.id));
         System.out.println("\n=== BINARY SEARCH ===");
         System.out.println("Request #102 found at index: " + binaryIdx);
     }

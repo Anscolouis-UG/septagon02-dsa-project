@@ -2,18 +2,17 @@ package algorithms;
 
 import datastructures.CustomGraph;
 
-import java.util.*;
 
 public class DFS {
 
-    public static List<Integer> run(CustomGraph graph, int start) {
-        List<Integer> visitOrder = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
+    public static java.util.List<Integer> run(CustomGraph graph, int start) {
+        java.util.List<Integer> visitOrder = new java.util.ArrayList<>();
+        java.util.Set<Integer> visited = new java.util.HashSet<>();
         dfsHelper(graph, start, visited, visitOrder);
         return visitOrder;
     }
 
-    private static void dfsHelper(CustomGraph graph, int current, Set<Integer> visited, List<Integer> visitOrder) {
+    private static void dfsHelper(CustomGraph graph, int current, java.util.Set<Integer> visited, java.util.List<Integer> visitOrder) {
         if (visited.contains(current)) return;
         visited.add(current);
         visitOrder.add(current);
@@ -41,7 +40,7 @@ public class DFS {
         graph.addEdge(4, 5, 1);
 
         int start = 0;
-        List<Integer> order = run(graph, start);
+        java.util.List<Integer> order = run(graph, start);
 
         System.out.println("DFS visit order from location " + start + ":");
         System.out.println("  " + order);

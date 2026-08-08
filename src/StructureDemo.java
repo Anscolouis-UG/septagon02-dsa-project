@@ -4,7 +4,6 @@ import datastructures.CustomSet;
 import datastructures.CustomMap;
 
 import java.io.File;
-import java.util.Scanner;
 
 public class StructureDemo {
 
@@ -27,11 +26,11 @@ public class StructureDemo {
 
         System.out.println("\n Datasets loaded into memory:");
         System.out.printf("   • Service Requests (BTree & HashTable): %d records%n", requestCount);
-        System.out.printf("   • Campus Locations (CustomSet & Map):  %d records%n", locationCount);
-        System.out.printf("   • Resource Map (CustomMap):             %d records%n", resourceCount);
+        System.out.printf("   • Campus Locations (CustomSet & java.util.Map):  %d records%n", locationCount);
+        System.out.printf("   • Resource java.util.Map (CustomMap):             %d records%n", resourceCount);
 
         // 2. Interactive CLI Loop
-        Scanner userScanner = new Scanner(System.in);
+        java.util.Scanner userScanner = new java.util.Scanner(System.in);
         boolean running = true;
 
         while (running) {
@@ -80,7 +79,7 @@ public class StructureDemo {
 
                         System.out.println("\n--------------------------------------------------");
                         if (isVisited) {
-                            System.out.printf("   Location #%d (%s) is registered in Visited Set.%n", 
+                            System.out.printf("   Location #%d (%s) is registered in Visited java.util.Set.%n", 
                                               locId, (locName != null ? locName : "Unknown"));
                         } else {
                             System.out.println("   Location #" + locId + " has NOT been visited yet.");
@@ -134,7 +133,7 @@ public class StructureDemo {
 
     private static int loadLocations(CustomSet<Integer> set, CustomMap<Integer, String> namesMap) {
         int count = 0;
-        try (Scanner sc = new Scanner(new File("septagon02-dsa-project/data_base/locations.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/locations.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
@@ -159,7 +158,7 @@ public class StructureDemo {
                                     HashTable<Integer, ServiceRequest> hash,
                                     CustomMap<Integer, String> locationNamesMap) {
         int count = 0;
-        try (Scanner sc = new Scanner(new File("septagon02-dsa-project/data_base/service_requests.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/service_requests.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
@@ -193,7 +192,7 @@ public class StructureDemo {
 
     private static int loadResources(CustomMap<Integer, String> map) {
         int count = 0;
-        try (Scanner sc = new Scanner(new File("septagon02-dsa-project/data_base/resources.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/resources.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();

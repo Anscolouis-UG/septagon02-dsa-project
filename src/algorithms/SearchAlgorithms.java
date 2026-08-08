@@ -1,11 +1,8 @@
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Predicate;
 package algorithms;
 
 public class SearchAlgorithms {
 
-    public static <T> int linearSearch(List<T> list, Predicate<T> predicate) {
+    public static <T> int linearSearch(java.util.List<T> list, java.util.function.Predicate<T> predicate) {
         if (list == null || predicate == null) return -1;
 
         for (int i = 0; i < list.size(); i++) {
@@ -16,7 +13,7 @@ public class SearchAlgorithms {
         return -1;
     }
 
-    public static <T> int binarySearch(List<T> list, T key, Comparator<T> comparator) {
+    public static <T> int binarySearch(java.util.List<T> list, T key, java.util.Comparator<T> comparator) {
         if (list == null || key == null || comparator == null) return -1;
 
         int low = 0;

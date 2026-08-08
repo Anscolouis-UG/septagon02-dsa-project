@@ -3,7 +3,6 @@ package algorithms;
 import datastructures.CustomGraph;
 import datastructures.CustomHeap;
 
-import java.util.Arrays;
 
 public class Dijkstra {
 
@@ -27,7 +26,7 @@ public class Dijkstra {
     public static double[] run(CustomGraph graph, int numVertices, int source) {
         double[] dist = new double[numVertices];
         boolean[] visited = new boolean[numVertices];
-        Arrays.fill(dist, INFINITY);
+        java.util.Arrays.fill(dist, INFINITY);
         dist[source] = 0;
 
         CustomHeap<MinEntry> minHeap = new CustomHeap<>();

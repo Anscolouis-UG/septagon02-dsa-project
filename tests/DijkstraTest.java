@@ -3,7 +3,6 @@
 import algorithms.Dijkstra;
 import datastructures.CustomGraph;
 
-import java.util.*;
 
 public class DijkstraTest {
     private static int passed = 0;
@@ -38,7 +37,7 @@ public class DijkstraTest {
         graph.addEdge(3, 4, 3);
 
         double[] dist = Dijkstra.run(graph, 5, 0);
-        System.out.println("  Trace: distances from 0 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 0 = " + java.util.Arrays.toString(dist));
         assertEquals("test1_distTo0", 0.0, dist[0]);
         assertEquals("test1_distTo1", 3.0, dist[1]);
         assertEquals("test1_distTo2", 1.0, dist[2]);
@@ -55,7 +54,7 @@ public class DijkstraTest {
         graph.addEdge(2, 3, 30);
 
         double[] dist = Dijkstra.run(graph, 4, 2);
-        System.out.println("  Trace: distances from 2 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 2 = " + java.util.Arrays.toString(dist));
         assertEquals("test2_sourceDistanceIsZero", 0.0, dist[2]);
         System.out.println();
     }
@@ -68,7 +67,7 @@ public class DijkstraTest {
         graph.addEdge(2, 3, 5);
 
         double[] dist = Dijkstra.run(graph, 4, 0);
-        System.out.println("  Trace: distances from 0 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 0 = " + java.util.Arrays.toString(dist));
         assertTrue("test3_vertex2Unreachable", dist[2] == Dijkstra.INFINITY,
                 "expected INFINITY, got " + dist[2]);
         assertTrue("test3_vertex3Unreachable", dist[3] == Dijkstra.INFINITY,
@@ -82,7 +81,7 @@ public class DijkstraTest {
         graph.addVertex(0);
 
         double[] dist = Dijkstra.run(graph, 1, 0);
-        System.out.println("  Trace: distances from 0 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 0 = " + java.util.Arrays.toString(dist));
         assertEquals("test4_singleVertexDistanceIsZero", 0.0, dist[0]);
         System.out.println();
     }
@@ -95,7 +94,7 @@ public class DijkstraTest {
         graph.addEdge(1, 2, 1);
 
         double[] dist = Dijkstra.run(graph, 3, 0);
-        System.out.println("  Trace: distances from 0 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 0 = " + java.util.Arrays.toString(dist));
         assertEquals("test5_twoHopPathWins", 2.0, dist[2]);
         System.out.println();
     }
@@ -107,7 +106,7 @@ public class DijkstraTest {
         graph.addEdge(0, 1, 2);
 
         double[] dist = Dijkstra.run(graph, 2, 0);
-        System.out.println("  Trace: distances from 0 = " + Arrays.toString(dist));
+        System.out.println("  Trace: distances from 0 = " + java.util.Arrays.toString(dist));
         assertEquals("test6_parallelEdgesMinimumWins", 2.0, dist[1]);
         System.out.println();
     }

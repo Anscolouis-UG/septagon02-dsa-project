@@ -3,7 +3,6 @@ package tests;
 import org.junit.jupiter.api.Test;
 import datastructures.CustomLinkedList;
 
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,7 +80,7 @@ public class CustomLinkedListTest {
         list.addLast("A");
         list.addLast("B");
 
-        Iterator<String> iterator = list.iterator();
+        java.util.Iterator<String> iterator = list.iterator();
 
         assertTrue(iterator.hasNext());
         assertEquals("A", iterator.next());
