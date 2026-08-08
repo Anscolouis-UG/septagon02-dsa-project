@@ -1,0 +1,31 @@
+resource_id,resource_name,resource_type,capacity,current_location_id
+1,Waste Truck 1,Vehicle,1,8
+2,Maintenance Team 2,Personnel,3,29
+3,Power Generator 3,Equipment,5000,6
+4,Power Generator 4,Equipment,5000,23
+5,Water Pump 5,Equipment,3,26
+6,Delivery Van 6,Vehicle,5000,6
+7,Maintenance Team 7,Personnel,3,7
+8,Hydraulic Lift 8,Equipment,2000,10
+9,Cleaning Crew 9,Personnel,3,45
+10,Hydraulic Lift 10,Equipment,5000,29
+11,Waste Truck 11,Vehicle,3,17
+12,Maintenance Team 12,Personnel,4,47
+13,Ambulance 13,Vehicle,3,50
+14,Cleaning Crew 14,Personnel,2,4
+15,Security Team 15,Personnel,4,30
+16,Cleaning Crew 16,Personnel,4,35
+17,Security Team 17,Personnel,4,16
+18,Maintenance Truck 18,Vehicle,5000,1
+19,Delivery Van 19,Vehicle,1,27
+20,Security Team 20,Personnel,2,34
+21,Power Generator 21,Equipment,1,35
+22,Waste Truck 22,Vehicle,5000,31
+23,Cleaning Crew 23,Personnel,3,17
+24,Maintenance Truck 24,Vehicle,3,23
+25,Security Team 25,Personnel,4,7
+26,Hydraulic Lift 26,Equipment,2000,9
+27,Security Team 27,Personnel,3,42
+28,Security Team 28,Personnel,3,45
+29,Delivery Van 29,Vehicle,4,5
+30,Ambulance 30,Vehicle,3,19
