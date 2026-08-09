@@ -3,7 +3,6 @@ package algorithms;
 import datastructures.CustomGraph;
 import datastructures.CustomHeap;
 
-
 public class Dijkstra {
 
     public static final double INFINITY = Double.POSITIVE_INFINITY;
@@ -17,6 +16,7 @@ public class Dijkstra {
             this.distance = distance;
         }
 
+        // Min-heap: smaller distance = higher priority, so reverse the comparison
         @Override
         public int compareTo(MinEntry other) {
             return Double.compare(other.distance, this.distance);
@@ -26,14 +26,14 @@ public class Dijkstra {
     public static double[] run(CustomGraph graph, int numVertices, int source) {
         double[] dist = new double[numVertices];
         boolean[] visited = new boolean[numVertices];
-        java.util.Arrays.fill(dist, INFINITY);
+        for (int i = 0; i < numVertices; i++) dist[i] = INFINITY;
         dist[source] = 0;
 
         CustomHeap<MinEntry> minHeap = new CustomHeap<>();
         minHeap.insert(new MinEntry(source, 0));
 
         while (!minHeap.isEmpty()) {
-            MinEntry current = minHeap.extractMax();
+            MinEntry current = minHeap.extractMax(); // max = smallest dist due to reversed compareTo
             int u = current.node;
 
             if (visited[u]) continue;
@@ -57,27 +57,29 @@ public class Dijkstra {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Testing Dijkstra's Shortest Path Algorithm");
+        System.out.println("  Dijkstra — UG Legon Campus  (data_base/roads.csv)");
         System.out.println("==================================================\n");
 
-        int n = 5;
-        CustomGraph graph = new CustomGraph(n, false);
+        datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomGraph graph = GraphLoader.load(
+            names, "data_base/locations.csv", "data_base/roads.csv");
 
-        graph.addEdge(0, 1, 4);
-        graph.addEdge(0, 2, 1);
-        graph.addEdge(2, 1, 2);
-        graph.addEdge(1, 3, 1);
-        graph.addEdge(2, 3, 5);
-        graph.addEdge(3, 4, 3);
+        int source = 0;  // Main Gate (location_id=1)
+        System.out.println("Source: " + names.get(source) + " (ID=" + (source+1) + ")\n");
 
-        int source = 0;
-        double[] distances = run(graph, n, source);
+        double[] distances = run(graph, GraphLoader.NUM_LOCATIONS + 1, source);
 
-        System.out.println("Shortest distances from location " + source + ":");
-        for (int i = 0; i < n; i++) {
-            String label = (distances[i] == INFINITY) ? "unreachable" : distances[i] + "m";
-            System.out.println("  to " + i + ": " + label);
+        System.out.println("Shortest distances from Main Gate to all reachable locations:");
+        for (int i = 0; i < GraphLoader.NUM_LOCATIONS; i++) {
+            if (distances[i] != INFINITY) {
+                System.out.printf("  to [%2d] %-45s : %.0fm%n", i+1, names.get(i), distances[i]);
+            }
         }
+
+        // Highlight route to University Hospital (location_id=19, index=18)
+        int hospital = 18;
+        System.out.printf("%nHighlight: Main Gate -> University Hospital = %.0fm%n",
+            distances[hospital]);
 
         System.out.println("\nExecution & compilation successful!");
     }

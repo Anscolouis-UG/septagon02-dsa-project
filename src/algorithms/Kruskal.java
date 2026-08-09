@@ -1,25 +1,33 @@
 package algorithms;
 
+import datastructures.CustomArrayList;
 import datastructures.CustomDisjointSet;
 import datastructures.CustomGraph;
 
-
 public class Kruskal {
 
-    public static java.util.List<GraphEdge> run(CustomGraph graph, int numVertices) {
+    public static CustomArrayList<GraphEdge> run(CustomGraph graph, int numVertices) {
         return run(extractEdges(graph, numVertices), numVertices);
     }
 
-    public static java.util.List<GraphEdge> run(java.util.List<GraphEdge> allEdges, int numVertices) {
-        java.util.List<GraphEdge> sortedEdges = new java.util.ArrayList<>(allEdges);
-        java.util.Collections.sort(sortedEdges);
+    public static CustomArrayList<GraphEdge> run(CustomArrayList<GraphEdge> allEdges, int numVertices) {
+        // Sort edges by weight (insertion sort — no java.util.Collections)
+        for (int i = 1; i < allEdges.size(); i++) {
+            GraphEdge key = allEdges.get(i);
+            int j = i - 1;
+            while (j >= 0 && allEdges.get(j).compareTo(key) > 0) {
+                allEdges.set(j + 1, allEdges.get(j));
+                j--;
+            }
+            allEdges.set(j + 1, key);
+        }
 
         CustomDisjointSet dsu = new CustomDisjointSet(numVertices);
-        java.util.List<GraphEdge> mstEdges = new java.util.ArrayList<>();
+        CustomArrayList<GraphEdge> mstEdges = new CustomArrayList<>();
         double totalWeight = 0;
 
-        for (GraphEdge edge : sortedEdges) {
-
+        for (int i = 0; i < allEdges.size(); i++) {
+            GraphEdge edge = allEdges.get(i);
             if (dsu.union(edge.source, edge.destination)) {
                 mstEdges.add(edge);
                 totalWeight += edge.weight;
@@ -34,12 +42,11 @@ public class Kruskal {
         return mstEdges;
     }
 
-    private static java.util.List<GraphEdge> extractEdges(CustomGraph graph, int numVertices) {
-        java.util.List<GraphEdge> edges = new java.util.ArrayList<>();
+    private static CustomArrayList<GraphEdge> extractEdges(CustomGraph graph, int numVertices) {
+        CustomArrayList<GraphEdge> edges = new CustomArrayList<>();
         for (int u = 0; u < numVertices; u++) {
             for (CustomGraph.Edge e : graph.getEdges(u)) {
                 int v = e.target;
-
                 if (graph.isDirected() || v > u) {
                     edges.add(new GraphEdge(u, v, e.weight));
                 }
@@ -51,25 +58,22 @@ public class Kruskal {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Testing Kruskal's Minimum Spanning Tree Algorithm");
+        System.out.println("  Kruskal's MST — UG Legon Campus (data_base/roads.csv)");
         System.out.println("==================================================\n");
 
-        int n = 5;
-        CustomGraph graph = new CustomGraph(n, false);
+        datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomGraph graph = GraphLoader.load(
+            names, "data_base/locations.csv", "data_base/roads.csv");
 
-        graph.addEdge(0, 1, 4);
-        graph.addEdge(0, 2, 1);
-        graph.addEdge(2, 1, 2);
-        graph.addEdge(1, 3, 1);
-        graph.addEdge(2, 3, 5);
-        graph.addEdge(3, 4, 3);
+        System.out.println("Computing Minimum Spanning Tree (Kruskal's)...\n");
+        CustomArrayList<GraphEdge> mst = run(graph, GraphLoader.NUM_LOCATIONS + 1);
 
-        System.out.println("Minimum Spanning Tree edges (Kruskal's):");
-        java.util.List<GraphEdge> mst = run(graph, n);
-        for (GraphEdge e : mst) {
-            System.out.println("  " + e);
+        System.out.println("MST edges (" + mst.size() + " roads to connect campus):");
+        for (int i = 0; i < mst.size(); i++) {
+            GraphEdge e = mst.get(i);
+            System.out.printf("  %-45s -- %-45s  (%.0fm)%n",
+                names.get(e.source), names.get(e.destination), e.weight);
         }
-
         System.out.println("\nExecution & compilation successful!");
     }
 }

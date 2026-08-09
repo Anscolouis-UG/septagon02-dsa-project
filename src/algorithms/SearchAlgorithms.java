@@ -1,8 +1,28 @@
 package algorithms;
 
+import datastructures.CustomArrayList;
+
 public class SearchAlgorithms {
 
-    public static <T> int linearSearch(java.util.List<T> list, java.util.function.Predicate<T> predicate) {
+    // Local functional interface — replaces java.util.function.Predicate
+    public interface Predicate<T> {
+        boolean test(T item);
+    }
+
+    // Local functional interface — replaces java.util.Comparator
+    public interface Comparator<T> {
+        int compare(T a, T b);
+    }
+
+    /**
+     * Linear search — scans every element until the predicate matches.
+     * Time Complexity: O(n) best/average/worst.
+     *
+     * @param list      the list to search
+     * @param predicate condition to match
+     * @return index of the first match, or -1 if not found
+     */
+    public static <T> int linearSearch(CustomArrayList<T> list, Predicate<T> predicate) {
         if (list == null || predicate == null) return -1;
 
         for (int i = 0; i < list.size(); i++) {
@@ -13,7 +33,16 @@ public class SearchAlgorithms {
         return -1;
     }
 
-    public static <T> int binarySearch(java.util.List<T> list, T key, java.util.Comparator<T> comparator) {
+    /**
+     * Binary search — requires the list to be sorted by the same comparator.
+     * Time Complexity: O(log n) best/average/worst.
+     *
+     * @param list       the SORTED list to search
+     * @param key        the key to find
+     * @param comparator ordering used to compare elements
+     * @return index of the match, or -1 if not found
+     */
+    public static <T> int binarySearch(CustomArrayList<T> list, T key, Comparator<T> comparator) {
         if (list == null || key == null || comparator == null) return -1;
 
         int low = 0;

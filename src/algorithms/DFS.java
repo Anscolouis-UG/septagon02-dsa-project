@@ -1,18 +1,19 @@
 package algorithms;
 
+import datastructures.CustomArrayList;
+import datastructures.CustomSet;
 import datastructures.CustomGraph;
-
 
 public class DFS {
 
-    public static java.util.List<Integer> run(CustomGraph graph, int start) {
-        java.util.List<Integer> visitOrder = new java.util.ArrayList<>();
-        java.util.Set<Integer> visited = new java.util.HashSet<>();
+    public static CustomArrayList<Integer> run(CustomGraph graph, int start) {
+        CustomArrayList<Integer> visitOrder = new CustomArrayList<>();
+        CustomSet<Integer> visited = new CustomSet<>();
         dfsHelper(graph, start, visited, visitOrder);
         return visitOrder;
     }
 
-    private static void dfsHelper(CustomGraph graph, int current, java.util.Set<Integer> visited, java.util.List<Integer> visitOrder) {
+    private static void dfsHelper(CustomGraph graph, int current, CustomSet<Integer> visited, CustomArrayList<Integer> visitOrder) {
         if (visited.contains(current)) return;
         visited.add(current);
         visitOrder.add(current);
@@ -27,24 +28,22 @@ public class DFS {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Testing Depth-First Search");
+        System.out.println("  DFS — UG Legon Campus  (data_base/roads.csv)");
         System.out.println("==================================================\n");
 
-        int n = 6;
-        CustomGraph graph = new CustomGraph(n, false);
+        datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomGraph graph = GraphLoader.load(
+            names, "data_base/locations.csv", "data_base/roads.csv");
 
-        graph.addEdge(0, 1, 1);
-        graph.addEdge(0, 2, 1);
-        graph.addEdge(1, 3, 1);
-        graph.addEdge(2, 4, 1);
-        graph.addEdge(4, 5, 1);
+        int start = 0; // Main Gate
+        System.out.println("Starting DFS from: " + names.get(start) + " (index " + start + ")\n");
 
-        int start = 0;
-        java.util.List<Integer> order = run(graph, start);
-
-        System.out.println("DFS visit order from location " + start + ":");
-        System.out.println("  " + order);
-
+        CustomArrayList<Integer> order = run(graph, start);
+        System.out.println("DFS visit order (" + order.size() + " locations reached):");
+        for (int i = 0; i < order.size(); i++) {
+            int v = order.get(i);
+            System.out.printf("  [%2d] %s%n", v + 1, names.get(v));
+        }
         System.out.println("\nExecution & compilation successful!");
     }
 }

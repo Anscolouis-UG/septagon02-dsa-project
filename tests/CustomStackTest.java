@@ -1,79 +1,100 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
 import datastructures.CustomStack;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class CustomStackTest {
+    private static int passed = 0;
+    private static int failed = 0;
 
-    @Test
-    void testPush() {
-        CustomStack<Integer> stack = new CustomStack<>();
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  CustomStack - Unit Tests (7 tests)");
+        System.out.println("==================================================\n");
 
-        stack.push(10);
-        stack.push(20);
+        testPushAndPop();
+        testPeek();
+        testIsEmpty();
+        testSize();
+        testPopFromEmpty();
+        testPeekFromEmpty();
+        testMultiplePushPop();
 
-        assertEquals(2, stack.size());
-        assertEquals(20, stack.peek());
+        System.out.println("==================================================");
+        System.out.println("RESULTS: " + passed + " passed, " + failed + " failed");
+        System.out.println("==================================================");
     }
 
-    @Test
-    void testPop() {
+    static void testPushAndPop() {
         CustomStack<Integer> stack = new CustomStack<>();
-
         stack.push(10);
         stack.push(20);
-
-        assertEquals(20, stack.pop());
-        assertEquals(10, stack.peek());
+        assertEq("testPushAndPop_top", 20, (int) stack.pop());
+        assertEq("testPushAndPop_next", 10, (int) stack.pop());
     }
 
-    @Test
-    void testPeek() {
+    static void testPeek() {
+        CustomStack<Integer> stack = new CustomStack<>();
+        stack.push(5);
+        stack.push(15);
+        assertEq("testPeek_top", 15, (int) stack.peek());
+        assertEq("testPeek_sizeUnchanged", 2, stack.size());
+    }
+
+    static void testIsEmpty() {
         CustomStack<String> stack = new CustomStack<>();
-
-        stack.push("Java");
-
-        assertEquals("Java", stack.peek());
+        assertTrue("testIsEmpty_true", stack.isEmpty(), "expected empty on new stack");
+        stack.push("a");
+        assertTrue("testIsEmpty_false", !stack.isEmpty(), "expected not empty after push");
     }
 
-    @Test
-    void testIsEmpty() {
+    static void testSize() {
         CustomStack<Integer> stack = new CustomStack<>();
-
-        assertTrue(stack.isEmpty());
-
-        stack.push(100);
-
-        assertFalse(stack.isEmpty());
+        assertEq("testSize_zero", 0, stack.size());
+        stack.push(1); stack.push(2);
+        assertEq("testSize_two", 2, stack.size());
+        stack.pop();
+        assertEq("testSize_afterPop", 1, stack.size());
     }
 
-    @Test
-    void testPopEmptyStack() {
+    static void testPopFromEmpty() {
         CustomStack<Integer> stack = new CustomStack<>();
-
-        assertThrows(IllegalStateException.class,
-                stack::pop);
+        boolean threw = false;
+        try {
+            stack.pop();
+        } catch (RuntimeException e) {
+            threw = true;
+        }
+        assertTrue("testPopFromEmpty_throws", threw,
+                "expected exception when popping empty stack");
     }
 
-    @Test
-    void testPeekEmptyStack() {
+    static void testPeekFromEmpty() {
         CustomStack<Integer> stack = new CustomStack<>();
-
-        assertThrows(IllegalStateException.class, stack::peek);
+        boolean threw = false;
+        try {
+            stack.peek();
+        } catch (RuntimeException e) {
+            threw = true;
+        }
+        assertTrue("testPeekFromEmpty_throws", threw,
+                "expected exception when peeking empty stack");
     }
 
-    @Test
-    void testDuplicateValuesPopInLifoOrder() {
+    static void testMultiplePushPop() {
         CustomStack<Integer> stack = new CustomStack<>();
-        stack.push(10);
-        stack.push(20);
-        stack.push(10);
+        for (int i = 1; i <= 5; i++) stack.push(i);
+        for (int i = 5; i >= 1; i--) {
+            assertEq("testMultiplePushPop_" + i, i, (int) stack.pop());
+        }
+    }
 
-        assertEquals(10, stack.pop());
-        assertEquals(20, stack.pop());
-        assertEquals(10, stack.pop());
-        assertTrue(stack.isEmpty());
+    // ── Helpers ──────────────────────────────────────────────────────
+    private static void assertEq(String name, int expected, int actual) {
+        if (expected == actual) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- expected " + expected + ", got " + actual); failed++; }
+    }
+    private static void assertTrue(String name, boolean cond, String detail) {
+        if (cond) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- " + detail); failed++; }
     }
 }

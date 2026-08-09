@@ -1,10 +1,10 @@
-
+package tests;
 
 import algorithms.GraphEdge;
 import algorithms.Prim;
+import datastructures.CustomArrayList;
 import datastructures.CustomDisjointSet;
 import datastructures.CustomGraph;
-
 
 public class PrimTest {
     private static int passed = 0;
@@ -41,7 +41,7 @@ public class PrimTest {
 
     private static void test1_totalWeightMatchesKnownMST() {
         System.out.println("Test 1: Known MST weight on a 5-node graph");
-        java.util.List<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
+        CustomArrayList<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
         double total = totalWeight(mst);
         System.out.println("  Trace: MST edges = " + mst + ", total = " + total);
         assertEquals("test1_totalMSTWeight", 7.0, total);
@@ -50,7 +50,7 @@ public class PrimTest {
 
     private static void test2_edgeCountIsVMinusOne() {
         System.out.println("Test 2: Edge count is V-1 for a connected graph");
-        java.util.List<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
+        CustomArrayList<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
         System.out.println("  Trace: MST edge count = " + mst.size());
         assertEquals("test2_edgeCountIsFour", 4, mst.size());
         System.out.println();
@@ -58,12 +58,13 @@ public class PrimTest {
 
     private static void test3_resultingEdgesFormNoCycle() {
         System.out.println("Test 3: MST edges contain no cycle (checked via CustomDisjointSet)");
-        java.util.List<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
+        CustomArrayList<GraphEdge> mst = Prim.run(sampleGraph(), 5, 0);
         System.out.println("  Trace: MST edges = " + mst);
 
         CustomDisjointSet dsu = new CustomDisjointSet(5);
         boolean cycleFound = false;
-        for (GraphEdge e : mst) {
+        for (int i = 0; i < mst.size(); i++) {
+            GraphEdge e = mst.get(i);
             if (!dsu.union(e.source, e.destination)) {
                 cycleFound = true;
             }
@@ -78,7 +79,7 @@ public class PrimTest {
         CustomGraph graph = new CustomGraph(1, false);
         graph.addVertex(0);
 
-        java.util.List<GraphEdge> mst = Prim.run(graph, 1, 0);
+        CustomArrayList<GraphEdge> mst = Prim.run(graph, 1, 0);
         System.out.println("  Trace: MST edges = " + mst);
         assertEquals("test4_noEdgesForSingleVertex", 0, mst.size());
         System.out.println();
@@ -101,7 +102,7 @@ public class PrimTest {
 
         graph.addEdge(3, 4, 1);
 
-        java.util.List<GraphEdge> mst = Prim.run(graph, 5, 0);
+        CustomArrayList<GraphEdge> mst = Prim.run(graph, 5, 0);
         System.out.println("  Trace: MST edges from start=0 = " + mst);
         assertTrue("test6_partialTreeSmallerThanVMinusOne", mst.size() < 4,
                 "expected fewer than 4 edges since the graph is disconnected, got " + mst.size());
@@ -109,9 +110,9 @@ public class PrimTest {
         System.out.println();
     }
 
-    private static double totalWeight(java.util.List<GraphEdge> edges) {
+    private static double totalWeight(CustomArrayList<GraphEdge> edges) {
         double total = 0;
-        for (GraphEdge e : edges) total += e.weight;
+        for (int i = 0; i < edges.size(); i++) total += edges.get(i).weight;
         return total;
     }
 
