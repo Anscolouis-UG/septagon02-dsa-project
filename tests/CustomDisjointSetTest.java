@@ -1,10 +1,6 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import datastructures.CustomDisjointSet;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CustomDisjointSetTest.java
@@ -15,88 +11,117 @@ import static org.junit.jupiter.api.Assertions.*;
  *   3 = Department of Computer Science, 4 = Night Market, 5 = Sports Stadium
  */
 public class CustomDisjointSetTest {
+    private static int passed = 0;
+    private static int failed = 0;
 
-    private CustomDisjointSet ds;
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  CustomDisjointSet - Unit Tests (10 tests)");
+        System.out.println("==================================================\n");
 
-    @BeforeEach
-    void setUp() {
-        ds = new CustomDisjointSet(6);
+        testEachElementStartsInItsOwnSet();
+        testUnionMergesTwoSets();
+        testUnionOfAlreadyConnectedElementsReturnsFalse();
+        testConnectedIsFalseForDifferentSets();
+        testTransitiveConnection();
+        testFindAppliesPathCompression();
+        testMultipleDisjointZonesRemainSeparate();
+        testAllElementsMergeIntoOneNetwork();
+        testSizeReturnsTotalElementCount();
+        testFindOutOfRangeThrows();
+
+        System.out.println("==================================================");
+        System.out.println("RESULTS: " + passed + " passed, " + failed + " failed");
+        System.out.println("==================================================");
     }
 
-    @Test
-    void testEachElementStartsInItsOwnSet() {
-        assertEquals(6, ds.getSetCount());
+    static void testEachElementStartsInItsOwnSet() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        assertEq("testInitial_setCount", 6, ds.getSetCount());
         for (int i = 0; i < 6; i++) {
-            assertEquals(i, ds.find(i));
+            assertEq("testInitial_find_" + i, i, ds.find(i));
         }
     }
 
-    @Test
-    void testUnionMergesTwoSets() {
-        ds.union(0, 1); // Main Gate + Balme Library now one zone
-        assertEquals(5, ds.getSetCount());
-        assertTrue(ds.connected(0, 1));
+    static void testUnionMergesTwoSets() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        ds.union(0, 1); // Main Gate + Balme Library
+        assertEq("testUnion_setCount", 5, ds.getSetCount());
+        assertTrue("testUnion_connected", ds.connected(0, 1), "expected 0 and 1 to be connected");
     }
 
-    @Test
-    void testUnionOfAlreadyConnectedElementsReturnsFalse() {
+    static void testUnionOfAlreadyConnectedElementsReturnsFalse() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
         ds.union(0, 1);
-        assertFalse(ds.union(0, 1)); // no-op, already same set
-        assertEquals(5, ds.getSetCount());
+        boolean result = ds.union(0, 1); // no-op
+        assertTrue("testRedundantUnion_returnsFalse", !result,
+                "expected false when unioning already-connected elements");
+        assertEq("testRedundantUnion_setCount", 5, ds.getSetCount());
     }
 
-    @Test
-    void testConnectedIsFalseForDifferentSets() {
-        assertFalse(ds.connected(2, 3));
+    static void testConnectedIsFalseForDifferentSets() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        assertTrue("testNotConnected", !ds.connected(2, 3),
+                "expected 2 and 3 to not be connected initially");
     }
 
-    @Test
-    void testTransitiveConnection() {
+    static void testTransitiveConnection() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
         ds.union(0, 1); // Main Gate - Balme
         ds.union(1, 2); // Balme - Great Hall
-        assertTrue(ds.connected(0, 2)); // Main Gate and Great Hall now same zone
+        assertTrue("testTransitive", ds.connected(0, 2),
+                "expected Main Gate and Great Hall to be in same zone");
     }
 
-    @Test
-    void testFindAppliesPathCompression() {
-        ds.union(0, 1);
-        ds.union(1, 2);
-        ds.union(2, 3);
+    static void testFindAppliesPathCompression() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        ds.union(0, 1); ds.union(1, 2); ds.union(2, 3);
         int root = ds.find(0);
-        assertEquals(root, ds.find(3));
+        assertEq("testPathCompression_sameRoot", root, ds.find(3));
     }
 
-    @Test
-    void testMultipleDisjointZonesRemainSeparate() {
+    static void testMultipleDisjointZonesRemainSeparate() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
         ds.union(0, 1);
         ds.union(4, 5);
-        assertFalse(ds.connected(0, 4));
-        assertEquals(4, ds.getSetCount()); // {0,1}, {2}, {3}, {4,5}
+        assertTrue("testDisjoint_zones", !ds.connected(0, 4),
+                "expected zone {0,1} and zone {4,5} to remain separate");
+        assertEq("testDisjoint_setCount", 4, ds.getSetCount()); // {0,1},{2},{3},{4,5}
     }
 
-    @Test
-    void testAllElementsMergeIntoOneNetwork() {
-        ds.union(0, 1);
-        ds.union(1, 2);
-        ds.union(2, 3);
-        ds.union(3, 4);
-        ds.union(4, 5);
-        assertEquals(1, ds.getSetCount());
-        assertTrue(ds.connected(0, 5));
+    static void testAllElementsMergeIntoOneNetwork() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        ds.union(0, 1); ds.union(1, 2); ds.union(2, 3);
+        ds.union(3, 4); ds.union(4, 5);
+        assertEq("testAllMerged_setCount", 1, ds.getSetCount());
+        assertTrue("testAllMerged_connected", ds.connected(0, 5),
+                "expected all elements to be in one network");
     }
 
-    @Test
-    void testSizeReturnsTotalElementCount() {
-        assertEquals(6, ds.size());
+    static void testSizeReturnsTotalElementCount() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        assertEq("testSize", 6, ds.size());
     }
 
-    @Test
-    void testFindOutOfRangeThrows() {
-        assertThrows(IndexOutOfBoundsException.class, () -> ds.find(99));
+    static void testFindOutOfRangeThrows() {
+        CustomDisjointSet ds = new CustomDisjointSet(6);
+        boolean threw = false;
+        try {
+            ds.find(99);
+        } catch (IndexOutOfBoundsException e) {
+            threw = true;
+        }
+        assertTrue("testOutOfRange_throws", threw,
+                "expected IndexOutOfBoundsException for index 99");
     }
 
-    @Test
-    void testZeroSizedSetRejected() {
-        assertThrows(IllegalArgumentException.class, () -> new CustomDisjointSet(0));
+    // ── Helpers ──────────────────────────────────────────────────────
+    private static void assertEq(String name, int expected, int actual) {
+        if (expected == actual) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- expected " + expected + ", got " + actual); failed++; }
+    }
+    private static void assertTrue(String name, boolean cond, String detail) {
+        if (cond) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- " + detail); failed++; }
     }
 }

@@ -1,4 +1,7 @@
 import java.time.LocalDateTime;
+import algorithms.SortAlgorithms;
+import algorithms.SearchAlgorithms;
+import datastructures.CustomArrayList;
 
 public class Main {
 
@@ -20,28 +23,28 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        java.util.List<ServiceRequest> requests = new java.util.ArrayList<>();
+        CustomArrayList<ServiceRequest> requests = new CustomArrayList<>();
         requests.add(new ServiceRequest(103, "Maintenance", LocalDateTime.now().plusHours(5)));
-        requests.add(new ServiceRequest(101, "Delivery", LocalDateTime.now().plusHours(2)));
-        requests.add(new ServiceRequest(102, "Security", LocalDateTime.now().plusHours(1)));
+        requests.add(new ServiceRequest(101, "Delivery",    LocalDateTime.now().plusHours(2)));
+        requests.add(new ServiceRequest(102, "Security",    LocalDateTime.now().plusHours(1)));
 
         System.out.println("=== INITIAL UNORDERED LIST ===");
-        requests.forEach(req -> System.out.println(req));
+        for (int i = 0; i < requests.size(); i++) System.out.println(requests.get(i));
 
-        // Test Quicksort
-        SortAlgorithms.quickSort(requests, java.util.Comparator.comparing(r -> r.deadline));
+        // Sort by deadline (ascending) using QuickSort
+        SortAlgorithms.quickSort(requests, (a, b) -> a.deadline.compareTo(b.deadline));
         System.out.println("\n=== AFTER QUICKSORT (By Deadline) ===");
-        requests.forEach(req -> System.out.println(req));
+        for (int i = 0; i < requests.size(); i++) System.out.println(requests.get(i));
 
-        // Test Linear Search
+        // Linear Search: find first "Maintenance" request
         int maintenanceIdx = SearchAlgorithms.linearSearch(requests, r -> r.type.equals("Maintenance"));
         System.out.println("\n=== LINEAR SEARCH ===");
         System.out.println("First 'Maintenance' request found at index: " + maintenanceIdx);
 
-        // Test Binary Search (Requires sorting by ID first)
-        SortAlgorithms.mergeSort(requests, java.util.Comparator.comparingInt(r -> r.id));
+        // Binary Search requires sorting by ID first
+        SortAlgorithms.mergeSort(requests, (a, b) -> Integer.compare(a.id, b.id));
         ServiceRequest key = new ServiceRequest(102, null, null);
-        int binaryIdx = SearchAlgorithms.binarySearch(requests, key, java.util.Comparator.comparingInt(r -> r.id));
+        int binaryIdx = SearchAlgorithms.binarySearch(requests, key, (a, b) -> Integer.compare(a.id, b.id));
         System.out.println("\n=== BINARY SEARCH ===");
         System.out.println("Request #102 found at index: " + binaryIdx);
     }

@@ -133,7 +133,7 @@ public class StructureDemo {
 
     private static int loadLocations(CustomSet<Integer> set, CustomMap<Integer, String> namesMap) {
         int count = 0;
-        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/locations.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/locations.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
@@ -158,7 +158,7 @@ public class StructureDemo {
                                     HashTable<Integer, ServiceRequest> hash,
                                     CustomMap<Integer, String> locationNamesMap) {
         int count = 0;
-        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/service_requests.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/service_requests.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
@@ -192,7 +192,7 @@ public class StructureDemo {
 
     private static int loadResources(CustomMap<Integer, String> map) {
         int count = 0;
-        try (java.util.Scanner sc = new java.util.Scanner(new File("septagon02-dsa-project/data_base/resources.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/resources.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();

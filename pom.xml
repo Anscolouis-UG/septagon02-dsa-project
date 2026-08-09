@@ -24,7 +24,7 @@
 
     <build>
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/tests</testSourceDirectory>
+        <testSourceDirectory>${project.basedir}</testSourceDirectory>
 
         <plugins>
             <plugin>
@@ -34,6 +34,9 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <testIncludes>
+                        <testInclude>tests/**/*.java</testInclude>
+                    </testIncludes>
                 </configuration>
             </plugin>
 

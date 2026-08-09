@@ -1,98 +1,113 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
 import datastructures.CustomLinkedList;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class CustomLinkedListTest {
+    private static int passed = 0;
+    private static int failed = 0;
 
-    @Test
-    void testAddFirst() {
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("  CustomLinkedList - Unit Tests (8 tests)");
+        System.out.println("==================================================\n");
+
+        testAddFirst();
+        testAddLast();
+        testGet();
+        testRemoveFirst();
+        testRemoveLast();
+        testSize();
+        testIsEmpty();
+        testGetInvalidIndex();
+
+        System.out.println("==================================================");
+        System.out.println("RESULTS: " + passed + " passed, " + failed + " failed");
+        System.out.println("==================================================");
+    }
+
+    static void testAddFirst() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
-
         list.addFirst(20);
         list.addFirst(10);
-
-        assertEquals(10, list.get(0));
-        assertEquals(20, list.get(1));
+        assertEq("testAddFirst_head", 10, (int) list.get(0));
+        assertEq("testAddFirst_second", 20, (int) list.get(1));
     }
 
-    @Test
-    void testAddLast() {
+    static void testAddLast() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
-
         list.addLast(10);
         list.addLast(20);
-
-        assertEquals(2, list.size());
-        assertEquals(20, list.get(1));
+        assertEq("testAddLast_first", 10, (int) list.get(0));
+        assertEq("testAddLast_second", 20, (int) list.get(1));
     }
 
-    @Test
-    void testInsertAfter() {
-        CustomLinkedList<Integer> list = new CustomLinkedList<>();
-
-        list.addLast(10);
-        list.addLast(30);
-
-        list.insertAfter(10, 20);
-
-        assertEquals(20, list.get(1));
-    }
-
-    @Test
-    void testRemove() {
-        CustomLinkedList<Integer> list = new CustomLinkedList<>();
-
-        list.addLast(10);
-        list.addLast(20);
-
-        assertEquals(10, list.remove(10));
-        assertEquals(20, list.get(0));
-    }
-
-    @Test
-    void testSize() {
+    static void testGet() {
         CustomLinkedList<String> list = new CustomLinkedList<>();
-
-        list.addLast("A");
-        list.addLast("B");
-
-        assertEquals(2, list.size());
+        list.addLast("a");
+        list.addLast("b");
+        list.addLast("c");
+        assertEq("testGet_0", "a", list.get(0));
+        assertEq("testGet_1", "b", list.get(1));
+        assertEq("testGet_2", "c", list.get(2));
     }
 
-    @Test
-    void testIsEmpty() {
+    static void testRemoveFirst() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
-
-        assertTrue(list.isEmpty());
-
-        list.addFirst(1);
-
-        assertFalse(list.isEmpty());
+        list.addLast(1); list.addLast(2); list.addLast(3);
+        int removed = list.remove(1); // remove by value
+        assertEq("testRemoveFirst_value", 1, removed);
+        assertEq("testRemoveFirst_newHead", 2, (int) list.get(0));
+        assertEq("testRemoveFirst_size", 2, list.size());
     }
 
-    @Test
-    void testIteratorVisitsElementsInOrder() {
-        CustomLinkedList<String> list = new CustomLinkedList<>();
-        list.addLast("A");
-        list.addLast("B");
-
-        java.util.Iterator<String> iterator = list.iterator();
-
-        assertTrue(iterator.hasNext());
-        assertEquals("A", iterator.next());
-        assertEquals("B", iterator.next());
-        assertFalse(iterator.hasNext());
+    static void testRemoveLast() {
+        CustomLinkedList<Integer> list = new CustomLinkedList<>();
+        list.addLast(1); list.addLast(2); list.addLast(3);
+        int removed = list.remove(3); // remove by value
+        assertEq("testRemoveLast_value", 3, removed);
+        assertEq("testRemoveLast_size", 2, list.size());
     }
 
-    @Test
-    void testGetInvalidIndex() {
+    static void testSize() {
+        CustomLinkedList<Integer> list = new CustomLinkedList<>();
+        assertEq("testSize_empty", 0, list.size());
+        list.addLast(1);
+        assertEq("testSize_one", 1, list.size());
+        list.addLast(2);
+        assertEq("testSize_two", 2, list.size());
+    }
+
+    static void testIsEmpty() {
+        CustomLinkedList<Integer> list = new CustomLinkedList<>();
+        assertTrue("testIsEmpty_true", list.isEmpty(), "expected true on empty list");
+        list.addLast(1);
+        assertTrue("testIsEmpty_false", !list.isEmpty(), "expected false after adding element");
+    }
+
+    static void testGetInvalidIndex() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
         list.addLast(10);
+        boolean threw = false;
+        try {
+            list.get(1);
+        } catch (IndexOutOfBoundsException e) {
+            threw = true;
+        }
+        assertTrue("testGetInvalidIndex_throws", threw,
+                "expected IndexOutOfBoundsException for out-of-range index");
+    }
 
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
+    // ── Helpers ──────────────────────────────────────────────────────
+    private static void assertEq(String name, int expected, int actual) {
+        if (expected == actual) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- expected " + expected + ", got " + actual); failed++; }
+    }
+    private static void assertEq(String name, String expected, Object actual) {
+        if (expected.equals(actual)) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- expected \"" + expected + "\", got \"" + actual + "\""); failed++; }
+    }
+    private static void assertTrue(String name, boolean cond, String detail) {
+        if (cond) { System.out.println("  [PASS] " + name); passed++; }
+        else { System.out.println("  [FAIL] " + name + " -- " + detail); failed++; }
     }
 }

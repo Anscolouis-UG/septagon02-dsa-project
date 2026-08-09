@@ -4,8 +4,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class CustomHeap {
+/**
+ * A generic max-heap (priority queue) backed by a resizable array.
+ * Elements must implement Comparable so the heap can order them.
+ *
+ * The included ServiceRequest inner class is the domain type used by the
+ * Ghana Smart Service Operations demos and reads directly from
+ * data_base/service_requests.csv.
+ *
+ * @param <T> any Comparable element type
+ */
+public class CustomHeap<T extends Comparable<T>> {
 
+    // ─── inner domain class (kept for CSV demo) ─────────────────────────────
     public static class ServiceRequest implements Comparable<ServiceRequest> {
         private int requestId;
         private String requestType;
@@ -59,55 +70,74 @@ public class CustomHeap {
                     requestId, priorityStr, description, locationId, assignedTeam);
         }
     }
-
-    private ServiceRequest[] heap;
-    private int size;
+    // ────────────────────────────────────────────────────────────────────────
 
     @SuppressWarnings("unchecked")
+    private T[] heap = (T[]) new Comparable[16];
+    private int size;
+
     public CustomHeap() {
-        this.heap = new ServiceRequest[16];
         this.size = 0;
     }
 
-    public void insert(ServiceRequest item) {
+    /**
+     * Inserts an element into the heap.
+     * Time Complexity: O(log n) average/worst.
+     */
+    public void insert(T item) {
         if (item == null) throw new IllegalArgumentException("Cannot insert null");
         if (size == heap.length) {
-            heap = java.util.Arrays.copyOf(heap, heap.length * 2);
+            @SuppressWarnings("unchecked")
+            T[] bigger = (T[]) new Comparable[heap.length * 2];
+            for (int i = 0; i < size; i++) bigger[i] = heap[i];
+            heap = bigger;
         }
         heap[size] = item;
         siftUp(size);
         size++;
     }
 
-    public ServiceRequest extractMax() {
+    /**
+     * Removes and returns the maximum (highest-priority) element.
+     * Time Complexity: O(log n) average/worst.
+     */
+    public T extractMax() {
         if (isEmpty()) throw new java.util.NoSuchElementException("Heap is empty");
-        ServiceRequest max = heap[0];
+        T max = heap[0];
         heap[0] = heap[size - 1];
         heap[size - 1] = null;
         size--;
-        siftDown(0);
+        if (size > 0) siftDown(0);
         return max;
     }
 
+    /** Returns the maximum element without removing it. */
+    public T peek() {
+        if (isEmpty()) throw new java.util.NoSuchElementException("Heap is empty");
+        return heap[0];
+    }
+
+    public boolean isEmpty() { return size == 0; }
+    public int size()       { return size; }
+
+    // ── Internal helpers ─────────────────────────────────────────────────────
+
     private void siftUp(int index) {
         while (index > 0) {
-            int parentIndex = (index - 1) / 2;
-            if (heap[index].compareTo(heap[parentIndex]) > 0) {
-                swap(index, parentIndex);
-                index = parentIndex;
+            int parent = (index - 1) / 2;
+            if (heap[index].compareTo(heap[parent]) > 0) {
+                swap(index, parent);
+                index = parent;
             } else break;
         }
     }
 
     private void siftDown(int index) {
         while (2 * index + 1 < size) {
-            int leftChild = 2 * index + 1;
-            int rightChild = 2 * index + 2;
-            int largest = leftChild;
-
-            if (rightChild < size && heap[rightChild].compareTo(heap[leftChild]) > 0) {
-                largest = rightChild;
-            }
+            int left  = 2 * index + 1;
+            int right = 2 * index + 2;
+            int largest = left;
+            if (right < size && heap[right].compareTo(heap[left]) > 0) largest = right;
             if (heap[largest].compareTo(heap[index]) > 0) {
                 swap(index, largest);
                 index = largest;
@@ -116,16 +146,14 @@ public class CustomHeap {
     }
 
     private void swap(int i, int j) {
-        ServiceRequest temp = heap[i];
+        T tmp = heap[i];
         heap[i] = heap[j];
-        heap[j] = temp;
+        heap[j] = tmp;
     }
 
-    public boolean isEmpty() { return size == 0; }
-    public int size() { return size; }
-
+    // ── CSV demo entry point (ServiceRequest) ────────────────────────────────
     public static void main(String[] args) throws IOException {
-        CustomHeap priorityQueue = new CustomHeap();
+        CustomHeap<ServiceRequest> priorityQueue = new CustomHeap<>();
 
         java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "service_requests.csv"));
         for (int index = 1; index < rows.size(); index++) {
