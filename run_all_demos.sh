@@ -69,7 +69,8 @@ javac -cp "out:$JDBC" -d out \
   src/algorithms/Kruskal.java \
   src/algorithms/Prim.java \
   src/algorithms/UserInterface.java \
-  src/algorithms/SearchSortDemo.java
+  src/algorithms/SearchSortDemo.java \
+  src/algorithms/DynamicProgramming.java
 
 echo ">>> Compilation successful!"
 echo ""
@@ -174,12 +175,24 @@ echo " [9] Prim — Minimum Spanning Tree"
 echo "------------------------------------------------------------"
 java -cp out algorithms.Prim
 
+echo ""
+
+# ── Step 7: Dynamic Programming demo ─────────────────────────────────
+echo "============================================================"
+echo " PART E — DYNAMIC PROGRAMMING (Budget Allocation Optimizer)"
+echo "============================================================"
+echo ""
+echo "------------------------------------------------------------"
+echo " [10] DynamicProgramming — Knapsack Budget Allocator"
+echo "------------------------------------------------------------"
+java -cp out algorithms.DynamicProgramming
+
 # ── Done ─────────────────────────────────────────────────────────────
 echo ""
 echo "============================================================"
 echo "  All demos completed successfully!"
 echo "  A: DB Integration  |  B: Search & Sort  |  C: Data Structures"
-echo "  D: BFS / DFS / Dijkstra / Kruskal / Prim"
+echo "  D: BFS / DFS / Dijkstra / Kruskal / Prim  |  E: Dynamic Programming"
 echo "============================================================"
 echo ""
 echo "  ── Interactive demos (run manually) ────────────────────"

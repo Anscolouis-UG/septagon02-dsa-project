@@ -1,3 +1,5 @@
+package tests;
+
 import algorithms.DynamicProgramming;
 
 public class DynamicProgrammingTest {
