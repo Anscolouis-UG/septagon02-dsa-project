@@ -1,28 +1,27 @@
-import java.util.*;
+public class DynamicProgramming {
 
-
-public class DynamicProgramming{
-
-   
-    static final Map<String, Integer> PRIORITY_WEIGHT = Map.of(
-            "Critical", 4,
-            "High",     3,
-            "Medium",   2,
-            "Low",      1
-    );
-
-    
     static final int UNIT = 1000;
 
    
-    static final List<String> TYPES =
-            Arrays.asList("Maintenance", "Delivery", "Waste", "Security", "Grounds");
+    static final String[] TYPES = {"Maintenance", "Delivery", "Waste", "Security", "Grounds"};
 
+    static int priorityWeight(String priority) {
+        switch (priority) {
+            case "Critical": return 4;
+            case "High":     return 3;
+            case "Medium":   return 2;
+            case "Low":      return 1;
+            default:         return 1;
+        }
+    }
+
+  
     static class ServiceRequest {
         int    id;
         String type;      
         String priority;  
         int    cost;      
+
         ServiceRequest(int id, String type, String priority, int cost) {
             this.id = id;
             this.type = type;
@@ -32,46 +31,103 @@ public class DynamicProgramming{
 
        
         int value() {
-            return PRIORITY_WEIGHT.getOrDefault(priority, 1);
+            return priorityWeight(priority);
         }
     }
 
-  
-    static int[] buildBenefitCurve(List<ServiceRequest> reqs, int B) {
-        int[] curve = new int[B + 1];             
-        for (ServiceRequest r : reqs) {
-            int w = (int) Math.ceil((double) r.cost / UNIT); 
-            int v = r.value();                                
-            
+    
+    static class RequestArray {
+        private ServiceRequest[] data;
+        private int size;
+
+        RequestArray() {
+            data = new ServiceRequest[4];
+            size = 0;
+        }
+
+        void add(ServiceRequest r) {
+            if (size == data.length) {
+                ServiceRequest[] bigger = new ServiceRequest[data.length * 2];
+                for (int i = 0; i < size; i++) bigger[i] = data[i];
+                data = bigger;
+            }
+            data[size++] = r;
+        }
+
+        ServiceRequest get(int i) {
+            return data[i];
+        }
+
+        int size() {
+            return size;
+        }
+    }
+
+    static class Allocation {
+        String[] types;
+        int[] amounts;
+
+        Allocation(int n) {
+            types = new String[n];
+            amounts = new int[n];
+        }
+
+        void set(int index, String type, int amount) {
+            types[index] = type;
+            amounts[index] = amount;
+        }
+
+        int get(String type) {
+            for (int i = 0; i < types.length; i++) {
+                if (types[i].equals(type)) return amounts[i];
+            }
+            return 0;
+        }
+
+        int size() {
+            return types.length;
+        }
+    }
+
+    
+    static int[] buildBenefitCurve(RequestArray reqs, int B) {
+        int[] curve = new int[B + 1];  
+
+        for (int r = 0; r < reqs.size(); r++) {
+            ServiceRequest req = reqs.get(r);
+            int w = (int) Math.ceil((double) req.cost / UNIT);
+            int v = req.value();
             for (int b = B; b >= w; b--) {
                 curve[b] = Math.max(curve[b], curve[b - w] + v);
             }
         }
-        return curve; 
-        }
+        return curve;
+    }
+
+   
+    public Allocation optimize(RequestArray requests, int totalBudget) {
+        int n = TYPES.length;
+        int B = totalBudget / UNIT;                 
 
     
-    public Map<String, Integer> optimize(List<ServiceRequest> requests, int totalBudget) {
-        int n = TYPES.size();
-        int B = totalBudget / UNIT;                 
-        
         int[][] benefit = new int[n][];
         for (int t = 0; t < n; t++) {
-            List<ServiceRequest> typeReqs = new ArrayList<>();
-            for (ServiceRequest r : requests) {
-                if (r.type.equals(TYPES.get(t))) typeReqs.add(r);
+            RequestArray typeReqs = new RequestArray();
+            for (int r = 0; r < requests.size(); r++) {
+                ServiceRequest req = requests.get(r);
+                if (req.type.equals(TYPES[t])) typeReqs.add(req);
             }
             benefit[t] = buildBenefitCurve(typeReqs, B);
         }
 
-       
+        
         int[][] dp   = new int[n + 1][B + 1];       
-        int[][] give = new int[n + 1][B + 1];       
+        int[][] give = new int[n + 1][B + 1];      
 
         for (int i = 1; i <= n; i++) {
             for (int b = 0; b <= B; b++) {
                 int best = 0, bestGive = 0;
-                for (int a = 0; a <= b; a++) {                
+                for (int a = 0; a <= b; a++) {              
                     int candidate = dp[i - 1][b - a] + benefit[i - 1][a];
                     if (candidate > best) {
                         best = candidate;
@@ -83,26 +139,24 @@ public class DynamicProgramming{
             }
         }
 
-        Map<String, Integer> allocation = new LinkedHashMap<>();
+       
+        Allocation allocation = new Allocation(n);
         int remaining = B;
         for (int i = n; i >= 1; i--) {
             int a = give[i][remaining];
-            allocation.put(TYPES.get(i - 1), a * UNIT); 
+            allocation.set(i - 1, TYPES[i - 1], a * UNIT);  
             remaining -= a;
         }
 
-      
-        Map<String, Integer> ordered = new LinkedHashMap<>();
-        for (String ty : TYPES) ordered.put(ty, allocation.getOrDefault(ty, 0));
-        return ordered;
+        return allocation;
     }
 
-  
+   
     public static void main(String[] args) {
-        List<ServiceRequest> requests = new ArrayList<>();
+        RequestArray requests = new RequestArray();
         int id = 1;
 
-        
+        // Maintenance backlog (electrical / plumbing / AC ...)
         requests.add(new ServiceRequest(id++, "Maintenance", "Critical", 40000));
         requests.add(new ServiceRequest(id++, "Maintenance", "High",     35000));
         requests.add(new ServiceRequest(id++, "Maintenance", "High",     25000));
@@ -133,13 +187,13 @@ public class DynamicProgramming{
         int budget = 288000;
 
         DynamicProgramming optimizer = new DynamicProgramming();
-        Map<String, Integer> plan = optimizer.optimize(requests, budget);
+        Allocation plan = optimizer.optimize(requests, budget);
 
         System.out.println("=== DP BUDGET ALLOCATION (total budget = GHS " + budget + ") ===");
         int spent = 0;
-        for (Map.Entry<String, Integer> e : plan.entrySet()) {
-            System.out.printf("  %-12s : GHS %,d%n", e.getKey(), e.getValue());
-            spent += e.getValue();
+        for (int i = 0; i < plan.size(); i++) {
+            System.out.printf("  %-12s : GHS %,d%n", plan.types[i], plan.amounts[i]);
+            spent += plan.amounts[i];
         }
         System.out.printf("  %-12s : GHS %,d%n", "TOTAL SPENT", spent);
         System.out.printf("  %-12s : GHS %,d%n", "RESERVE",     budget - spent);
