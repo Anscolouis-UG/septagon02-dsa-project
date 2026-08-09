@@ -1,4 +1,5 @@
 import csv
+import os
 import random
 import time
 import statistics as stats
@@ -14,11 +15,17 @@ from structures import (
 )
 
 random.seed(7)
-OUT = "/home/claude/perf/"
+
+# Paths relative to this script — works on any machine
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.join(_SCRIPT_DIR, "..", "..")
+DATA_DIR = os.path.join(_PROJECT_ROOT, "data_base")   # real CSV files live here
+OUT      = os.path.join(_SCRIPT_DIR, "output") + os.sep  # graphs/results go here
+os.makedirs(OUT, exist_ok=True)
 
 
 def load_requests():
-    with open(OUT + "service_requests.csv") as f:
+    with open(os.path.join(DATA_DIR, "service_requests.csv")) as f:
         reader = csv.DictReader(f)
         rows = []
         for r in reader:
