@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghana Smart Campus — DSA Operations Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0d1117; --surface:#161b22; --surface2:#1f2937; --border:#30363d;
+      --accent:#00d4aa; --accent2:#7c3aed; --accent3:#f59e0b; --accent4:#ef4444;
+      --text:#e6edf3; --text-dim:#8b949e; --radius:12px; --sidebar:260px;
+    }
+    html, body { height:100%; overflow:hidden; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); display:flex; }
+    #sidebar { width:var(--sidebar); min-width:var(--sidebar); background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; padding:20px 0; gap:4px; overflow-y:auto; }
+    .sidebar-logo { padding:0 20px 20px; border-bottom:1px solid var(--border); margin-bottom:12px; }
+    .sidebar-logo h2 { font-size:13px; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase; }
+    .sidebar-logo p { font-size:11px; color:var(--text-dim); margin-top:4px; }
+    .nav-section-label { font-size:10px; font-weight:600; color:var(--text-dim); letter-spacing:1.2px; text-transform:uppercase; padding:12px 20px 4px; }
+    .nav-btn { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text-dim); border:none; background:none; width:100%; text-align:left; border-left:3px solid transparent; transition:all 0.2s; font-family:'Inter',sans-serif; }
+    .nav-btn:hover { background:rgba(255,255,255,0.04); color:var(--text); }
+    .nav-btn.active { background:rgba(0,212,170,0.08); color:var(--accent); border-left-color:var(--accent); }
+    .nav-btn .icon { font-size:16px; width:20px; text-align:center; }
+    .nav-divider { height:1px; background:var(--border); margin:8px 20px; }
+    #main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+    #topbar { height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; border-bottom:1px solid var(--border); background:var(--surface); flex-shrink:0; }
+    #topbar h1 { font-size:16px; font-weight:600; }
+    .badge { font-size:11px; background:rgba(0,212,170,0.15); color:var(--accent); padding:3px 10px; border-radius:20px; font-weight:600; }
+    #content { flex:1; overflow-y:auto; padding:28px; display:flex; flex-direction:column; gap:24px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px; }
+    .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    .card-title { font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; }
+    .card-title .dot { width:8px; height:8px; border-radius:50%; }
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; position:relative; overflow:hidden; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .stat-card.c1::before { background:var(--accent); }
+    .stat-card.c2::before { background:var(--accent2); }
+    .stat-card.c3::before { background:var(--accent3); }
+    .stat-card.c4::before { background:var(--accent4); }
+    .stat-value { font-size:28px; font-weight:700; font-family:'JetBrains Mono'; }
+    .stat-label { font-size:12px; color:var(--text-dim); margin-top:4px; }
+    .stat-icon { position:absolute; top:18px; right:18px; font-size:24px; opacity:0.4; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    #graphCanvas,#traversalCanvas,#dijkCanvas,#mstCanvas { width:100%; border-radius:8px; background:#0a0e14; display:block; }
+    .canvas-overlay { position:absolute; top:10px; left:10px; background:rgba(13,17,23,0.85); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:11px; color:var(--text-dim); }
+    .legend-item { display:flex; align-items:center; gap:6px; margin:3px 0; }
+    .legend-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .btn { padding:8px 16px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text); font-size:13px; font-weight:500; cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif; }
+    .btn:hover { border-color:var(--accent); color:var(--accent); }
+    .btn.primary { background:var(--accent); color:#000; border-color:var(--accent); font-weight:600; }
+    .btn.primary:hover { background:#00b894; }
+    .btn.danger { background:rgba(239,68,68,0.15); color:var(--accent4); border-color:var(--accent4); }
+    select.btn { appearance:none; padding-right:28px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; background-color:var(--surface2); }
+    .log-box { background:#0a0e14; border:1px solid var(--border); border-radius:8px; padding:14px; font-family:'JetBrains Mono',monospace; font-size:12px; height:220px; overflow-y:auto; line-height:1.7; color:#c9d1d9; }
+    .log-line { animation:fadeIn 0.3s ease; }
+    .log-step { color:var(--accent); }
+    .log-visit { color:#7dd3fc; }
+    .log-edge { color:var(--accent3); }
+    .log-result { color:#a78bfa; }
+    .log-done { color:var(--accent); font-weight:600; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:translateY(0)} }
+    .budget-bar-wrap { display:flex; flex-direction:column; gap:12px; }
+    .budget-row { display:flex; align-items:center; gap:14px; }
+    .budget-label { font-size:12px; font-weight:500; width:100px; flex-shrink:0; }
+    .bar-track { flex:1; height:12px; background:var(--surface2); border-radius:6px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:6px; transition:width 1s ease; width:0%; }
+    .budget-val { font-size:12px; font-family:'JetBrains Mono'; color:var(--text-dim); width:90px; text-align:right; flex-shrink:0; }
+    .ds-card { background:var(--surface2); border-radius:8px; padding:16px; border-left:3px solid var(--accent); }
+    .ds-card h4 { font-size:13px; font-weight:600; margin-bottom:6px; }
+    .ds-card p { font-size:12px; color:var(--text-dim); line-height:1.6; }
+    .ds-card .complexity { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+    .chip { font-size:11px; font-family:'JetBrains Mono'; padding:2px 8px; border-radius:4px; background:rgba(0,212,170,0.1); color:var(--accent); border:1px solid rgba(0,212,170,0.2); }
+    .chip.w { background:rgba(239,68,68,0.1); color:#f87171; border-color:rgba(239,68,68,0.2); }
+    #tooltip { position:fixed; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12px; pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:1000; max-width:220px; }
+    #tooltip strong { display:block; margin-bottom:4px; font-size:13px; color:var(--accent); }
+    #tooltip .tip-row { display:flex; justify-content:space-between; gap:16px; color:var(--text-dim); }
+    .section { display:none; flex-direction:column; gap:24px; }
+    .section.active { display:flex; }
+    #step-badge { background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.3); color:var(--accent); font-size:12px; font-family:'JetBrains Mono'; padding:4px 12px; border-radius:20px; }
+    .algo-info { font-size:12px; color:var(--text-dim); line-height:1.7; }
+    .algo-info strong { color:var(--text); }
+    .cmd-box { background:#0a0e14; border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-family:'JetBrains Mono'; font-size:12px; color:var(--accent3); overflow-x:auto; white-space:nowrap; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+    #graph-wrap { position:relative; }
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <h2>🇬🇭 DSA Optimizer</h2>
+    <p>UG Legon Campus · DCIT 204</p>
+  </div>
+  <span class="nav-section-label">Overview</span>
+  <button class="nav-btn active" data-section="dashboard"><span class="icon">🏠</span> Dashboard</button>
+  <span class="nav-section-label">Graph Algorithms</span>
+  <button class="nav-btn" data-section="graph"><span class="icon">🗺️</span> Campus Graph</button>
+  <button class="nav-btn" data-section="traversal"><span class="icon">🔍</span> BFS / DFS</button>
+  <button class="nav-btn" data-section="shortest"><span class="icon">📍</span> Dijkstra</button>
+  <button class="nav-btn" data-section="mst"><span class="icon">🌲</span> Kruskal / Prim</button>
+  <div class="nav-divider"></div>
+  <span class="nav-section-label">Data & Structures</span>
+  <button class="nav-btn" data-section="structures"><span class="icon">🗄️</span> All Structures</button>
+  <button class="nav-btn" data-section="dp"><span class="icon">💰</span> Budget Optimizer</button>
+  <div class="nav-divider"></div>
+  <span class="nav-section-label">Reference</span>
+  <button class="nav-btn" data-section="commands"><span class="icon">⌨️</span> CLI Reference</button>
+</nav>
+
+<div id="main">
+  <div id="topbar">
+    <h1 id="page-title">Dashboard</h1>
+    <span class="badge">✓ septagon02-dsa-project</span>
+  </div>
+  <div id="content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="section-dashboard">
+      <div class="stats-row">
+        <div class="stat-card c1"><div class="stat-icon">📍</div><div class="stat-value" style="color:var(--accent)">50</div><div class="stat-label">Campus Locations</div></div>
+        <div class="stat-card c2"><div class="stat-icon">🛣️</div><div class="stat-value" style="color:#a78bfa">49</div><div class="stat-label">Road Connections</div></div>
+        <div class="stat-card c3"><div class="stat-icon">🗃️</div><div class="stat-value" style="color:var(--accent3)">14</div><div class="stat-label">Custom Data Structures</div></div>
+        <div class="stat-card c4"><div class="stat-icon">⚙️</div><div class="stat-value" style="color:var(--accent4)">7</div><div class="stat-label">Algorithms Implemented</div></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>Project Architecture</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent)">Layer 1 — Data</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">4 CSV files → CSVLoader → george.db (SQLite)</div></div>
+            <div style="background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:#a78bfa">Layer 2 — Data Structures</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">14 custom Java structures · no java.util</div></div>
+            <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent3)">Layer 3 — Algorithms</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">BFS, DFS, Dijkstra, Kruskal, Prim, Search/Sort, DP</div></div>
+            <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent4)">Layer 4 — Performance</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">Python benchmarking harness · 6 scaling experiments</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Quick Start Commands</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+            <div><div style="color:var(--text-dim);margin-bottom:4px">① Run all demos at once:</div><div class="cmd-box">zsh run_all_demos.sh</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">② Seed the database:</div><div class="cmd-box">java -cp "out:lib/sqlite-jdbc.jar" CSVLoader</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">③ Run Dijkstra:</div><div class="cmd-box">java -cp out algorithms.Dijkstra</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">④ Run unit tests:</div><div class="cmd-box">mvn test</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">⑤ Performance benchmarks:</div><div class="cmd-box">cd src/Performance && python run_experiments.py</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>Test Suite — 16 Files</div></div>
+        <div id="test-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+      </div>
+    </div>
+
+    <!-- CAMPUS GRAPH -->
+    <div class="section" id="section-graph">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>UG Legon Campus Network</div><span id="hover-label" style="font-size:12px;color:var(--accent);font-family:'JetBrains Mono'"></span></div>
+        <div id="graph-wrap">
+          <canvas id="graphCanvas" height="520"></canvas>
+          <div class="canvas-overlay">
+            <div class="legend-item"><div class="legend-dot" style="background:#00d4aa"></div>Educational</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Residential</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Medical</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Recreation</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Security/Gate</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text-dim)">Hover over a node to see details. Nodes positioned by real GPS coordinates.</div>
+      </div>
+    </div>
+
+    <!-- BFS/DFS -->
+    <div class="section" id="section-traversal">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#60a5fa"></span>Graph Traversal</div><span id="step-badge">Step 0 / 0</span></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="algo-select"><option value="bfs">BFS — Breadth-First</option><option value="dfs">DFS — Depth-First</option></select>
+            <select class="btn" id="start-select"></select>
+            <button class="btn primary" id="btn-run-traversal">▶ Run</button>
+            <button class="btn danger" id="btn-reset-traversal">↺ Reset</button>
+          </div>
+          <canvas id="traversalCanvas" height="360"></canvas>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#60a5fa"></span>Output Log</div></div>
+          <div class="log-box" id="traversal-log" style="flex:1;height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info" id="algo-info-text"><strong>BFS (Breadth-First Search)</strong><br>Explores layer by layer using a queue. Guarantees fewest hops.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure used:</strong> CustomQueue</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIJKSTRA -->
+    <div class="section" id="section-shortest">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#f59e0b"></span>Dijkstra — Shortest Path</div></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="dijk-source"></select>
+            <select class="btn" id="dijk-target"></select>
+            <button class="btn primary" id="btn-run-dijk">▶ Find Path</button>
+            <button class="btn danger" id="btn-reset-dijk">↺ Reset</button>
+          </div>
+          <canvas id="dijkCanvas" height="360"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#f59e0b"></span>Results</div></div>
+          <div class="log-box" id="dijk-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info"><strong>Dijkstra's Algorithm</strong><br>Finds shortest weighted path between two nodes using a greedy priority queue approach.<br><br><strong>Complexity:</strong> O((V+E) log V)<br><strong>Weights:</strong> Road distances in metres</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MST -->
+    <div class="section" id="section-mst">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>Minimum Spanning Tree</div></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="mst-algo-select"><option value="kruskal">Kruskal's Algorithm</option><option value="prim">Prim's Algorithm</option></select>
+            <button class="btn primary" id="btn-run-mst">▶ Build MST</button>
+            <button class="btn danger" id="btn-reset-mst">↺ Reset</button>
+          </div>
+          <canvas id="mstCanvas" height="360"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>MST Output</div></div>
+          <div class="log-box" id="mst-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info" id="mst-info-text"><strong>Kruskal's Algorithm</strong><br>Sorts edges by weight and adds greedily, using Union-Find for cycle detection.<br><br><strong>Complexity:</strong> O(E log E)<br><strong>Structure:</strong> CustomDisjointSet</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA STRUCTURES -->
+    <div class="section" id="section-structures">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Custom Data Structures Reference</div></div>
+        <div id="ds-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;"></div>
+      </div>
+    </div>
+
+    <!-- BUDGET DP -->
+    <div class="section" id="section-dp">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>DP Budget Allocator</div></div>
+          <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <label style="font-size:12px;color:var(--text-dim)">Total Budget (GHS):</label>
+            <input id="budget-input" type="number" value="288000" min="1000" step="1000" style="width:130px;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:13px;" />
+            <button class="btn primary" id="btn-run-dp">▶ Optimize</button>
+          </div>
+          <div class="budget-bar-wrap" id="dp-bars"></div>
+          <div style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text-dim);" id="dp-summary"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>Allocation Log</div></div>
+          <div class="log-box" id="dp-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info"><strong>Knapsack Budget Allocation (DP)</strong><br>Maximises total priority benefit across 5 service sectors within a budget constraint.<br><br><strong>Complexity:</strong> O(n × B/UNIT) pseudo-polynomial<br><strong>Priority weights:</strong> Critical=4, High=3, Medium=2, Low=1</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLI -->
+    <div class="section" id="section-commands">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Compile</div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+          <div><div style="color:var(--text-dim);margin-bottom:4px">Pass 1 — data structures:</div><div class="cmd-box">javac -d out src/datastructures/*.java</div></div>
+          <div><div style="color:var(--text-dim);margin-bottom:4px">Pass 2 — algorithms + DB layer:</div><div class="cmd-box">javac -cp "out:lib/sqlite-jdbc.jar" -d out src/*.java src/algorithms/*.java</div></div>
+        </div>
+      </div>
+      <div id="cmd-sections"></div>
+    </div>
+
+  </div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+const LOCATIONS=[{id:1,name:"Main Gate",lat:5.65085,lon:-0.18605,type:"Security"},{id:2,name:"University Square",lat:5.65092,lon:-0.18745,type:"Landmark"},{id:3,name:"Balme Library",lat:5.65098,lon:-0.18780,type:"Educational"},{id:4,name:"Great Hall",lat:5.65155,lon:-0.18835,type:"Administrative"},{id:5,name:"Registry",lat:5.65142,lon:-0.18815,type:"Administrative"},{id:6,name:"Cedi Conference Centre",lat:5.65138,lon:-0.18855,type:"Meeting"},{id:7,name:"SPMS",lat:5.65110,lon:-0.18885,type:"Educational"},{id:8,name:"Dept. Computer Science",lat:5.65115,lon:-0.18895,type:"Educational"},{id:9,name:"Dept. Physics",lat:5.65118,lon:-0.18910,type:"Educational"},{id:10,name:"Dept. Chemistry",lat:5.65124,lon:-0.18900,type:"Educational"},{id:11,name:"Dept. Mathematics",lat:5.65106,lon:-0.18872,type:"Educational"},{id:12,name:"Dept. Statistics",lat:5.65102,lon:-0.18863,type:"Educational"},{id:13,name:"UG Business School",lat:5.65120,lon:-0.18620,type:"Educational"},{id:14,name:"School of Law",lat:5.65075,lon:-0.18720,type:"Educational"},{id:15,name:"College of Humanities",lat:5.65082,lon:-0.18760,type:"Educational"},{id:16,name:"Institute of African Studies",lat:5.65132,lon:-0.18735,type:"Educational"},{id:17,name:"Noguchi Institute",lat:5.65210,lon:-0.18570,type:"Research"},{id:18,name:"School of Public Health",lat:5.65205,lon:-0.18595,type:"Educational"},{id:19,name:"University Hospital",lat:5.65188,lon:-0.18618,type:"Medical"},{id:20,name:"Pharmacy",lat:5.65180,lon:-0.18610,type:"Medical"},{id:21,name:"Student Centre",lat:5.65072,lon:-0.18662,type:"Commercial"},{id:22,name:"Central Cafeteria",lat:5.65060,lon:-0.18715,type:"Commercial"},{id:23,name:"Bookshop",lat:5.65055,lon:-0.18695,type:"Commercial"},{id:24,name:"Banking Square",lat:5.65045,lon:-0.18670,type:"Commercial"},{id:25,name:"Night Market",lat:5.65195,lon:-0.18490,type:"Commercial"},{id:26,name:"Legon Hall",lat:5.65220,lon:-0.18790,type:"Residential"},{id:27,name:"Commonwealth Hall",lat:5.65280,lon:-0.18980,type:"Residential"},{id:28,name:"Mensah Sarbah Hall",lat:5.65262,lon:-0.18890,type:"Residential"},{id:29,name:"Volta Hall",lat:5.65205,lon:-0.18765,type:"Residential"},{id:30,name:"Akuafo Hall",lat:5.65235,lon:-0.18830,type:"Residential"},{id:31,name:"Jubilee Hall",lat:5.65195,lon:-0.18460,type:"Residential"},{id:32,name:"Hilla Limann Hall",lat:5.65175,lon:-0.18420,type:"Residential"},{id:33,name:"Jean Nelson Hall",lat:5.65158,lon:-0.18445,type:"Residential"},{id:34,name:"Alexander Kwapong Hall",lat:5.65148,lon:-0.18410,type:"Residential"},{id:35,name:"Elizabeth Frances Sey Hall",lat:5.65168,lon:-0.18400,type:"Residential"},{id:36,name:"Pentagon Hostel",lat:5.65192,lon:-0.18405,type:"Residential"},{id:37,name:"International Students Hostel",lat:5.65145,lon:-0.18390,type:"Residential"},{id:38,name:"Sports Stadium",lat:5.65135,lon:-0.19070,type:"Recreation"},{id:39,name:"Athletic Oval",lat:5.65162,lon:-0.19055,type:"Recreation"},{id:40,name:"Tennis Courts",lat:5.65182,lon:-0.19095,type:"Recreation"},{id:41,name:"Basketball Court",lat:5.65192,lon:-0.19082,type:"Recreation"},{id:42,name:"Football Pitch",lat:5.65155,lon:-0.19110,type:"Recreation"},{id:43,name:"Botanical Gardens",lat:5.65300,lon:-0.18870,type:"Recreation"},{id:44,name:"Open Air Theatre",lat:5.65290,lon:-0.18950,type:"Recreation"},{id:45,name:"University Chapel",lat:5.65170,lon:-0.18655,type:"Religious"},{id:46,name:"Islamic Centre",lat:5.65195,lon:-0.18535,type:"Religious"},{id:47,name:"East Gate",lat:5.65135,lon:-0.18370,type:"Security"},{id:48,name:"West Gate",lat:5.65178,lon:-0.19190,type:"Security"},{id:49,name:"Transport Office",lat:5.65095,lon:-0.18645,type:"Administrative"},{id:50,name:"Directorate of Student Affairs",lat:5.65080,lon:-0.18660,type:"Administrative"}];
+const ROADS=[{from:1,to:2,dist:240,type:"Primary"},{from:2,to:3,dist:180,type:"Primary"},{from:3,to:4,dist:160,type:"Primary"},{from:4,to:5,dist:90,type:"Secondary"},{from:5,to:6,dist:80,type:"Secondary"},{from:3,to:7,dist:170,type:"Primary"},{from:7,to:8,dist:60,type:"Secondary"},{from:7,to:9,dist:45,type:"Secondary"},{from:9,to:10,dist:50,type:"Secondary"},{from:7,to:11,dist:40,type:"Pedestrian"},{from:11,to:12,dist:35,type:"Pedestrian"},{from:2,to:13,dist:290,type:"Primary"},{from:3,to:14,dist:140,type:"Secondary"},{from:14,to:15,dist:110,type:"Secondary"},{from:15,to:16,dist:120,type:"Secondary"},{from:16,to:17,dist:320,type:"Primary"},{from:17,to:19,dist:90,type:"Secondary"},{from:2,to:21,dist:130,type:"Primary"},{from:21,to:22,dist:60,type:"Pedestrian"},{from:21,to:23,dist:45,type:"Pedestrian"},{from:23,to:24,dist:40,type:"Pedestrian"},{from:13,to:25,dist:370,type:"Primary"},{from:3,to:26,dist:260,type:"Secondary"},{from:26,to:27,dist:240,type:"Primary"},{from:26,to:28,dist:170,type:"Secondary"},{from:26,to:29,dist:120,type:"Secondary"},{from:26,to:30,dist:100,type:"Secondary"},{from:25,to:31,dist:150,type:"Primary"},{from:31,to:32,dist:80,type:"Secondary"},{from:32,to:33,dist:55,type:"Secondary"},{from:33,to:34,dist:60,type:"Secondary"},{from:34,to:35,dist:70,type:"Secondary"},{from:25,to:36,dist:90,type:"Secondary"},{from:36,to:37,dist:60,type:"Secondary"},{from:3,to:38,dist:420,type:"Primary"},{from:38,to:39,dist:70,type:"Secondary"},{from:39,to:40,dist:65,type:"Secondary"},{from:40,to:41,dist:40,type:"Secondary"},{from:38,to:42,dist:90,type:"Secondary"},{from:4,to:43,dist:500,type:"Primary"},{from:43,to:44,dist:110,type:"Secondary"},{from:21,to:45,dist:150,type:"Secondary"},{from:45,to:46,dist:180,type:"Secondary"},{from:13,to:47,dist:260,type:"Primary"},{from:38,to:48,dist:230,type:"Primary"},{from:21,to:49,dist:70,type:"Secondary"},{from:49,to:50,dist:50,type:"Secondary"},{from:3,to:21,dist:90,type:"Pedestrian"},{from:4,to:3,dist:80,type:"Pedestrian"}];
+const adj={};LOCATIONS.forEach(l=>{adj[l.id]=[];});ROADS.forEach(r=>{adj[r.from].push({to:r.to,dist:r.dist});adj[r.to].push({to:r.from,dist:r.dist});});
+const locById={};LOCATIONS.forEach(l=>{locById[l.id]=l;});
+const TYPE_COLOR={Security:'#f59e0b',Educational:'#00d4aa',Administrative:'#a78bfa',Medical:'#ef4444',Commercial:'#60a5fa',Residential:'#fb923c',Recreation:'#4ade80',Research:'#f472b6',Religious:'#e879f9',Meeting:'#38bdf8',Landmark:'#fde047'};
+
+function project(locs,w,h,pad=36){
+  const lats=locs.map(l=>l.lat),lons=locs.map(l=>l.lon);
+  const minLat=Math.min(...lats),maxLat=Math.max(...lats),minLon=Math.min(...lons),maxLon=Math.max(...lons);
+  return locs.map(l=>({...l,x:pad+(l.lon-minLon)/(maxLon-minLon)*(w-pad*2),y:pad+(maxLat-l.lat)/(maxLat-minLat)*(h-pad*2)}));
+}
+function drawGraph(canvas,projLocs,highlightNodes=new Set(),currentNode=null,mstEdges=null,pathEdges=null){
+  const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0a0e14';ctx.fillRect(0,0,w,h);
+  const nodeMap={};projLocs.forEach(l=>{nodeMap[l.id]=l;});
+  ROADS.forEach(r=>{
+    const a=nodeMap[r.from],b=nodeMap[r.to];if(!a||!b)return;
+    const isMST=mstEdges&&mstEdges.some(e=>(e.from===r.from&&e.to===r.to)||(e.from===r.to&&e.to===r.from));
+    const isPath=pathEdges&&pathEdges.some(e=>(e.from===r.from&&e.to===r.to)||(e.from===r.to&&e.to===r.from));
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    if(isPath){ctx.strokeStyle='#f59e0b';ctx.lineWidth=3;}
+    else if(isMST){ctx.strokeStyle='#a78bfa';ctx.lineWidth=2.5;}
+    else{ctx.strokeStyle=r.type==='Primary'?'#2d3748':'#1e2533';ctx.lineWidth=r.type==='Pedestrian'?1:1.5;}
+    ctx.stroke();
+  });
+  projLocs.forEach(l=>{
+    const isCurrent=l.id===currentNode,isVisited=highlightNodes.has(l.id);
+    let fill=TYPE_COLOR[l.type]||'#00d4aa';
+    if(isCurrent)fill='#ef4444';else if(isVisited)fill='#60a5fa';
+    const r=isCurrent?8:6;
+    ctx.beginPath();ctx.arc(l.x,l.y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();
+    if(isCurrent){ctx.beginPath();ctx.arc(l.x,l.y,13,0,Math.PI*2);ctx.strokeStyle='#ef444450';ctx.lineWidth=2;ctx.stroke();}
+  });
+}
+function resizeCanvas(c){const r=c.parentElement.getBoundingClientRect();c.width=r.width||700;}
+
+// NAV
+const navBtns=document.querySelectorAll('.nav-btn');
+const titles={dashboard:'Dashboard',graph:'Campus Graph',traversal:'BFS / DFS Traversal',shortest:'Dijkstra — Shortest Path',mst:'Kruskal / Prim — MST',structures:'Data Structures Reference',dp:'Budget Optimizer (DP)',commands:'CLI Command Reference'};
+navBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const sec=btn.dataset.section;
+    navBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('section-'+sec).classList.add('active');
+    document.getElementById('page-title').textContent=titles[sec];
+    if(sec==='graph')setTimeout(initGraphSection,50);
+    if(sec==='traversal')setTimeout(initTraversalSection,50);
+    if(sec==='shortest')setTimeout(initDijkSection,50);
+    if(sec==='mst')setTimeout(initMSTSection,50);
+  });
+});
+
+// DASHBOARD TEST GRID
+const TEST_SUITES=['BFSTest','BTreeTest','CustomArrayListTest','CustomDisjointSetTest','CustomGraphTest','CustomLinkedListTest','CustomMapTest','CustomQueueTest','CustomSetTest','CustomStackTest','DFSTest','DijkstraTest','DynamicProgrammingTest','HashTableTest','KruskalTest','PrimTest'];
+const tg=document.getElementById('test-grid');
+TEST_SUITES.forEach(t=>{const d=document.createElement('div');d.style.cssText='background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.15);border-radius:6px;padding:8px 10px;font-size:11px;display:flex;align-items:center;gap:6px;';d.innerHTML=`<span style="color:var(--accent)">✓</span><span style="color:var(--text-dim)">${t}</span>`;tg.appendChild(d);});
+
+// DATA STRUCTURES GRID
+const DS_DATA=[
+  {name:'CustomArrayList',desc:'Dynamic array for generic lists. Used throughout as the primary collection.',avg:'O(1) index',worst:'O(n) resize',c:'var(--accent)'},
+  {name:'CustomLinkedList',desc:'Doubly-linked list for sequential access and base for the deque.',avg:'O(1) insert',worst:'O(n) search',c:'var(--accent)'},
+  {name:'DispatchDeque',desc:'Double-ended queue for dispatching road segment updates.',avg:'O(1) push/pop',worst:'O(n) search',c:'#60a5fa'},
+  {name:'CustomStack',desc:'Array-backed LIFO stack used as DFS frontier.',avg:'O(1) push/pop',worst:'O(n) resize',c:'#60a5fa'},
+  {name:'CustomQueue',desc:'Linked FIFO queue used as BFS frontier.',avg:'O(1) enqueue',worst:'O(1) dequeue',c:'#60a5fa'},
+  {name:'CustomSet',desc:'Hash-backed set tracking visited vertices and unique IDs.',avg:'O(1) add',worst:'O(n) collision',c:'var(--accent3)'},
+  {name:'CustomMap',desc:'Key-value array mapping location IDs to display names.',avg:'O(n) search',worst:'O(n)',c:'var(--accent3)'},
+  {name:'HashTable',desc:'Chaining hash table for high-speed request lookups by ID.',avg:'O(1) get/put',worst:'O(n)',c:'var(--accent3)'},
+  {name:'CustomHeap',desc:'Max-heap priority queue for service requests and Dijkstra.',avg:'O(log n)',worst:'O(log n)',c:'#a78bfa'},
+  {name:'ResourceBST',desc:'Unbalanced BST for indexing resources by capacity.',avg:'O(log n)',worst:'O(n) skewed',c:'#a78bfa'},
+  {name:'CustomRedBlackTree',desc:'Self-balancing RB-tree for guaranteed O(log n) location indexing.',avg:'O(log n)',worst:'O(log n)',c:'var(--accent4)'},
+  {name:'BTree',desc:'M-way search tree used as a database index for record sets.',avg:'O(log_M n)',worst:'O(log_M n)',c:'var(--accent4)'},
+  {name:'CustomDisjointSet',desc:'Union-Find with path compression for cycle detection in Kruskal.',avg:'O(α(n))',worst:'O(α(n))',c:'#fb923c'},
+  {name:'CustomGraph',desc:'Adjacency-list graph for the 50-node UG Legon campus network.',avg:'O(1) add edge',worst:'O(V) adj',c:'#4ade80'}
+];
+const dsGrid=document.getElementById('ds-grid');
+DS_DATA.forEach(d=>{const el=document.createElement('div');el.className='ds-card';el.style.borderLeftColor=d.c;el.innerHTML=`<h4 style="color:${d.c}">${d.name}</h4><p>${d.desc}</p><div class="complexity"><span class="chip">avg ${d.avg}</span><span class="chip w">worst ${d.worst}</span></div>`;dsGrid.appendChild(el);});
+
+// CLI COMMANDS
+const CLI_SECTIONS=[
+  {title:'Database',color:'#60a5fa',cmds:[{desc:'Seed the SQLite database:',cmd:'java -cp "out:lib/sqlite-jdbc.jar" CSVLoader'},{desc:'Interactive DB query demo:',cmd:'java -cp "out:lib/sqlite-jdbc.jar" StructureDemo'}]},
+  {title:'Data Structures',color:'var(--accent3)',cmds:[{desc:'DispatchDeque:',cmd:'java -cp out datastructures.DispatchDeque'},{desc:'CustomHeap:',cmd:'java -cp out datastructures.CustomHeap'},{desc:'ResourceBST:',cmd:'java -cp out datastructures.ResourceBST'},{desc:'CustomRedBlackTree:',cmd:'java -cp out datastructures.CustomRedBlackTree'}]},
+  {title:'Graph Algorithms',color:'var(--accent)',cmds:[{desc:'BFS:',cmd:'java -cp out algorithms.BFS'},{desc:'DFS:',cmd:'java -cp out algorithms.DFS'},{desc:'Dijkstra:',cmd:'java -cp out algorithms.Dijkstra'},{desc:'Kruskal:',cmd:'java -cp out algorithms.Kruskal'},{desc:'Prim:',cmd:'java -cp out algorithms.Prim'}]},
+  {title:'Search, Sort & DP',color:'#a78bfa',cmds:[{desc:'Search & Sort automated:',cmd:'java -cp out algorithms.SearchSortDemo'},{desc:'Interactive UI:',cmd:'java -cp out algorithms.UserInterface'},{desc:'Dynamic Programming:',cmd:'java -cp out algorithms.DynamicProgramming'}]},
+  {title:'Performance (Python)',color:'var(--accent4)',cmds:[{desc:'Install deps:',cmd:'pip install -r src/Performance/requirements.txt'},{desc:'Run all 6 experiments:',cmd:'cd src/Performance && python run_experiments.py'}]}
+];
+const cmdSec=document.getElementById('cmd-sections');
+CLI_SECTIONS.forEach(sec=>{const c=document.createElement('div');c.className='card';c.innerHTML=`<div class="card-header"><div class="card-title"><span class="dot" style="background:${sec.color}"></span>${sec.title}</div></div><div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">${sec.cmds.map(x=>`<div><div style="color:var(--text-dim);margin-bottom:4px">${x.desc}</div><div class="cmd-box">${x.cmd}</div></div>`).join('')}</div>`;cmdSec.appendChild(c);});
+
+// GRAPH SECTION
+function initGraphSection(){
+  const canvas=document.getElementById('graphCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height);drawGraph(canvas,proj);
+  const tooltip=document.getElementById('tooltip'),hoverLabel=document.getElementById('hover-label');
+  canvas.onmousemove=e=>{
+    const rect=canvas.getBoundingClientRect(),sx=canvas.width/rect.width,sy=canvas.height/rect.height;
+    const mx=(e.clientX-rect.left)*sx,my=(e.clientY-rect.top)*sy;
+    let closest=null,minD=Infinity;
+    proj.forEach(l=>{const d=Math.hypot(l.x-mx,l.y-my);if(d<minD){minD=d;closest=l;}});
+    if(closest&&minD<20){
+      tooltip.style.opacity='1';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-10)+'px';
+      tooltip.innerHTML=`<strong>${closest.name}</strong><div class="tip-row"><span>Type</span><span>${closest.type}</span></div><div class="tip-row"><span>Connections</span><span>${adj[closest.id].length}</span></div><div class="tip-row"><span>ID</span><span>${closest.id}</span></div>`;
+      hoverLabel.textContent=closest.name;
+    }else{tooltip.style.opacity='0';hoverLabel.textContent='';}
+  };
+  canvas.onmouseleave=()=>{tooltip.style.opacity='0';hoverLabel.textContent='';};
+}
+
+// TRAVERSAL SECTION
+function initTraversalSection(){
+  const canvas=document.getElementById('traversalCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height-0,28);
+  const ss=document.getElementById('start-select');
+  if(!ss.children.length)LOCATIONS.forEach(l=>{const o=document.createElement('option');o.value=l.id;o.textContent=l.name;ss.appendChild(o);});
+  drawGraph(canvas,proj);
+  let timer=null;
+  document.getElementById('btn-reset-traversal').onclick=()=>{clearInterval(timer);drawGraph(canvas,proj);document.getElementById('traversal-log').innerHTML='';document.getElementById('step-badge').textContent='Step 0 / 0';};
+  document.getElementById('btn-run-traversal').onclick=()=>{
+    clearInterval(timer);
+    const algo=document.getElementById('algo-select').value,startId=parseInt(ss.value);
+    const log=document.getElementById('traversal-log'),badge=document.getElementById('step-badge');
+    log.innerHTML='';
+    const steps=algo==='bfs'?runBFS(startId):runDFS(startId);
+    const visited=new Set();let i=0;
+    timer=setInterval(()=>{
+      if(i>=steps.length){clearInterval(timer);return;}
+      const s=steps[i];visited.add(s.id);badge.textContent=`Step ${i+1} / ${steps.length}`;
+      drawGraph(canvas,proj,new Set([...visited].slice(0,-1)),s.id);
+      const line=document.createElement('div');line.className='log-line';
+      line.innerHTML=`<span class="log-step">[${i+1}]</span> <span class="log-visit">${locById[s.id].name}</span>${s.via?' <span style="color:var(--text-dim)">via '+locById[s.via].name+'</span>':''}`;
+      log.appendChild(line);log.scrollTop=log.scrollHeight;i++;
+    },380);
+    document.getElementById('algo-info-text').innerHTML=algo==='bfs'
+      ?'<strong>BFS (Breadth-First Search)</strong><br>Explores layer by layer using a <em>queue (FIFO)</em>. Guarantees fewest hops.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure:</strong> CustomQueue'
+      :'<strong>DFS (Depth-First Search)</strong><br>Dives deep before backtracking using a <em>stack (LIFO)</em>.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure:</strong> CustomStack';
+  };
+}
+function runBFS(s){const visited=new Set([s]),q=[{id:s,via:null}],steps=[];while(q.length){const{id,via}=q.shift();steps.push({id,via});adj[id].forEach(e=>{if(!visited.has(e.to)){visited.add(e.to);q.push({id:e.to,via:id});}});}return steps;}
+function runDFS(s){const visited=new Set(),steps=[];function dfs(id,via){visited.add(id);steps.push({id,via});adj[id].forEach(e=>{if(!visited.has(e.to))dfs(e.to,id);});}dfs(s,null);return steps;}
+
+// DIJKSTRA SECTION
+function initDijkSection(){
+  const canvas=document.getElementById('dijkCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height,28);
+  const src=document.getElementById('dijk-source'),tgt=document.getElementById('dijk-target');
+  if(!src.children.length)LOCATIONS.forEach(l=>{let o=document.createElement('option');o.value=l.id;o.textContent=l.name;src.appendChild(o);o=document.createElement('option');o.value=l.id;o.textContent=l.name;tgt.appendChild(o);});
+  src.value=1;tgt.value=19;drawGraph(canvas,proj);
+  document.getElementById('btn-reset-dijk').onclick=()=>{drawGraph(canvas,proj);document.getElementById('dijk-log').innerHTML='';};
+  document.getElementById('btn-run-dijk').onclick=()=>{
+    const s=parseInt(src.value),t=parseInt(tgt.value);
+    const{dist,prev}=dijkstra(s);const log=document.getElementById('dijk-log');log.innerHTML='';
+    const path=[];let cur=t;while(cur!==null){path.unshift(cur);cur=prev[cur];}
+    const pathEdges=[];for(let i=0;i<path.length-1;i++)pathEdges.push({from:path[i],to:path[i+1]});
+    drawGraph(canvas,proj,new Set(path),t,null,pathEdges);
+    const addLine=html=>{const d=document.createElement('div');d.className='log-line';d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;};
+    addLine(`<span class="log-step">Source:</span> <span class="log-visit">${locById[s].name}</span>`);
+    addLine(`<span class="log-step">Target:</span> <span class="log-visit">${locById[t].name}</span>`);
+    if(dist[t]===Infinity){addLine(`<span class="log-result">⚠ No path found</span>`);}
+    else{
+      addLine(`<span class="log-done">📍 Total distance: ${dist[t]}m</span>`);
+      addLine(`<span class="log-step">Route (${path.length} stops):</span>`);
+      path.forEach((id,i)=>addLine(`<span class="log-edge">${i===0?'START':i===path.length-1?'END ':'→'}</span>  ${locById[id].name} <span style="color:var(--text-dim)">(+${i===0?0:dist[id]-dist[path[i-1]]}m)</span>`));
+    }
+  };
+}
+function dijkstra(startId){
+  const dist={},prev={},visited=new Set();
+  LOCATIONS.forEach(l=>{dist[l.id]=Infinity;prev[l.id]=null;});dist[startId]=0;
+  const pq=[[0,startId]];
+  while(pq.length){pq.sort((a,b)=>a[0]-b[0]);const[d,u]=pq.shift();if(visited.has(u))continue;visited.add(u);adj[u].forEach(e=>{const nd=d+e.dist;if(nd<dist[e.to]){dist[e.to]=nd;prev[e.to]=u;pq.push([nd,e.to]);}});}
+  return{dist,prev};
+}
+
+// MST SECTION
+function initMSTSection(){
+  const canvas=document.getElementById('mstCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height,28);drawGraph(canvas,proj);
+  document.getElementById('btn-reset-mst').onclick=()=>{drawGraph(canvas,proj);document.getElementById('mst-log').innerHTML='';};
+  document.getElementById('mst-algo-select').onchange=function(){
+    document.getElementById('mst-info-text').innerHTML=this.value==='kruskal'
+      ?'<strong>Kruskal\'s Algorithm</strong><br>Sorts edges by weight and greedily adds, using Union-Find for cycle detection.<br><br><strong>Complexity:</strong> O(E log E)<br><strong>Structure:</strong> CustomDisjointSet'
+      :'<strong>Prim\'s Algorithm</strong><br>Grows MST from a root by always picking the cheapest crossing edge.<br><br><strong>Complexity:</strong> O((V+E) log V)<br><strong>Structure:</strong> CustomHeap';
+  };
+  document.getElementById('btn-run-mst').onclick=()=>{
+    const algo=document.getElementById('mst-algo-select').value;
+    const{mstEdges,totalWeight}=algo==='kruskal'?kruskal():prim(1);
+    drawGraph(canvas,proj,new Set(),null,mstEdges,null);
+    const log=document.getElementById('mst-log');log.innerHTML='';
+    const addLine=html=>{const d=document.createElement('div');d.className='log-line';d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;};
+    addLine(`<span class="log-done">✓ MST — ${algo.charAt(0).toUpperCase()+algo.slice(1)}</span>`);
+    addLine(`<span class="log-step">Total MST weight: ${totalWeight}m | Edges: ${mstEdges.length}</span>`);addLine('');
+    mstEdges.forEach((e,i)=>addLine(`<span class="log-edge">[${i+1}]</span> ${locById[e.from].name} ↔ ${locById[e.to].name} <span style="color:var(--text-dim)">${e.dist}m</span>`));
+  };
+}
+function kruskal(){const edges=[...ROADS].sort((a,b)=>a.dist-b.dist);const parent={},rank={};LOCATIONS.forEach(l=>{parent[l.id]=l.id;rank[l.id]=0;});function find(x){if(parent[x]!==x)parent[x]=find(parent[x]);return parent[x];}function union(a,b){const ra=find(a),rb=find(b);if(ra===rb)return false;if(rank[ra]<rank[rb])parent[ra]=rb;else if(rank[ra]>rank[rb])parent[rb]=ra;else{parent[rb]=ra;rank[ra]++;}return true;}const mstEdges=[];let totalWeight=0;edges.forEach(e=>{if(union(e.from,e.to)){mstEdges.push(e);totalWeight+=e.dist;}});return{mstEdges,totalWeight};}
+function prim(startId){const visited=new Set([startId]),mstEdges=[];let totalWeight=0;const pq=adj[startId].map(e=>({from:startId,to:e.to,dist:e.dist}));while(pq.length&&visited.size<LOCATIONS.length){pq.sort((a,b)=>a.dist-b.dist);const best=pq.shift();if(visited.has(best.to))continue;visited.add(best.to);mstEdges.push(best);totalWeight+=best.dist;adj[best.to].forEach(e=>{if(!visited.has(e.to))pq.push({from:best.to,to:e.to,dist:e.dist});});}return{mstEdges,totalWeight};}
+
+// DP SECTION
+const SECTORS=['Maintenance','Delivery','Waste','Security','Grounds'];
+const SECTOR_COLORS=['#00d4aa','#60a5fa','#f59e0b','#ef4444','#a78bfa'];
+const SAMPLE_REQUESTS=[{type:'Maintenance',priority:'Critical',cost:40000},{type:'Maintenance',priority:'High',cost:35000},{type:'Maintenance',priority:'High',cost:25000},{type:'Maintenance',priority:'Medium',cost:20000},{type:'Maintenance',priority:'Low',cost:15000},{type:'Delivery',priority:'High',cost:30000},{type:'Delivery',priority:'Medium',cost:25000},{type:'Delivery',priority:'Medium',cost:20000},{type:'Delivery',priority:'Low',cost:15000},{type:'Waste',priority:'High',cost:30000},{type:'Waste',priority:'Medium',cost:20000},{type:'Waste',priority:'Low',cost:15000},{type:'Security',priority:'Critical',cost:35000},{type:'Security',priority:'High',cost:20000},{type:'Security',priority:'Low',cost:10000},{type:'Grounds',priority:'Medium',cost:15000},{type:'Grounds',priority:'Low',cost:10000},{type:'Grounds',priority:'Low',cost:8000}];
+const PW={Critical:4,High:3,Medium:2,Low:1};
+const UNIT=1000;
+function runDP(budget){
+  const B=Math.floor(budget/UNIT);
+  const bc={};
+  SECTORS.forEach(type=>{const reqs=SAMPLE_REQUESTS.filter(r=>r.type===type);const curve=new Array(B+1).fill(0);reqs.forEach(req=>{const w=Math.ceil(req.cost/UNIT),v=PW[req.priority];for(let b=B;b>=w;b--)curve[b]=Math.max(curve[b],curve[b-w]+v);});bc[type]=curve;});
+  const n=SECTORS.length,dp=Array.from({length:n+1},()=>new Array(B+1).fill(0)),give=Array.from({length:n+1},()=>new Array(B+1).fill(0));
+  for(let i=1;i<=n;i++){const c=bc[SECTORS[i-1]];for(let b=0;b<=B;b++){let best=0,bestG=0;for(let a=0;a<=b;a++){const cand=dp[i-1][b-a]+(c[a]||0);if(cand>best){best=cand;bestG=a;}}dp[i][b]=best;give[i][b]=bestG;}}
+  const alloc={};let rem=B;for(let i=n;i>=1;i--){const a=give[i][rem];alloc[SECTORS[i-1]]=a*UNIT;rem-=a;}
+  return{alloc,totalBenefit:dp[n][B]};
+}
+document.getElementById('btn-run-dp').onclick=()=>{
+  const budget=parseInt(document.getElementById('budget-input').value)||288000;
+  const{alloc,totalBenefit}=runDP(budget);
+  const barsEl=document.getElementById('dp-bars'),logEl=document.getElementById('dp-log'),sumEl=document.getElementById('dp-summary');
+  barsEl.innerHTML='';logEl.innerHTML='';let spent=0;
+  SECTORS.forEach((s,i)=>{
+    const amt=alloc[s]||0;spent+=amt;const pct=budget>0?(amt/budget*100).toFixed(1):0;
+    const row=document.createElement('div');row.className='budget-row';
+    row.innerHTML=`<div class="budget-label">${s}</div><div class="bar-track"><div class="bar-fill" style="background:${SECTOR_COLORS[i]}" data-pct="${pct}"></div></div><div class="budget-val">GHS ${amt.toLocaleString()}</div>`;
+    barsEl.appendChild(row);
+    const line=document.createElement('div');line.className='log-line';line.innerHTML=`<span class="log-step">${s}:</span> <span class="log-result">GHS ${amt.toLocaleString()}</span> <span style="color:var(--text-dim)">(${pct}%)</span>`;logEl.appendChild(line);
+  });
+  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(el=>el.style.width=el.dataset.pct+'%');},50);
+  const reserve=budget-spent;
+  sumEl.innerHTML=`<strong>Budget:</strong> GHS ${budget.toLocaleString()} &nbsp;·&nbsp; <strong style="color:var(--accent)">Spent:</strong> GHS ${spent.toLocaleString()} &nbsp;·&nbsp; <strong style="color:var(--accent3)">Reserve:</strong> GHS ${reserve.toLocaleString()} &nbsp;·&nbsp; <strong style="color:#a78bfa">Benefit:</strong> ${totalBenefit}`;
+  const sumLine=document.createElement('div');sumLine.className='log-line';sumLine.innerHTML=`<br><span class="log-done">Benefit Score: ${totalBenefit} · Reserve: GHS ${reserve.toLocaleString()}</span>`;logEl.appendChild(sumLine);
+};
+setTimeout(()=>document.getElementById('btn-run-dp').click(),300);
+</script>
+</body>
+</html>
