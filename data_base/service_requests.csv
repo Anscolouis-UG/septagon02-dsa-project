@@ -1,10 +1,321 @@
 request_id,request_type,requester_location_id,priority,status,date_created,deadline,assigned_team,required_resource_type,estimated_duration_hours,description
-1,Electrical,27,Critical,Assigned,2026-07-24 08:15,2026-07-24 10:00,Electrical Unit,Electrician,2,Power outage affecting Commonwealth Hall Block A
-2,Network,8,High,Pending,2026-07-24 08:40,2026-07-24 13:00,ICT Directorate,Network Engineer,3,No internet connectivity in the Computer Science laboratory
-3,Cleaning,25,Low,Pending,2026-07-24 09:00,2026-07-24 17:00,Facilities,Cleaning Crew,4,General cleaning around Night Market
-4,Delivery,13,Medium,Assigned,2026-07-24 09:20,2026-07-24 12:00,Transport Unit,Campus Van,1,Deliver examination materials to UGBS
-5,Medical,19,Critical,In Progress,2026-07-24 09:45,2026-07-24 10:00,University Hospital,Ambulance,1,Medical emergency reported near University Hospital entrance
-6,Plumbing,30,High,Pending,2026-07-24 10:00,2026-07-24 16:00,Maintenance,Plumber,3,Water leakage reported in Akuafo Hall
-7,IT Support,8,Medium,Assigned,2026-07-24 10:15,2026-07-24 15:00,ICT Directorate,IT Technician,2,Projector not functioning in DCIT Lecture Room 2
-8,Waste,22,Low,Pending,2026-07-24 10:30,2026-07-24 18:00,Sanitation,Refuse Truck,2,Routine waste collection at Central Cafeteria
-9,Grounds,43,Low,Pending,2026-07-24 11:00,2026-07-25 15:00,Grounds Unit,Gardening Crew,5,Trim hedges around Botanical Gardens
+1,Delivery,CEGENSA,Medium,Pending,2026-08-23 10:00,2026-08-24 10:00,Maintenance Team,Personnel,2,Routine Delivery task at CEGENSA
+2,Maintenance,philosophy-&-classics,High,In Progress,2026-08-21 17:00,2026-08-22 17:00,Maintenance Team,Personnel,1,Routine Maintenance task at philosophy-&-classics
+3,Delivery,CSPS,Medium,Pending,2026-07-28 07:00,2026-08-01 07:00,Maintenance Team,Personnel,2,Routine Delivery task at CSPS
+4,Delivery,CEGENSA,Medium,In Progress,2026-08-17 09:00,2026-08-18 09:00,Maintenance Team,Personnel,5,Routine Delivery task at CEGENSA
+5,Delivery,performing-arts,Medium,Pending,2026-08-18 10:00,2026-08-19 10:00,Maintenance Team,Personnel,2,Routine Delivery task at performing-arts
+6,Delivery,africa-studies,Medium,Pending,2026-08-08 08:00,2026-08-09 08:00,Maintenance Team,Personnel,3,Routine Delivery task at africa-studies
+7,Maintenance,MIASA,High,Assigned,2026-08-03 11:00,2026-08-04 11:00,Maintenance Team,Personnel,5,Routine Maintenance task at MIASA
+8,Maintenance,c3ss,High,In Progress,2026-08-23 13:00,2026-08-24 13:00,Maintenance Team,Personnel,1,Routine Maintenance task at c3ss
+9,Grounds,MIASA,Low,Assigned,2026-08-02 14:00,2026-08-03 14:00,Maintenance Team,Personnel,5,Routine Grounds task at MIASA
+10,Security,jqb,Critical,In Progress,2026-08-18 09:00,2026-08-19 09:00,Maintenance Team,Personnel,1,Routine Security task at jqb
+11,Maintenance,modern-langs,High,Pending,2026-08-24 10:00,2026-08-25 10:00,Maintenance Team,Personnel,2,Routine Maintenance task at modern-langs
+12,Security,MIASA,Critical,In Progress,2026-08-08 13:00,2026-08-09 13:00,Maintenance Team,Personnel,3,Routine Security task at MIASA
+13,Maintenance,inter-prog-office,High,Assigned,2026-08-06 16:00,2026-08-07 16:00,Maintenance Team,Personnel,1,Routine Maintenance task at inter-prog-office
+14,Delivery,computer-science,Medium,Pending,2026-08-17 17:00,2026-08-18 17:00,Maintenance Team,Personnel,2,Routine Delivery task at computer-science
+15,Delivery,psychology,Medium,In Progress,2026-08-20 17:00,2026-08-21 17:00,Maintenance Team,Personnel,2,Routine Delivery task at psychology
+16,Delivery,humanities,Medium,Pending,2026-08-07 19:00,2026-08-08 19:00,Maintenance Team,Personnel,3,Routine Delivery task at humanities
+17,Delivery,animal-science-dept,Medium,In Progress,2026-08-06 20:00,2026-08-07 20:00,Maintenance Team,Personnel,3,Routine Delivery task at animal-science-dept
+18,Maintenance,law-school,High,In Progress,2026-08-12 20:00,2026-08-13 20:00,Maintenance Team,Personnel,4,Routine Maintenance task at law-school
+19,Maintenance,animal-biology,High,In Progress,2026-08-07 17:00,2026-08-08 17:00,Maintenance Team,Personnel,5,Routine Maintenance task at animal-biology
+20,Maintenance,ish-hostel,High,In Progress,2026-08-13 20:00,2026-08-14 20:00,Maintenance Team,Personnel,4,Routine Maintenance task at ish-hostel
+21,Maintenance,animal-biology,High,Pending,2026-08-16 13:00,2026-08-17 13:00,Maintenance Team,Personnel,1,Routine Maintenance task at animal-biology
+22,Security,biochem-dept,Critical,In Progress,2026-08-20 08:00,2026-08-21 08:00,Maintenance Team,Personnel,4,Routine Security task at biochem-dept
+23,Delivery,mfodwo,Medium,Assigned,2026-08-12 15:00,2026-08-13 15:00,Maintenance Team,Personnel,5,Routine Delivery task at mfodwo
+24,Maintenance,commonwealth-hall,High,In Progress,2026-08-27 06:00,2026-08-28 06:00,Maintenance Team,Personnel,1,Routine Maintenance task at commonwealth-hall
+25,Delivery,kwapong-hall,Medium,In Progress,2026-08-24 10:00,2026-08-25 10:00,Maintenance Team,Personnel,3,Routine Delivery task at kwapong-hall
+26,Maintenance,GRASAG,High,Pending,2026-08-05 13:00,2026-08-06 13:00,Maintenance Team,Personnel,3,Routine Maintenance task at GRASAG
+27,Grounds,education-dept,Low,Pending,2026-08-16 20:00,2026-08-17 20:00,Maintenance Team,Personnel,3,Routine Grounds task at education-dept
+28,Waste,business-school,Medium,Pending,2026-08-19 09:00,2026-08-20 09:00,Maintenance Team,Personnel,3,Routine Waste task at business-school
+29,Waste,bani-hostel,Medium,In Progress,2026-08-24 20:00,2026-08-25 20:00,Maintenance Team,Personnel,1,Routine Waste task at bani-hostel
+30,Delivery,UG-creche-kg,Medium,Assigned,2026-07-28 07:00,2026-08-01 07:00,Maintenance Team,Personnel,3,Routine Delivery task at UG-creche-kg
+31,Maintenance,music-dept,High,Pending,2026-08-18 07:00,2026-08-19 07:00,Maintenance Team,Personnel,4,Routine Maintenance task at music-dept
+32,Waste,kwapong-hall,Medium,Pending,2026-08-24 08:00,2026-08-25 08:00,Maintenance Team,Personnel,4,Routine Waste task at kwapong-hall
+33,Security,computer-science,Critical,In Progress,2026-08-08 14:00,2026-08-09 14:00,Maintenance Team,Personnel,4,Routine Security task at computer-science
+34,Grounds,bani-hostel,Low,In Progress,2026-08-24 17:00,2026-08-25 17:00,Maintenance Team,Personnel,2,Routine Grounds task at bani-hostel
+35,Waste,CERGIS,Medium,Assigned,2026-08-21 16:00,2026-08-22 16:00,Maintenance Team,Personnel,4,Routine Waste task at CERGIS
+36,Security,performing-arts,Critical,Pending,2026-08-03 09:00,2026-08-04 09:00,Maintenance Team,Personnel,1,Routine Security task at performing-arts
+37,Maintenance,jean-nelson-hall,High,In Progress,2026-08-17 09:00,2026-08-18 09:00,Maintenance Team,Personnel,2,Routine Maintenance task at jean-nelson-hall
+38,Maintenance,ecowas-coastal-marine,High,Pending,2026-08-20 06:00,2026-08-21 06:00,Maintenance Team,Personnel,1,Routine Maintenance task at ecowas-coastal-marine
+39,Security,great-hall,Critical,Pending,2026-08-02 14:00,2026-08-03 14:00,Maintenance Team,Personnel,3,Routine Security task at great-hall
+40,Delivery,marine-&-fisheries,Medium,In Progress,2026-08-17 08:00,2026-08-18 08:00,Maintenance Team,Personnel,5,Routine Delivery task at marine-&-fisheries
+41,Delivery,physics-dept,Medium,Assigned,2026-08-25 13:00,2026-08-26 13:00,Maintenance Team,Personnel,2,Routine Delivery task at physics-dept
+42,Maintenance,pent-hostel-block-c,High,Assigned,2026-08-13 11:00,2026-08-14 11:00,Maintenance Team,Personnel,4,Routine Maintenance task at pent-hostel-block-c
+43,Delivery,bank,Medium,In Progress,2026-08-01 16:00,2026-08-02 16:00,Maintenance Team,Personnel,1,Routine Delivery task at bank
+44,Maintenance,bank,High,Pending,2026-08-10 18:00,2026-08-11 18:00,Maintenance Team,Personnel,2,Routine Maintenance task at bank
+45,Maintenance,kwapong-hall,High,Assigned,2026-08-14 08:00,2026-08-15 08:00,Maintenance Team,Personnel,2,Routine Maintenance task at kwapong-hall
+46,Maintenance,physics-dept,High,Pending,2026-08-27 20:00,2026-08-28 20:00,Maintenance Team,Personnel,4,Routine Maintenance task at physics-dept
+47,Waste,commonwealth-hall,Medium,In Progress,2026-08-03 06:00,2026-08-04 06:00,Maintenance Team,Personnel,5,Routine Waste task at commonwealth-hall
+48,Waste,fam-and-consumer,Medium,Pending,2026-08-24 19:00,2026-08-25 19:00,Maintenance Team,Personnel,2,Routine Waste task at fam-and-consumer
+49,Delivery,sociology-dept,Medium,Assigned,2026-08-06 19:00,2026-08-07 19:00,Maintenance Team,Personnel,1,Routine Delivery task at sociology-dept
+50,Maintenance,balme-library,High,Assigned,2026-08-12 10:00,2026-08-13 10:00,Maintenance Team,Personnel,3,Routine Maintenance task at balme-library
+51,Delivery,bank,Medium,In Progress,2026-08-25 14:00,2026-08-26 14:00,Maintenance Team,Personnel,4,Routine Delivery task at bank
+52,Maintenance,teacher-education,High,In Progress,2026-08-06 06:00,2026-08-07 06:00,Maintenance Team,Personnel,5,Routine Maintenance task at teacher-education
+53,Maintenance,french-dept,High,In Progress,2026-08-01 06:00,2026-08-02 06:00,Maintenance Team,Personnel,4,Routine Maintenance task at french-dept
+54,Delivery,akuafo-hall-annex,Medium,In Progress,2026-08-05 06:00,2026-08-06 06:00,Maintenance Team,Personnel,1,Routine Delivery task at akuafo-hall-annex
+55,Security,animal-science-dept,Critical,In Progress,2026-08-19 07:00,2026-08-20 07:00,Maintenance Team,Personnel,2,Routine Security task at animal-science-dept
+56,Delivery,sey-hall,Medium,In Progress,2026-08-07 15:00,2026-08-08 15:00,Maintenance Team,Personnel,1,Routine Delivery task at sey-hall
+57,Delivery,cont-&-dist-school,Medium,In Progress,2026-08-21 15:00,2026-08-22 15:00,Maintenance Team,Personnel,5,Routine Delivery task at cont-&-dist-school
+58,Maintenance,political-science,High,In Progress,2026-08-06 16:00,2026-08-07 16:00,Maintenance Team,Personnel,3,Routine Maintenance task at political-science
+59,Maintenance,N-block,High,In Progress,2026-08-04 16:00,2026-08-05 16:00,Maintenance Team,Personnel,3,Routine Maintenance task at N-block
+60,Delivery,crop-science,Medium,In Progress,2026-07-28 13:00,2026-08-01 13:00,Maintenance Team,Personnel,5,Routine Delivery task at crop-science
+61,Grounds,crop-science,Low,In Progress,2026-08-17 09:00,2026-08-18 09:00,Maintenance Team,Personnel,3,Routine Grounds task at crop-science
+62,Maintenance,isser,High,Pending,2026-08-02 20:00,2026-08-03 20:00,Maintenance Team,Personnel,3,Routine Maintenance task at isser
+63,Maintenance,nursing-and-midwifery,High,In Progress,2026-08-26 14:00,2026-08-27 14:00,Maintenance Team,Personnel,3,Routine Maintenance task at nursing-and-midwifery
+64,Delivery,pent-hostel-block-b,Medium,In Progress,2026-08-16 06:00,2026-08-17 06:00,Maintenance Team,Personnel,5,Routine Delivery task at pent-hostel-block-b
+65,Maintenance,pent-hostel-block-c,High,Pending,2026-08-03 20:00,2026-08-04 20:00,Maintenance Team,Personnel,3,Routine Maintenance task at pent-hostel-block-c
+66,Maintenance,philosophy-&-classics,High,Pending,2026-08-23 14:00,2026-08-24 14:00,Maintenance Team,Personnel,3,Routine Maintenance task at philosophy-&-classics
+67,Maintenance,info-studies,High,Pending,2026-08-22 11:00,2026-08-23 11:00,Maintenance Team,Personnel,3,Routine Maintenance task at info-studies
+68,Delivery,plant-&-envt-biology,Medium,Pending,2026-08-27 06:00,2026-08-28 06:00,Maintenance Team,Personnel,4,Routine Delivery task at plant-&-envt-biology
+69,Waste,c3ss,Medium,Pending,2026-07-28 11:00,2026-08-01 11:00,Maintenance Team,Personnel,3,Routine Waste task at c3ss
+70,Maintenance,nursing-and-midwifery,High,Assigned,2026-08-17 17:00,2026-08-18 17:00,Maintenance Team,Personnel,5,Routine Maintenance task at nursing-and-midwifery
+71,Maintenance,crop-science,High,Pending,2026-08-22 20:00,2026-08-23 20:00,Maintenance Team,Personnel,5,Routine Maintenance task at crop-science
+72,Maintenance,maison-francaise,High,Pending,2026-08-18 14:00,2026-08-19 14:00,Maintenance Team,Personnel,4,Routine Maintenance task at maison-francaise
+73,Maintenance,agric-faculty,High,Pending,2026-08-11 20:00,2026-08-12 20:00,Maintenance Team,Personnel,3,Routine Maintenance task at agric-faculty
+74,Maintenance,physics-dept,High,Assigned,2026-08-21 07:00,2026-08-22 07:00,Maintenance Team,Personnel,5,Routine Maintenance task at physics-dept
+75,Security,research-office,Critical,Pending,2026-08-19 17:00,2026-08-20 17:00,Maintenance Team,Personnel,2,Routine Security task at research-office
+76,Security,education-dept,Critical,Pending,2026-08-13 06:00,2026-08-14 06:00,Maintenance Team,Personnel,3,Routine Security task at education-dept
+77,Waste,research-office,Medium,In Progress,2026-08-25 16:00,2026-08-26 16:00,Maintenance Team,Personnel,2,Routine Waste task at research-office
+78,Maintenance,cafeteria,High,Pending,2026-08-03 12:00,2026-08-04 12:00,Maintenance Team,Personnel,4,Routine Maintenance task at cafeteria
+79,Maintenance,pharmacy-school,High,Pending,2026-08-11 10:00,2026-08-12 10:00,Maintenance Team,Personnel,2,Routine Maintenance task at pharmacy-school
+80,Maintenance,geology-dept,High,Assigned,2026-08-12 11:00,2026-08-13 11:00,Maintenance Team,Personnel,1,Routine Maintenance task at geology-dept
+81,Grounds,soil-science,Low,In Progress,2026-08-11 16:00,2026-08-12 16:00,Maintenance Team,Personnel,4,Routine Grounds task at soil-science
+82,Delivery,kwapong-hall,Medium,Pending,2026-08-10 06:00,2026-08-11 06:00,Maintenance Team,Personnel,3,Routine Delivery task at kwapong-hall
+83,Maintenance,political-science,High,In Progress,2026-08-01 07:00,2026-08-02 07:00,Maintenance Team,Personnel,4,Routine Maintenance task at political-science
+84,Maintenance,french-dept,High,In Progress,2026-08-13 15:00,2026-08-14 15:00,Maintenance Team,Personnel,1,Routine Maintenance task at french-dept
+85,Maintenance,evandy-hostel,High,Pending,2026-08-06 10:00,2026-08-07 10:00,Maintenance Team,Personnel,4,Routine Maintenance task at evandy-hostel
+86,Maintenance,kwapong-hall,High,In Progress,2026-08-21 17:00,2026-08-22 17:00,Maintenance Team,Personnel,2,Routine Maintenance task at kwapong-hall
+87,Maintenance,animal-science-dept,High,Assigned,2026-08-21 20:00,2026-08-22 20:00,Maintenance Team,Personnel,5,Routine Maintenance task at animal-science-dept
+88,Maintenance,adult-edu,High,Assigned,2026-08-23 20:00,2026-08-24 20:00,Maintenance Team,Personnel,5,Routine Maintenance task at adult-edu
+89,Maintenance,research-office,High,In Progress,2026-08-10 12:00,2026-08-11 12:00,Maintenance Team,Personnel,3,Routine Maintenance task at research-office
+90,Delivery,geology-dept,Medium,Assigned,2026-08-13 16:00,2026-08-14 16:00,Maintenance Team,Personnel,2,Routine Delivery task at geology-dept
+91,Delivery,economic-policy,Medium,Pending,2026-08-12 14:00,2026-08-13 14:00,Maintenance Team,Personnel,3,Routine Delivery task at economic-policy
+92,Maintenance,GRASAG,High,In Progress,2026-08-25 15:00,2026-08-26 15:00,Maintenance Team,Personnel,3,Routine Maintenance task at GRASAG
+93,Delivery,nursing-and-midwifery,Medium,In Progress,2026-08-21 09:00,2026-08-22 09:00,Maintenance Team,Personnel,4,Routine Delivery task at nursing-and-midwifery
+94,Waste,UG-Stadium,Medium,Pending,2026-08-05 16:00,2026-08-06 16:00,Maintenance Team,Personnel,3,Routine Waste task at UG-Stadium
+95,Delivery,old-pentagon-blocks,Medium,Pending,2026-08-19 11:00,2026-08-20 11:00,Maintenance Team,Personnel,2,Routine Delivery task at old-pentagon-blocks
+96,Delivery,maths-dept,Medium,Pending,2026-08-25 09:00,2026-08-26 09:00,Maintenance Team,Personnel,1,Routine Delivery task at maths-dept
+97,Maintenance,socioso,High,Pending,2026-08-19 19:00,2026-08-20 19:00,Maintenance Team,Personnel,4,Routine Maintenance task at socioso
+98,Delivery,mensah-sarbah-hall,Medium,In Progress,2026-08-18 09:00,2026-08-19 09:00,Maintenance Team,Personnel,4,Routine Delivery task at mensah-sarbah-hall
+99,Delivery,physics-dept,Medium,In Progress,2026-08-04 16:00,2026-08-05 16:00,Maintenance Team,Personnel,1,Routine Delivery task at physics-dept
+100,Security,philosophy-&-classics,Critical,Pending,2026-08-24 12:00,2026-08-25 12:00,Maintenance Team,Personnel,2,Routine Security task at philosophy-&-classics
+101,Waste,cafeteria,Medium,Pending,2026-08-16 13:00,2026-08-17 13:00,Maintenance Team,Personnel,5,Routine Waste task at cafeteria
+102,Maintenance,adult-edu,High,Assigned,2026-08-14 08:00,2026-08-15 08:00,Maintenance Team,Personnel,5,Routine Maintenance task at adult-edu
+103,Grounds,jubilee-hall,Low,Assigned,2026-08-10 18:00,2026-08-11 18:00,Maintenance Team,Personnel,5,Routine Grounds task at jubilee-hall
+104,Waste,business-school,Medium,In Progress,2026-08-13 19:00,2026-08-14 19:00,Maintenance Team,Personnel,4,Routine Waste task at business-school
+105,Security,socioso,Critical,Pending,2026-08-14 10:00,2026-08-15 10:00,Maintenance Team,Personnel,3,Routine Security task at socioso
+106,Waste,akuafo-hall,Medium,Pending,2026-08-15 16:00,2026-08-16 16:00,Maintenance Team,Personnel,3,Routine Waste task at akuafo-hall
+107,Delivery,ghkorea-info,Medium,Assigned,2026-08-09 09:00,2026-08-10 09:00,Maintenance Team,Personnel,3,Routine Delivery task at ghkorea-info
+108,Maintenance,bani-hostel,High,Pending,2026-08-02 08:00,2026-08-03 08:00,Maintenance Team,Personnel,2,Routine Maintenance task at bani-hostel
+109,Maintenance,biochem-dept,High,Pending,2026-08-22 09:00,2026-08-23 09:00,Maintenance Team,Personnel,4,Routine Maintenance task at biochem-dept
+110,Delivery,bani-hostel,Medium,Pending,2026-08-14 12:00,2026-08-15 12:00,Maintenance Team,Personnel,2,Routine Delivery task at bani-hostel
+111,Waste,mfodwo,Medium,In Progress,2026-08-24 15:00,2026-08-25 15:00,Maintenance Team,Personnel,1,Routine Waste task at mfodwo
+112,Security,evandy-hostel,Critical,Pending,2026-08-12 13:00,2026-08-13 13:00,Maintenance Team,Personnel,3,Routine Security task at evandy-hostel
+113,Maintenance,mfodwo,High,Assigned,2026-08-27 20:00,2026-08-28 20:00,Maintenance Team,Personnel,5,Routine Maintenance task at mfodwo
+114,Waste,bani-hostel,Medium,Pending,2026-08-25 15:00,2026-08-26 15:00,Maintenance Team,Personnel,4,Routine Waste task at bani-hostel
+115,Maintenance,GRASAG,High,Assigned,2026-08-15 06:00,2026-08-16 06:00,Maintenance Team,Personnel,3,Routine Maintenance task at GRASAG
+116,Delivery,CERGIS,Medium,Assigned,2026-08-23 08:00,2026-08-24 08:00,Maintenance Team,Personnel,2,Routine Delivery task at CERGIS
+117,Grounds,kwapong-hall,Low,Assigned,2026-07-28 20:00,2026-08-01 20:00,Maintenance Team,Personnel,5,Routine Grounds task at kwapong-hall
+118,Delivery,CEGENSA,Medium,Assigned,2026-08-02 16:00,2026-08-03 16:00,Maintenance Team,Personnel,2,Routine Delivery task at CEGENSA
+119,Security,geography-dept,Critical,Assigned,2026-08-01 10:00,2026-08-02 10:00,Maintenance Team,Personnel,3,Routine Security task at geography-dept
+120,Maintenance,GCB-lecture-hall,High,Assigned,2026-08-10 18:00,2026-08-11 18:00,Maintenance Team,Personnel,3,Routine Maintenance task at GCB-lecture-hall
+121,Waste,cont-&-dist-school,Medium,Pending,2026-08-08 19:00,2026-08-09 19:00,Maintenance Team,Personnel,4,Routine Waste task at cont-&-dist-school
+122,Maintenance,bani-hostel,High,Pending,2026-08-01 11:00,2026-08-02 11:00,Maintenance Team,Personnel,1,Routine Maintenance task at bani-hostel
+123,Waste,pent-hostel-block-b,Medium,Pending,2026-08-01 18:00,2026-08-02 18:00,Maintenance Team,Personnel,2,Routine Waste task at pent-hostel-block-b
+124,Maintenance,biotech-lab,High,Pending,2026-08-19 08:00,2026-08-20 08:00,Maintenance Team,Personnel,2,Routine Maintenance task at biotech-lab
+125,Delivery,religions,Medium,Assigned,2026-08-18 09:00,2026-08-19 09:00,Maintenance Team,Personnel,3,Routine Delivery task at religions
+126,Waste,computer-science,Medium,In Progress,2026-08-19 15:00,2026-08-20 15:00,Maintenance Team,Personnel,1,Routine Waste task at computer-science
+127,Waste,chemistry-dept,Medium,In Progress,2026-08-09 07:00,2026-08-10 07:00,Maintenance Team,Personnel,1,Routine Waste task at chemistry-dept
+128,Security,evandy-hostel,Critical,Assigned,2026-08-21 20:00,2026-08-22 20:00,Maintenance Team,Personnel,4,Routine Security task at evandy-hostel
+129,Security,home-science,Critical,In Progress,2026-08-02 15:00,2026-08-03 15:00,Maintenance Team,Personnel,2,Routine Security task at home-science
+130,Maintenance,economic-policy,High,In Progress,2026-08-27 16:00,2026-08-28 16:00,Maintenance Team,Personnel,1,Routine Maintenance task at economic-policy
+131,Waste,sey-hall,Medium,Assigned,2026-08-25 06:00,2026-08-26 06:00,Maintenance Team,Personnel,5,Routine Waste task at sey-hall
+132,Delivery,maison-francaise,Medium,In Progress,2026-08-02 14:00,2026-08-03 14:00,Maintenance Team,Personnel,3,Routine Delivery task at maison-francaise
+133,Maintenance,cont-&-dist-school,High,Pending,2026-08-26 13:00,2026-08-27 13:00,Maintenance Team,Personnel,4,Routine Maintenance task at cont-&-dist-school
+134,Grounds,old-pentagon-blocks,Low,In Progress,2026-08-26 13:00,2026-08-27 13:00,Maintenance Team,Personnel,2,Routine Grounds task at old-pentagon-blocks
+135,Delivery,bank,Medium,Assigned,2026-08-16 16:00,2026-08-17 16:00,Maintenance Team,Personnel,5,Routine Delivery task at bank
+136,Waste,kwapong-hall,Medium,Assigned,2026-08-24 13:00,2026-08-25 13:00,Maintenance Team,Personnel,4,Routine Waste task at kwapong-hall
+137,Waste,jean-nelson-hall,Medium,Pending,2026-08-08 11:00,2026-08-09 11:00,Maintenance Team,Personnel,1,Routine Waste task at jean-nelson-hall
+138,Maintenance,performing-arts,High,Assigned,2026-08-07 18:00,2026-08-08 18:00,Maintenance Team,Personnel,5,Routine Maintenance task at performing-arts
+139,Delivery,MIASA,Medium,Assigned,2026-08-10 06:00,2026-08-11 06:00,Maintenance Team,Personnel,3,Routine Delivery task at MIASA
+140,Maintenance,marine-&-fisheries,High,Assigned,2026-08-11 18:00,2026-08-12 18:00,Maintenance Team,Personnel,3,Routine Maintenance task at marine-&-fisheries
+141,Maintenance,jubilee-hall,High,Assigned,2026-08-22 20:00,2026-08-23 20:00,Maintenance Team,Personnel,5,Routine Maintenance task at jubilee-hall
+142,Maintenance,geology-dept,High,In Progress,2026-08-02 09:00,2026-08-03 09:00,Maintenance Team,Personnel,4,Routine Maintenance task at geology-dept
+143,Delivery,music-dept,Medium,In Progress,2026-08-22 13:00,2026-08-23 13:00,Maintenance Team,Personnel,4,Routine Delivery task at music-dept
+144,Delivery,biotech-lab,Medium,Pending,2026-08-02 10:00,2026-08-03 10:00,Maintenance Team,Personnel,4,Routine Delivery task at biotech-lab
+145,Delivery,agric-faculty,Medium,Assigned,2026-08-21 15:00,2026-08-22 15:00,Maintenance Team,Personnel,4,Routine Delivery task at agric-faculty
+146,Delivery,isser,Medium,In Progress,2026-08-13 17:00,2026-08-14 17:00,Maintenance Team,Personnel,3,Routine Delivery task at isser
+147,Maintenance,pharmacy-school,High,Assigned,2026-08-08 10:00,2026-08-09 10:00,Maintenance Team,Personnel,2,Routine Maintenance task at pharmacy-school
+148,Maintenance,geology-dept,High,In Progress,2026-08-10 07:00,2026-08-11 07:00,Maintenance Team,Personnel,5,Routine Maintenance task at geology-dept
+149,Grounds,volta-hall,Low,Pending,2026-08-05 09:00,2026-08-06 09:00,Maintenance Team,Personnel,4,Routine Grounds task at volta-hall
+150,Maintenance,jean-nelson-hall,High,In Progress,2026-08-24 14:00,2026-08-25 14:00,Maintenance Team,Personnel,3,Routine Maintenance task at jean-nelson-hall
+151,Grounds,geology-dept,Low,Assigned,2026-08-09 09:00,2026-08-10 09:00,Maintenance Team,Personnel,2,Routine Grounds task at geology-dept
+152,Maintenance,ecowas-coastal-marine,High,Assigned,2026-08-17 08:00,2026-08-18 08:00,Maintenance Team,Personnel,1,Routine Maintenance task at ecowas-coastal-marine
+153,Grounds,commonwealth-hall,Low,Pending,2026-08-09 17:00,2026-08-10 17:00,Maintenance Team,Personnel,4,Routine Grounds task at commonwealth-hall
+154,Maintenance,biomed-dept,High,Assigned,2026-08-18 10:00,2026-08-19 10:00,Maintenance Team,Personnel,4,Routine Maintenance task at biomed-dept
+155,Delivery,geography-dept,Medium,Assigned,2026-08-01 10:00,2026-08-02 10:00,Maintenance Team,Personnel,1,Routine Delivery task at geography-dept
+156,Waste,CERGIS,Medium,In Progress,2026-08-15 07:00,2026-08-16 07:00,Maintenance Team,Personnel,1,Routine Waste task at CERGIS
+157,Maintenance,sey-hall,High,Pending,2026-08-09 07:00,2026-08-10 07:00,Maintenance Team,Personnel,1,Routine Maintenance task at sey-hall
+158,Delivery,cont-&-dist-school,Medium,In Progress,2026-08-19 15:00,2026-08-20 15:00,Maintenance Team,Personnel,2,Routine Delivery task at cont-&-dist-school
+159,Waste,MIASA,Medium,Assigned,2026-08-14 20:00,2026-08-15 20:00,Maintenance Team,Personnel,3,Routine Waste task at MIASA
+160,Security,engineering,Critical,In Progress,2026-08-09 15:00,2026-08-10 15:00,Maintenance Team,Personnel,1,Routine Security task at engineering
+161,Delivery,UG-Stadium,Medium,Pending,2026-08-03 18:00,2026-08-04 18:00,Maintenance Team,Personnel,2,Routine Delivery task at UG-Stadium
+162,Maintenance,econs-dept,High,Pending,2026-08-05 09:00,2026-08-06 09:00,Maintenance Team,Personnel,5,Routine Maintenance task at econs-dept
+163,Maintenance,balme-library,High,In Progress,2026-08-13 13:00,2026-08-14 13:00,Maintenance Team,Personnel,5,Routine Maintenance task at balme-library
+164,Delivery,CSPS,Medium,In Progress,2026-08-07 10:00,2026-08-08 10:00,Maintenance Team,Personnel,3,Routine Delivery task at CSPS
+165,Waste,pharmacy-school,Medium,Pending,2026-08-02 16:00,2026-08-03 16:00,Maintenance Team,Personnel,3,Routine Waste task at pharmacy-school
+166,Waste,mensah-sarbah-hall,Medium,Pending,2026-08-18 16:00,2026-08-19 16:00,Maintenance Team,Personnel,4,Routine Waste task at mensah-sarbah-hall
+167,Maintenance,maths-dept,High,Assigned,2026-08-20 08:00,2026-08-21 08:00,Maintenance Team,Personnel,2,Routine Maintenance task at maths-dept
+168,Maintenance,computer-science,High,In Progress,2026-08-25 10:00,2026-08-26 10:00,Maintenance Team,Personnel,5,Routine Maintenance task at computer-science
+169,Security,nursing-and-midwifery,Critical,In Progress,2026-08-03 13:00,2026-08-04 13:00,Maintenance Team,Personnel,3,Routine Security task at nursing-and-midwifery
+170,Delivery,psychology,Medium,Assigned,2026-08-16 14:00,2026-08-17 14:00,Maintenance Team,Personnel,4,Routine Delivery task at psychology
+171,Maintenance,c3ss,High,Assigned,2026-08-13 17:00,2026-08-14 17:00,Maintenance Team,Personnel,5,Routine Maintenance task at c3ss
+172,Maintenance,fam-and-consumer,High,In Progress,2026-08-07 16:00,2026-08-08 16:00,Maintenance Team,Personnel,5,Routine Maintenance task at fam-and-consumer
+173,Grounds,valco-trust-hostel,Low,In Progress,2026-08-26 10:00,2026-08-27 10:00,Maintenance Team,Personnel,1,Routine Grounds task at valco-trust-hostel
+174,Waste,education-dept,Medium,In Progress,2026-08-15 14:00,2026-08-16 14:00,Maintenance Team,Personnel,4,Routine Waste task at education-dept
+175,Security,geography-dept,Critical,In Progress,2026-08-18 12:00,2026-08-19 12:00,Maintenance Team,Personnel,4,Routine Security task at geography-dept
+176,Grounds,socioso,Low,Assigned,2026-08-11 12:00,2026-08-12 12:00,Maintenance Team,Personnel,3,Routine Grounds task at socioso
+177,Delivery,chemistry-dept,Medium,In Progress,2026-08-10 12:00,2026-08-11 12:00,Maintenance Team,Personnel,4,Routine Delivery task at chemistry-dept
+178,Maintenance,CERGIS,High,In Progress,2026-08-26 18:00,2026-08-27 18:00,Maintenance Team,Personnel,1,Routine Maintenance task at CERGIS
+179,Delivery,french-dept,Medium,Pending,2026-08-08 11:00,2026-08-09 11:00,Maintenance Team,Personnel,4,Routine Delivery task at french-dept
+180,Security,balme-library,Critical,In Progress,2026-08-21 19:00,2026-08-22 19:00,Maintenance Team,Personnel,4,Routine Security task at balme-library
+181,Delivery,geology-dept,Medium,In Progress,2026-08-16 11:00,2026-08-17 11:00,Maintenance Team,Personnel,4,Routine Delivery task at geology-dept
+182,Delivery,inter-affairs,Medium,In Progress,2026-08-06 10:00,2026-08-07 10:00,Maintenance Team,Personnel,2,Routine Delivery task at inter-affairs
+183,Security,nursing-and-midwifery,Critical,Pending,2026-08-22 13:00,2026-08-23 13:00,Maintenance Team,Personnel,1,Routine Security task at nursing-and-midwifery
+184,Grounds,legon-hall,Low,In Progress,2026-08-25 09:00,2026-08-26 09:00,Maintenance Team,Personnel,2,Routine Grounds task at legon-hall
+185,Maintenance,biomed-dept,High,Pending,2026-08-17 12:00,2026-08-18 12:00,Maintenance Team,Personnel,2,Routine Maintenance task at biomed-dept
+186,Grounds,religions,Low,In Progress,2026-08-14 07:00,2026-08-15 07:00,Maintenance Team,Personnel,2,Routine Grounds task at religions
+187,Delivery,ghkorea-info,Medium,In Progress,2026-08-09 14:00,2026-08-10 14:00,Maintenance Team,Personnel,3,Routine Delivery task at ghkorea-info
+188,Delivery,sociology-dept,Medium,Assigned,2026-08-15 09:00,2026-08-16 09:00,Maintenance Team,Personnel,5,Routine Delivery task at sociology-dept
+189,Maintenance,geology-dept,High,In Progress,2026-08-19 14:00,2026-08-20 14:00,Maintenance Team,Personnel,2,Routine Maintenance task at geology-dept
+190,Security,soil-science,Critical,Assigned,2026-08-24 18:00,2026-08-25 18:00,Maintenance Team,Personnel,3,Routine Security task at soil-science
+191,Security,business-school,Critical,Pending,2026-08-08 19:00,2026-08-09 19:00,Maintenance Team,Personnel,3,Routine Security task at business-school
+192,Waste,jean-nelson-hall,Medium,Assigned,2026-08-18 16:00,2026-08-19 16:00,Maintenance Team,Personnel,2,Routine Waste task at jean-nelson-hall
+193,Delivery,sociology-dept,Medium,In Progress,2026-08-11 11:00,2026-08-12 11:00,Maintenance Team,Personnel,5,Routine Delivery task at sociology-dept
+194,Maintenance,GCB-lecture-hall,High,In Progress,2026-08-27 09:00,2026-08-28 09:00,Maintenance Team,Personnel,2,Routine Maintenance task at GCB-lecture-hall
+195,Delivery,modern-langs,Medium,Assigned,2026-08-27 18:00,2026-08-28 18:00,Maintenance Team,Personnel,1,Routine Delivery task at modern-langs
+196,Maintenance,socioso,High,Assigned,2026-08-22 20:00,2026-08-23 20:00,Maintenance Team,Personnel,4,Routine Maintenance task at socioso
+197,Grounds,pent-hostel-block-b,Low,Pending,2026-08-04 13:00,2026-08-05 13:00,Maintenance Team,Personnel,2,Routine Grounds task at pent-hostel-block-b
+198,Delivery,jean-nelson-hall,Medium,Pending,2026-08-10 19:00,2026-08-11 19:00,Maintenance Team,Personnel,4,Routine Delivery task at jean-nelson-hall
+199,Maintenance,pharmacy-school,High,Pending,2026-07-28 17:00,2026-08-01 17:00,Maintenance Team,Personnel,4,Routine Maintenance task at pharmacy-school
+200,Security,biochem-dept,Critical,Assigned,2026-08-02 13:00,2026-08-03 13:00,Maintenance Team,Personnel,3,Routine Security task at biochem-dept
+201,Delivery,N-block,Medium,Assigned,2026-08-20 07:00,2026-08-21 07:00,Maintenance Team,Personnel,5,Routine Delivery task at N-block
+202,Maintenance,french-dept,High,Assigned,2026-08-20 17:00,2026-08-21 17:00,Maintenance Team,Personnel,5,Routine Maintenance task at french-dept
+203,Maintenance,animal-science-dept,High,In Progress,2026-08-07 16:00,2026-08-08 16:00,Maintenance Team,Personnel,3,Routine Maintenance task at animal-science-dept
+204,Grounds,fam-and-consumer,Low,In Progress,2026-08-13 07:00,2026-08-14 07:00,Maintenance Team,Personnel,1,Routine Grounds task at fam-and-consumer
+205,Delivery,volta-hall,Medium,Pending,2026-08-09 20:00,2026-08-10 20:00,Maintenance Team,Personnel,1,Routine Delivery task at volta-hall
+206,Maintenance,humanities,High,Assigned,2026-08-09 11:00,2026-08-10 11:00,Maintenance Team,Personnel,4,Routine Maintenance task at humanities
+207,Maintenance,akuafo-hall-annex,High,In Progress,2026-08-13 15:00,2026-08-14 15:00,Maintenance Team,Personnel,2,Routine Maintenance task at akuafo-hall-annex
+208,Maintenance,econs-dept,High,Assigned,2026-08-19 19:00,2026-08-20 19:00,Maintenance Team,Personnel,5,Routine Maintenance task at econs-dept
+209,Delivery,law-school,Medium,Pending,2026-08-18 08:00,2026-08-19 08:00,Maintenance Team,Personnel,4,Routine Delivery task at law-school
+210,Delivery,pharmacy-school,Medium,Pending,2026-08-08 16:00,2026-08-09 16:00,Maintenance Team,Personnel,4,Routine Delivery task at pharmacy-school
+211,Security,valco-trust-hostel,Critical,Pending,2026-08-17 08:00,2026-08-18 08:00,Maintenance Team,Personnel,4,Routine Security task at valco-trust-hostel
+212,Security,jean-nelson-hall,Critical,Assigned,2026-08-09 16:00,2026-08-10 16:00,Maintenance Team,Personnel,3,Routine Security task at jean-nelson-hall
+213,Delivery,economic-policy,Medium,Assigned,2026-08-06 12:00,2026-08-07 12:00,Maintenance Team,Personnel,1,Routine Delivery task at economic-policy
+214,Maintenance,evandy-hostel,High,Assigned,2026-08-11 15:00,2026-08-12 15:00,Maintenance Team,Personnel,3,Routine Maintenance task at evandy-hostel
+215,Maintenance,pent-hostel-block-c,High,Pending,2026-08-12 10:00,2026-08-13 10:00,Maintenance Team,Personnel,5,Routine Maintenance task at pent-hostel-block-c
+216,Security,inter-affairs,Critical,Assigned,2026-08-19 17:00,2026-08-20 17:00,Maintenance Team,Personnel,3,Routine Security task at inter-affairs
+217,Waste,modern-langs,Medium,Assigned,2026-08-19 18:00,2026-08-20 18:00,Maintenance Team,Personnel,2,Routine Waste task at modern-langs
+218,Delivery,mensah-sarbah-annex,Medium,In Progress,2026-08-08 16:00,2026-08-09 16:00,Maintenance Team,Personnel,2,Routine Delivery task at mensah-sarbah-annex
+219,Delivery,mensah-sarbah-hall,Medium,Assigned,2026-08-20 06:00,2026-08-21 06:00,Maintenance Team,Personnel,4,Routine Delivery task at mensah-sarbah-hall
+220,Maintenance,jqb,High,Pending,2026-08-23 08:00,2026-08-24 08:00,Maintenance Team,Personnel,3,Routine Maintenance task at jqb
+221,Maintenance,cont-&-dist-school,High,Pending,2026-08-05 09:00,2026-08-06 09:00,Maintenance Team,Personnel,5,Routine Maintenance task at cont-&-dist-school
+222,Security,jqb,Critical,Assigned,2026-08-16 14:00,2026-08-17 14:00,Maintenance Team,Personnel,2,Routine Security task at jqb
+223,Maintenance,sociology-dept,High,In Progress,2026-08-25 10:00,2026-08-26 10:00,Maintenance Team,Personnel,3,Routine Maintenance task at sociology-dept
+224,Waste,public-health,Medium,Pending,2026-08-02 08:00,2026-08-03 08:00,Maintenance Team,Personnel,4,Routine Waste task at public-health
+225,Grounds,limann-hall,Low,Assigned,2026-08-11 07:00,2026-08-12 07:00,Maintenance Team,Personnel,1,Routine Grounds task at limann-hall
+226,Maintenance,adult-edu,High,In Progress,2026-08-14 11:00,2026-08-15 11:00,Maintenance Team,Personnel,3,Routine Maintenance task at adult-edu
+227,Delivery,old-pentagon-blocks,Medium,In Progress,2026-08-11 07:00,2026-08-12 07:00,Maintenance Team,Personnel,2,Routine Delivery task at old-pentagon-blocks
+228,Delivery,mensah-sarbah-annex,Medium,In Progress,2026-08-17 11:00,2026-08-18 11:00,Maintenance Team,Personnel,2,Routine Delivery task at mensah-sarbah-annex
+229,Delivery,old-pentagon-blocks,Medium,In Progress,2026-08-26 13:00,2026-08-27 13:00,Maintenance Team,Personnel,3,Routine Delivery task at old-pentagon-blocks
+230,Delivery,religions,Medium,Pending,2026-08-04 06:00,2026-08-05 06:00,Maintenance Team,Personnel,3,Routine Delivery task at religions
+231,Grounds,religions,Low,In Progress,2026-08-03 09:00,2026-08-04 09:00,Maintenance Team,Personnel,2,Routine Grounds task at religions
+232,Maintenance,maison-francaise,High,In Progress,2026-08-21 17:00,2026-08-22 17:00,Maintenance Team,Personnel,5,Routine Maintenance task at maison-francaise
+233,Delivery,bank,Medium,Assigned,2026-08-04 20:00,2026-08-05 20:00,Maintenance Team,Personnel,1,Routine Delivery task at bank
+234,Waste,legon-hall-annex,Medium,Pending,2026-08-13 10:00,2026-08-14 10:00,Maintenance Team,Personnel,3,Routine Waste task at legon-hall-annex
+235,Maintenance,nursing-and-midwifery,High,Assigned,2026-08-07 19:00,2026-08-08 19:00,Maintenance Team,Personnel,1,Routine Maintenance task at nursing-and-midwifery
+236,Grounds,maison-francaise,Low,In Progress,2026-08-17 20:00,2026-08-18 20:00,Maintenance Team,Personnel,3,Routine Grounds task at maison-francaise
+237,Maintenance,soil-science,High,Assigned,2026-08-06 07:00,2026-08-07 07:00,Maintenance Team,Personnel,1,Routine Maintenance task at soil-science
+238,Delivery,pent-hostel-block-a,Medium,Pending,2026-08-20 15:00,2026-08-21 15:00,Maintenance Team,Personnel,1,Routine Delivery task at pent-hostel-block-a
+239,Waste,physics-dept,Medium,In Progress,2026-08-04 18:00,2026-08-05 18:00,Maintenance Team,Personnel,2,Routine Waste task at physics-dept
+240,Maintenance,commonwealth-hall,High,Pending,2026-08-06 15:00,2026-08-07 15:00,Maintenance Team,Personnel,2,Routine Maintenance task at commonwealth-hall
+241,Maintenance,archaeology,High,In Progress,2026-08-25 20:00,2026-08-26 20:00,Maintenance Team,Personnel,1,Routine Maintenance task at archaeology
+242,Maintenance,archaeology,High,Assigned,2026-08-04 14:00,2026-08-05 14:00,Maintenance Team,Personnel,2,Routine Maintenance task at archaeology
+243,Maintenance,CEGENSA,High,Assigned,2026-08-04 06:00,2026-08-05 06:00,Maintenance Team,Personnel,2,Routine Maintenance task at CEGENSA
+244,Delivery,biotech-lab,Medium,Pending,2026-08-05 10:00,2026-08-06 10:00,Maintenance Team,Personnel,2,Routine Delivery task at biotech-lab
+245,Waste,akuafo-hall-annex,Medium,Pending,2026-08-03 17:00,2026-08-04 17:00,Maintenance Team,Personnel,4,Routine Waste task at akuafo-hall-annex
+246,Delivery,jqb,Medium,Pending,2026-08-16 15:00,2026-08-17 15:00,Maintenance Team,Personnel,4,Routine Delivery task at jqb
+247,Delivery,legon-hall-annex,Medium,In Progress,2026-08-01 17:00,2026-08-02 17:00,Maintenance Team,Personnel,5,Routine Delivery task at legon-hall-annex
+248,Maintenance,pent-hostel-block-a,High,Assigned,2026-07-28 06:00,2026-08-01 06:00,Maintenance Team,Personnel,4,Routine Maintenance task at pent-hostel-block-a
+249,Delivery,philosophy-&-classics,Medium,Assigned,2026-08-15 17:00,2026-08-16 17:00,Maintenance Team,Personnel,1,Routine Delivery task at philosophy-&-classics
+250,Security,GCB-lecture-hall,Critical,Pending,2026-08-19 08:00,2026-08-20 08:00,Maintenance Team,Personnel,2,Routine Security task at GCB-lecture-hall
+251,Maintenance,old-pentagon-blocks,High,In Progress,2026-08-18 14:00,2026-08-19 14:00,Maintenance Team,Personnel,3,Routine Maintenance task at old-pentagon-blocks
+252,Maintenance,jubilee-hall,High,Assigned,2026-08-16 10:00,2026-08-17 10:00,Maintenance Team,Personnel,5,Routine Maintenance task at jubilee-hall
+253,Delivery,history-dept,Medium,Pending,2026-08-25 17:00,2026-08-26 17:00,Maintenance Team,Personnel,5,Routine Delivery task at history-dept
+254,Waste,marine-&-fisheries,Medium,Pending,2026-08-13 13:00,2026-08-14 13:00,Maintenance Team,Personnel,4,Routine Waste task at marine-&-fisheries
+255,Maintenance,pharmacy-school,High,In Progress,2026-08-12 12:00,2026-08-13 12:00,Maintenance Team,Personnel,1,Routine Maintenance task at pharmacy-school
+256,Maintenance,french-dept,High,Assigned,2026-08-21 10:00,2026-08-22 10:00,Maintenance Team,Personnel,2,Routine Maintenance task at french-dept
+257,Delivery,socioso,Medium,Pending,2026-08-02 07:00,2026-08-03 07:00,Maintenance Team,Personnel,1,Routine Delivery task at socioso
+258,Delivery,UG-Stadium,Medium,Pending,2026-08-11 18:00,2026-08-12 18:00,Maintenance Team,Personnel,5,Routine Delivery task at UG-Stadium
+259,Maintenance,limann-hall,High,In Progress,2026-08-17 11:00,2026-08-18 11:00,Maintenance Team,Personnel,1,Routine Maintenance task at limann-hall
+260,Delivery,tf-hostel,Medium,In Progress,2026-08-24 12:00,2026-08-25 12:00,Maintenance Team,Personnel,1,Routine Delivery task at tf-hostel
+261,Grounds,jubilee-hall,Low,Pending,2026-08-09 11:00,2026-08-10 11:00,Maintenance Team,Personnel,5,Routine Grounds task at jubilee-hall
+262,Delivery,biochem-dept,Medium,Pending,2026-08-21 13:00,2026-08-22 13:00,Maintenance Team,Personnel,1,Routine Delivery task at biochem-dept
+263,Maintenance,limann-hall,High,Assigned,2026-08-11 07:00,2026-08-12 07:00,Maintenance Team,Personnel,5,Routine Maintenance task at limann-hall
+264,Maintenance,engineering,High,In Progress,2026-08-27 14:00,2026-08-28 14:00,Maintenance Team,Personnel,5,Routine Maintenance task at engineering
+265,Delivery,limann-hall,Medium,In Progress,2026-07-28 15:00,2026-08-01 15:00,Maintenance Team,Personnel,3,Routine Delivery task at limann-hall
+266,Maintenance,psychology,High,Assigned,2026-08-22 18:00,2026-08-23 18:00,Maintenance Team,Personnel,3,Routine Maintenance task at psychology
+267,Maintenance,geography-dept,High,In Progress,2026-08-27 08:00,2026-08-28 08:00,Maintenance Team,Personnel,4,Routine Maintenance task at geography-dept
+268,Maintenance,UG-Stadium,High,Pending,2026-08-20 06:00,2026-08-21 06:00,Maintenance Team,Personnel,5,Routine Maintenance task at UG-Stadium
+269,Maintenance,cont-&-dist-school,High,Pending,2026-08-14 11:00,2026-08-15 11:00,Maintenance Team,Personnel,3,Routine Maintenance task at cont-&-dist-school
+270,Maintenance,GCB-lecture-hall,High,In Progress,2026-08-24 15:00,2026-08-25 15:00,Maintenance Team,Personnel,1,Routine Maintenance task at GCB-lecture-hall
+271,Security,biochem-dept,Critical,In Progress,2026-08-05 18:00,2026-08-06 18:00,Maintenance Team,Personnel,1,Routine Security task at biochem-dept
+272,Delivery,psychology,Medium,Assigned,2026-08-14 16:00,2026-08-15 16:00,Maintenance Team,Personnel,4,Routine Delivery task at psychology
+273,Delivery,cont-&-dist-school,Medium,In Progress,2026-08-08 09:00,2026-08-09 09:00,Maintenance Team,Personnel,1,Routine Delivery task at cont-&-dist-school
+274,Maintenance,religions,High,In Progress,2026-08-09 16:00,2026-08-10 16:00,Maintenance Team,Personnel,5,Routine Maintenance task at religions
+275,Delivery,tf-hostel,Medium,Pending,2026-08-09 06:00,2026-08-10 06:00,Maintenance Team,Personnel,4,Routine Delivery task at tf-hostel
+276,Grounds,humanities,Low,Assigned,2026-07-28 09:00,2026-08-01 09:00,Maintenance Team,Personnel,2,Routine Grounds task at humanities
+277,Waste,plant-&-envt-biology,Medium,Pending,2026-08-09 11:00,2026-08-10 11:00,Maintenance Team,Personnel,1,Routine Waste task at plant-&-envt-biology
+278,Delivery,GRASAG,Medium,Assigned,2026-08-05 08:00,2026-08-06 08:00,Maintenance Team,Personnel,5,Routine Delivery task at GRASAG
+279,Waste,business-school,Medium,In Progress,2026-08-17 19:00,2026-08-18 19:00,Maintenance Team,Personnel,3,Routine Waste task at business-school
+280,Maintenance,UG-Stadium,High,Pending,2026-08-01 12:00,2026-08-02 12:00,Maintenance Team,Personnel,4,Routine Maintenance task at UG-Stadium
+281,Security,french-dept,Critical,In Progress,2026-08-18 12:00,2026-08-19 12:00,Maintenance Team,Personnel,4,Routine Security task at french-dept
+282,Waste,cont-&-dist-school,Medium,Assigned,2026-08-09 07:00,2026-08-10 07:00,Maintenance Team,Personnel,1,Routine Waste task at cont-&-dist-school
+283,Grounds,computer-science,Low,Assigned,2026-08-25 15:00,2026-08-26 15:00,Maintenance Team,Personnel,3,Routine Grounds task at computer-science
+284,Maintenance,philosophy-&-classics,High,In Progress,2026-08-07 12:00,2026-08-08 12:00,Maintenance Team,Personnel,4,Routine Maintenance task at philosophy-&-classics
+285,Delivery,N-block,Medium,In Progress,2026-08-27 10:00,2026-08-28 10:00,Maintenance Team,Personnel,3,Routine Delivery task at N-block
+286,Maintenance,computer-science,High,In Progress,2026-08-02 14:00,2026-08-03 14:00,Maintenance Team,Personnel,1,Routine Maintenance task at computer-science
+287,Delivery,geology-dept,Medium,Assigned,2026-08-24 11:00,2026-08-25 11:00,Maintenance Team,Personnel,2,Routine Delivery task at geology-dept
+288,Maintenance,archaeology,High,Pending,2026-08-08 09:00,2026-08-09 09:00,Maintenance Team,Personnel,5,Routine Maintenance task at archaeology
+289,Maintenance,pent-hostel-block-b,High,In Progress,2026-08-02 08:00,2026-08-03 08:00,Maintenance Team,Personnel,4,Routine Maintenance task at pent-hostel-block-b
+290,Delivery,sey-hall,Medium,Assigned,2026-08-24 15:00,2026-08-25 15:00,Maintenance Team,Personnel,5,Routine Delivery task at sey-hall
+291,Delivery,mensah-sarbah-annex,Medium,In Progress,2026-08-10 19:00,2026-08-11 19:00,Maintenance Team,Personnel,3,Routine Delivery task at mensah-sarbah-annex
+292,Maintenance,animal-science-dept,High,In Progress,2026-08-15 13:00,2026-08-16 13:00,Maintenance Team,Personnel,3,Routine Maintenance task at animal-science-dept
+293,Waste,jean-nelson-hall,Medium,In Progress,2026-08-01 11:00,2026-08-02 11:00,Maintenance Team,Personnel,1,Routine Waste task at jean-nelson-hall
+294,Maintenance,performing-arts,High,Assigned,2026-08-01 06:00,2026-08-02 06:00,Maintenance Team,Personnel,3,Routine Maintenance task at performing-arts
+295,Maintenance,fam-and-consumer,High,In Progress,2026-08-19 15:00,2026-08-20 15:00,Maintenance Team,Personnel,4,Routine Maintenance task at fam-and-consumer
+296,Delivery,commonwealth-hall,Medium,Pending,2026-08-25 17:00,2026-08-26 17:00,Maintenance Team,Personnel,4,Routine Delivery task at commonwealth-hall
+297,Security,evandy-hostel,Critical,Assigned,2026-08-20 09:00,2026-08-21 09:00,Maintenance Team,Personnel,5,Routine Security task at evandy-hostel
+298,Delivery,biochem-dept,Medium,Pending,2026-08-01 13:00,2026-08-02 13:00,Maintenance Team,Personnel,3,Routine Delivery task at biochem-dept
+299,Grounds,econs-dept,Low,Pending,2026-08-16 16:00,2026-08-17 16:00,Maintenance Team,Personnel,1,Routine Grounds task at econs-dept
+300,Maintenance,nursing-and-midwifery,High,In Progress,2026-08-14 14:00,2026-08-15 14:00,Maintenance Team,Personnel,5,Routine Maintenance task at nursing-and-midwifery
+301,Maintenance,maison-francaise,High,Assigned,2026-08-09 12:00,2026-08-10 12:00,Maintenance Team,Personnel,3,Routine Maintenance task at maison-francaise
+302,Delivery,inter-affairs,Medium,In Progress,2026-08-25 16:00,2026-08-26 16:00,Maintenance Team,Personnel,3,Routine Delivery task at inter-affairs
+303,Maintenance,history-dept,High,Assigned,2026-08-17 16:00,2026-08-18 16:00,Maintenance Team,Personnel,3,Routine Maintenance task at history-dept
+304,Maintenance,pent-hostel-block-c,High,Pending,2026-08-19 19:00,2026-08-20 19:00,Maintenance Team,Personnel,3,Routine Maintenance task at pent-hostel-block-c
+305,Maintenance,pent-hostel-block-c,High,Assigned,2026-08-04 20:00,2026-08-05 20:00,Maintenance Team,Personnel,3,Routine Maintenance task at pent-hostel-block-c
+306,Grounds,cafeteria,Low,Pending,2026-08-21 12:00,2026-08-22 12:00,Maintenance Team,Personnel,5,Routine Grounds task at cafeteria
+307,Waste,econs-dept,Medium,Assigned,2026-08-09 14:00,2026-08-10 14:00,Maintenance Team,Personnel,3,Routine Waste task at econs-dept
+308,Waste,tf-hostel,Medium,In Progress,2026-08-22 19:00,2026-08-23 19:00,Maintenance Team,Personnel,5,Routine Waste task at tf-hostel
+309,Maintenance,tf-hostel,High,Assigned,2026-08-13 14:00,2026-08-14 14:00,Maintenance Team,Personnel,1,Routine Maintenance task at tf-hostel
+310,Maintenance,geography-dept,High,Assigned,2026-08-06 11:00,2026-08-07 11:00,Maintenance Team,Personnel,2,Routine Maintenance task at geography-dept
+311,Maintenance,animal-biology,High,Assigned,2026-08-04 07:00,2026-08-05 07:00,Maintenance Team,Personnel,1,Routine Maintenance task at animal-biology
+312,Delivery,bani-hostel,Medium,In Progress,2026-08-26 17:00,2026-08-27 17:00,Maintenance Team,Personnel,1,Routine Delivery task at bani-hostel
+313,Delivery,mensah-sarbah-annex,Medium,Assigned,2026-08-04 15:00,2026-08-05 15:00,Maintenance Team,Personnel,2,Routine Delivery task at mensah-sarbah-annex
+314,Maintenance,volta-hall,High,Pending,2026-08-24 15:00,2026-08-25 15:00,Maintenance Team,Personnel,4,Routine Maintenance task at volta-hall
+315,Maintenance,jqb,High,Pending,2026-08-21 17:00,2026-08-22 17:00,Maintenance Team,Personnel,4,Routine Maintenance task at jqb
+316,Delivery,performing-arts,Medium,Pending,2026-08-07 14:00,2026-08-08 14:00,Maintenance Team,Personnel,3,Routine Delivery task at performing-arts
+317,Grounds,socioso,Low,Assigned,2026-08-26 09:00,2026-08-27 09:00,Maintenance Team,Personnel,5,Routine Grounds task at socioso
+318,Grounds,public-health,Low,Assigned,2026-08-24 10:00,2026-08-25 10:00,Maintenance Team,Personnel,5,Routine Grounds task at public-health
+319,Delivery,chemistry-dept,Medium,In Progress,2026-08-26 09:00,2026-08-27 09:00,Maintenance Team,Personnel,2,Routine Delivery task at chemistry-dept
+320,Security,inter-affairs,Critical,Assigned,2026-08-20 13:00,2026-08-21 13:00,Maintenance Team,Personnel,5,Routine Security task at inter-affairs

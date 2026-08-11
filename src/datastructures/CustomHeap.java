@@ -20,7 +20,7 @@ public class CustomHeap<T extends Comparable<T>> {
     public static class ServiceRequest implements Comparable<ServiceRequest> {
         private int requestId;
         private String requestType;
-        private int locationId;
+        private String locationId;
         private String priorityStr;
         private int priorityScore;
         private String status;
@@ -31,7 +31,7 @@ public class CustomHeap<T extends Comparable<T>> {
         private int estimatedDurationHours;
         private String description;
 
-        public ServiceRequest(int requestId, String requestType, int locationId, String priorityStr,
+        public ServiceRequest(int requestId, String requestType, String locationId, String priorityStr,
                               String status, String dateCreated, String deadline, String assignedTeam,
                               String requiredResourceType, int estimatedDurationHours, String description) {
             this.requestId = requestId;
@@ -66,8 +66,8 @@ public class CustomHeap<T extends Comparable<T>> {
 
         @Override
         public String toString() {
-            return String.format("Request #%d [%-8s] - %s (Location ID: %d, Team: %s)",
-                    requestId, priorityStr, description, locationId, assignedTeam);
+            return String.format("[Request #%d (%s) | Priority: %s (%d) | Loc: %s]",
+                    requestId, requestType, priorityStr, priorityScore, locationId);
         }
     }
     // ────────────────────────────────────────────────────────────────────────
@@ -159,9 +159,9 @@ public class CustomHeap<T extends Comparable<T>> {
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
             priorityQueue.insert(new ServiceRequest(
-                    Integer.parseInt(columns[0]), columns[1], Integer.parseInt(columns[2]), columns[3],
-                    columns[4], columns[5], columns[6], columns[7], columns[8],
-                    Integer.parseInt(columns[9]), columns[10]));
+                    Integer.parseInt(columns[0].trim()), columns[1].trim(), columns[2].trim(), columns[3].trim(),
+                    columns[4].trim(), columns[5].trim(), columns[6].trim(), columns[7].trim(),
+                    columns[8].trim(), Integer.parseInt(columns[9].trim()), columns[10].trim()));
         }
 
         System.out.println("=== Service Requests Priority Extraction (CustomHeap) ===");

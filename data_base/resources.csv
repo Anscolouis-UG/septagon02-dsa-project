@@ -1,40 +1,31 @@
 resource_id,resource_name,resource_type,capacity,current_location_id,availability_status,cost_per_hour
-1,Electrical Maintenance Team,Personnel,4,5,Available,180
-2,Civil Maintenance Team,Personnel,4,5,Available,180
-3,Plumbing Team,Personnel,3,5,Available,170
-4,HVAC Maintenance Team,Personnel,3,5,In_Use,200
-5,Campus Security Patrol Alpha,Personnel,5,1,Available,150
-6,Campus Security Patrol Bravo,Personnel,5,47,Available,150
-7,Medical Emergency Team,Personnel,4,19,Available,250
-8,Grounds Maintenance Crew,Personnel,6,43,Available,140
-9,Cleaning Services Team A,Personnel,5,21,Available,130
-10,Cleaning Services Team B,Personnel,5,21,In_Use,130
-11,ICT Support Team,Personnel,4,8,Available,190
-12,Transport Services Team,Personnel,3,49,Available,160
-13,Waste Collection Truck 1,Vehicle,5000,49,Available,320
-14,Waste Collection Truck 2,Vehicle,5000,49,In_Use,320
-15,Campus Delivery Van 1,Vehicle,2000,49,Available,220
-16,Campus Delivery Van 2,Vehicle,2000,49,Available,220
-17,Maintenance Pickup Truck,Vehicle,3000,5,Available,260
-18,Emergency Ambulance,Vehicle,4,19,Available,600
-19,Campus Shuttle Bus,Vehicle,40,49,Available,350
-20,Standby Generator,Equipment,50000,19,Available,500
-21,Portable Generator,Equipment,12000,5,Available,220
-22,Water Pump Unit,Equipment,10000,19,Available,300
-23,Hydraulic Lift,Equipment,5000,5,Available,280
-24,Air Compressor,Equipment,2000,5,Available,180
-25,Welding Machine,Equipment,1000,5,Available,220
-26,Industrial Tool Kit A,Equipment,500,5,Available,40
-27,Industrial Tool Kit B,Equipment,500,5,Available,40
-28,Industrial Tool Kit C,Equipment,500,5,Available,40
-29,Pressure Washer,Equipment,1000,5,Available,120
-30,Ride-on Lawn Mower,Equipment,500,43,Available,110
-31,Push Lawn Mower,Equipment,300,43,Available,80
-32,Hedge Trimmer,Equipment,100,43,Available,60
-33,Tree Pruning Kit,Equipment,100,43,Available,70
-34,Chainsaw,Equipment,100,43,Available,90
-35,Portable Flood Lights,Equipment,2000,5,Available,130
-36,Traffic Cones Set,Equipment,100,1,Available,25
-37,Barricade Kit,Equipment,50,1,Available,35
-38,First Aid Kit,Equipment,50,19,Available,20
-39,Network Diagnostic Kit,Equipment,100,8,Available,90
+1,Hydraulic Lift 1,Equipment,1,adult-edu,In Use,15
+2,Water Pump 2,Equipment,5000,WAGMC,Available,37
+3,Maintenance Team 3,Personnel,3,isser,Available,36
+4,Security Team 4,Personnel,3,music-dept,In Use,15
+5,Maintenance Team 5,Personnel,3,history-dept,Maintenance,31
+6,Power Generator 6,Equipment,3,stats-dept,In Use,18
+7,Water Pump 7,Equipment,5000,legon-hall-annex,Available,15
+8,Maintenance Team 8,Personnel,2,commonwealth-hall,Maintenance,48
+9,Waste Truck 9,Vehicle,2000,music-dept,In Use,17
+10,Cleaning Crew 10,Personnel,4,mensah-sarbah-annex,In Use,14
+11,Cleaning Crew 11,Personnel,4,kwapong-hall,Available,50
+12,Delivery Van 12,Vehicle,4,teacher-education,In Use,10
+13,Delivery Van 13,Vehicle,1,cont-&-dist-school,Available,15
+14,Maintenance Truck 14,Vehicle,3,akuafo-hall-annex,Maintenance,42
+15,Hydraulic Lift 15,Equipment,1,biotech-lab,In Use,40
+16,Cleaning Crew 16,Personnel,3,plant-&-envt-biology,Maintenance,11
+17,Maintenance Team 17,Personnel,3,music-dept,Maintenance,50
+18,Security Team 18,Personnel,4,great-hall,Available,12
+19,Cleaning Crew 19,Personnel,4,education-dept,Maintenance,39
+20,Water Pump 20,Equipment,4,animal-biology,Available,39
+21,Maintenance Team 21,Personnel,2,home-science,Available,30
+22,Hydraulic Lift 22,Equipment,5000,bani-hostel,In Use,26
+23,Security Team 23,Personnel,2,stats-dept,In Use,13
+24,Water Pump 24,Equipment,2000,adult-edu,In Use,37
+25,Hydraulic Lift 25,Equipment,5000,mfodwo,In Use,21
+26,Ambulance 26,Vehicle,2000,akuafo-hall,In Use,15
+27,Waste Truck 27,Vehicle,5000,legon-hall,Available,44
+28,Maintenance Team 28,Personnel,2,GCB-lecture-hall,Maintenance,28
+29,Security Team 29,Personnel,4,engineering,Available,38
+30,Maintenance Team 30,Personnel,4,inter-prog-office,Maintenance,37

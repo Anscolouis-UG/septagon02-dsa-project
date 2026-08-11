@@ -8,30 +8,27 @@ import datastructures.CustomMap;
  * GraphLoader.java
  *
  * Loads the UG Legon campus graph from:
- *   data_base/locations.csv  — vertices (location_id, name, ...)
- *   data_base/roads.csv      — edges (start_location name, end_location name, distance_m)
+ *   data_base/nodes.csv      — vertices (id, name, category, latitude, longitude)
+ *   data_base/edges_knn_sparse.csv — edges (source, target, distance_km, distance_m)
  *
- * The graph uses location_id (1-based) as vertex indices.
- * Since CustomGraph uses 0-based indices internally, we store (location_id - 1).
- *
- * locationNames maps vertex index -> display name for pretty printing.
+ * The graph uses 0-based integer indices internally.
+ * We dynamically map string 'id' to an integer index.
  */
 public class GraphLoader {
 
-    public static final int NUM_LOCATIONS = 50;
+    public static final int MAX_LOCATIONS = 150;
 
     /** Loads locations and roads into a CustomGraph.
-     *  @param locationNames OUT param: index -> name mapping for display */
+     *  @param locationNames OUT param: index -> name mapping for display
+     *  @param idToIndex     OUT param: string id -> index mapping */
     public static CustomGraph load(CustomMap<Integer, String> locationNames,
+                                   CustomMap<String, Integer> idToIndex,
                                    String locPath, String roadPath) {
-        CustomGraph graph = new CustomGraph(NUM_LOCATIONS + 1, false);
+        CustomGraph graph = new CustomGraph(MAX_LOCATIONS, false);
 
-        // ── Step 1: load locations (build name -> id map) ───────────────────
-        // We use a parallel CustomArrayList pair as a name->id lookup
-        // (CustomMap<String,Integer> requires String to extend Comparable,
-        //  but String does, so we can use CustomMap<String, Integer>)
-        CustomMap<String, Integer> nameToId = new CustomMap<>();
+        int currentIndex = 0;
 
+        // ── Step 1: load locations (build id -> index map) ───────────────────
         try (java.util.Scanner sc = new java.util.Scanner(new java.io.File(locPath))) {
             if (sc.hasNextLine()) sc.nextLine(); // skip header
             while (sc.hasNextLine()) {
@@ -39,10 +36,13 @@ public class GraphLoader {
                 if (line.isEmpty()) continue;
                 String[] cols = line.split(",", -1);
                 if (cols.length < 2) continue;
-                int id = Integer.parseInt(cols[0].trim());
+                
+                String id = cols[0].trim();
                 String name = cols[1].trim();
-                nameToId.put(name, id);
-                locationNames.put(id - 1, name);  // 0-based index
+                
+                idToIndex.put(id, currentIndex);
+                locationNames.put(currentIndex, name);
+                currentIndex++;
             }
         } catch (Exception e) {
             System.out.println("[ERROR] Loading locations: " + e.getMessage());
@@ -55,20 +55,21 @@ public class GraphLoader {
                 String line = sc.nextLine().trim();
                 if (line.isEmpty()) continue;
                 String[] cols = line.split(",", -1);
-                if (cols.length < 6) continue;
-                String startName = cols[3].trim();
-                String endName   = cols[4].trim();
-                double distM     = Double.parseDouble(cols[5].trim());
+                if (cols.length < 4) continue;
+                
+                String sourceId = cols[0].trim();
+                String targetId = cols[1].trim();
+                double distM    = Double.parseDouble(cols[3].trim()); // column 3 is distance_m
 
-                Integer startId = nameToId.get(startName);
-                Integer endId   = nameToId.get(endName);
+                Integer startIdx = idToIndex.get(sourceId);
+                Integer endIdx   = idToIndex.get(targetId);
 
-                if (startId == null || endId == null) continue; // skip unmatched
-                // convert to 0-based
-                graph.addEdge(startId - 1, endId - 1, distM);
+                if (startIdx == null || endIdx == null) continue; // skip unmatched
+                
+                graph.addEdge(startIdx, endIdx, distM);
             }
         } catch (Exception e) {
-            System.out.println("[ERROR] Loading roads: " + e.getMessage());
+            System.out.println("[ERROR] Loading edges: " + e.getMessage());
         }
 
         return graph;

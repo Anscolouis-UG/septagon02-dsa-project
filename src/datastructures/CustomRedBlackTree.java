@@ -7,30 +7,23 @@ import java.nio.file.Path;
 public class CustomRedBlackTree {
 
     public static class Location {
-        private int locationId;
+        private String id;
         private String name;
-        private String district;
-        private String areaType;
+        private String category;
         private double latitude;
         private double longitude;
-        private String operatingHours;
-        private String buildingCode;
 
-        public Location(int locationId, String name, String district, String areaType,
-                        double latitude, double longitude, String operatingHours, String buildingCode) {
-            this.locationId = locationId;
+        public Location(String id, String name, String category, double latitude, double longitude) {
+            this.id = id;
             this.name = name;
-            this.district = district;
-            this.areaType = areaType;
+            this.category = category;
             this.latitude = latitude;
             this.longitude = longitude;
-            this.operatingHours = operatingHours;
-            this.buildingCode = buildingCode;
         }
 
         @Override
         public String toString() {
-            return String.format("[%s | Code: %s | District: %s | Type: %s]", name, buildingCode, district, areaType);
+            return String.format("[%s | ID: %s | Category: %s]", name, id, category);
         }
     }
 
@@ -38,12 +31,12 @@ public class CustomRedBlackTree {
     private static final boolean BLACK = false;
 
     private class Node {
-        Integer key;
+        String key;
         Location value;
         Node left, right;
         boolean color;
 
-        Node(Integer key, Location value, boolean color) {
+        Node(String key, Location value, boolean color) {
             this.key = key;
             this.value = value;
             this.color = color;
@@ -57,13 +50,13 @@ public class CustomRedBlackTree {
         return x != null && x.color == RED;
     }
 
-    public void insert(Integer key, Location value) {
+    public void insert(String key, Location value) {
         if (key == null) return;
         root = insert(root, key, value);
         root.color = BLACK;
     }
 
-    private Node insert(Node h, Integer key, Location value) {
+    private Node insert(Node h, String key, Location value) {
         if (h == null) {
             size++;
             return new Node(key, value, RED);
@@ -105,7 +98,7 @@ public class CustomRedBlackTree {
         if (h.right != null) h.right.color = !h.right.color;
     }
 
-    public Location search(Integer key) {
+    public Location search(String key) {
         Node x = root;
         while (x != null) {
             int cmp = key.compareTo(x.key);
@@ -121,17 +114,17 @@ public class CustomRedBlackTree {
     public static void main(String[] args) throws IOException {
         CustomRedBlackTree tree = new CustomRedBlackTree();
 
-        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "locations.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "nodes.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
-            tree.insert(Integer.parseInt(columns[0]), new Location(
-                    Integer.parseInt(columns[0]), columns[1], columns[2], columns[3],
-                    Double.parseDouble(columns[4]), Double.parseDouble(columns[5]),
-                    columns[6], columns[7]));
+            if (columns.length < 5) continue;
+            tree.insert(columns[0].trim(), new Location(
+                    columns[0].trim(), columns[1].trim(), columns[2].trim(),
+                    Double.parseDouble(columns[3].trim()), Double.parseDouble(columns[4].trim())));
         }
 
         System.out.println("=== Location Lookups (CustomRedBlackTree) ===");
-        System.out.println("Location ID 3: " + tree.search(3));
+        System.out.println("Location ID balme-library: " + tree.search("balme-library"));
         System.out.println("Total Locations Indexed: " + tree.size());
     }
 }

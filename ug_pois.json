@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 300875922,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 308668766,
+    "lat": "5.6465979",
+    "lon": "-0.1880040",
+    "class": "shop",
+    "type": "household_linen",
+    "place_rank": 30,
+    "importance": 0.5181168357964844,
+    "addresstype": "shop",
+    "name": "University of Ghana",
+    "display_name": "University of Ghana, Lower Hill Drive, Legon, Accra, Ayawaso West Municipal District, Greater Accra Region, GD-110-6313, Ghana",
+    "boundingbox": [
+      "5.6261646",
+      "5.6673229",
+      "-0.2051461",
+      "-0.1692527"
+    ]
+  }
+]

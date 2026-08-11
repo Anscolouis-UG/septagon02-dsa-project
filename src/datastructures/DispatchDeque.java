@@ -7,29 +7,22 @@ import java.nio.file.Path;
 public class DispatchDeque {
 
     public static class RoadSegment {
-        private int roadId;
-        private String roadName;
-        private String roadType;
-        private String startLocation;
-        private String endLocation;
-        private int distanceMeters;
-        private int speedLimitKmh;
+        private String source;
+        private String target;
+        private double distanceKm;
+        private double distanceM;
 
-        public RoadSegment(int roadId, String roadName, String roadType, String startLocation,
-                           String endLocation, int distanceMeters, int speedLimitKmh) {
-            this.roadId = roadId;
-            this.roadName = roadName;
-            this.roadType = roadType;
-            this.startLocation = startLocation;
-            this.endLocation = endLocation;
-            this.distanceMeters = distanceMeters;
-            this.speedLimitKmh = speedLimitKmh;
+        public RoadSegment(String source, String target, double distanceKm, double distanceM) {
+            this.source = source;
+            this.target = target;
+            this.distanceKm = distanceKm;
+            this.distanceM = distanceM;
         }
 
         @Override
         public String toString() {
-            return String.format("[Road #%d: %s (%s -> %s) | Distance: %dm]",
-                    roadId, roadName, startLocation, endLocation, distanceMeters);
+            return String.format("[Road (%s -> %s) | Distance: %.2fm]",
+                    source, target, distanceM);
         }
     }
 
@@ -95,12 +88,13 @@ public class DispatchDeque {
     public static void main(String[] args) throws IOException {
         DispatchDeque deque = new DispatchDeque();
 
-        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "roads.csv"));
+        java.util.List<String> rows = Files.readAllLines(Path.of("data_base", "edges_knn_sparse.csv"));
         for (int index = 1; index < rows.size(); index++) {
             String[] columns = rows.get(index).split(",", -1);
+            if (columns.length < 4) continue;
             deque.addLast(new RoadSegment(
-                    Integer.parseInt(columns[0]), columns[1], columns[2], columns[3], columns[4],
-                    Integer.parseInt(columns[5]), Integer.parseInt(columns[6])));
+                    columns[0].trim(), columns[1].trim(), 
+                    Double.parseDouble(columns[2].trim()), Double.parseDouble(columns[3].trim())));
         }
 
         System.out.println("=== Operations Dispatch Sequence (CustomDeque) ===");

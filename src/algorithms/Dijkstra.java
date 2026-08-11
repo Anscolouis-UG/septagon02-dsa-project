@@ -56,21 +56,20 @@ public class Dijkstra {
 
     public static void main(String[] args) {
         System.out.println("==================================================");
-        System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Dijkstra — UG Legon Campus  (data_base/roads.csv)");
-        System.out.println("==================================================\n");
-
+        System.out.println("  Dijkstra — UG Legon Campus  (data_base/edges_knn_sparse.csv)");
+        System.out.println("=========================================================");
         datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomMap<String, Integer> idToIndex = new datastructures.CustomMap<>();
         datastructures.CustomGraph graph = GraphLoader.load(
-            names, "data_base/locations.csv", "data_base/roads.csv");
+            names, idToIndex, "data_base/nodes.csv", "data_base/edges_knn_sparse.csv");
 
         int source = 0;  // Main Gate (location_id=1)
         System.out.println("Source: " + names.get(source) + " (ID=" + (source+1) + ")\n");
 
-        double[] distances = run(graph, GraphLoader.NUM_LOCATIONS + 1, source);
+        double[] distances = run(graph, GraphLoader.MAX_LOCATIONS, source);
 
         System.out.println("Shortest distances from Main Gate to all reachable locations:");
-        for (int i = 0; i < GraphLoader.NUM_LOCATIONS; i++) {
+        for (int i = 0; i < GraphLoader.MAX_LOCATIONS; i++) {
             if (distances[i] != INFINITY) {
                 System.out.printf("  to [%2d] %-45s : %.0fm%n", i+1, names.get(i), distances[i]);
             }

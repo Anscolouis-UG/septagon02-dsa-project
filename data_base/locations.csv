@@ -1,51 +1,51 @@
-location_id,name,district,area_type,latitude,longitude,operating_hours,building_code
-1,Main Gate,Entrance,Security,5.648600,-0.181300,00:00-24:00,MGT
-2,University Square,Central,Landmark,5.650100,-0.184500,00:00-24:00,USQ
-3,Balme Library,Central,Educational,5.651129,-0.187025,08:00-22:00,BAL
-4,Great Hall,Central,Administrative,5.650634,-0.196217,08:00-18:00,GHL
-5,Registry,Central,Administrative,5.650225,-0.195386,08:00-17:00,REG
-6,Cedi Conference Centre,Central,Meeting,5.651603,-0.188272,08:00-20:00,CCC
-7,School of Physical and Mathematical Sciences,Central,Educational,5.651800,-0.186500,07:00-20:00,SPMS
-8,Department of Computer Science,Central,Educational,5.653500,-0.184200,07:00-20:00,DCIT
-9,Department of Physics,Central,Educational,5.651989,-0.185895,07:00-20:00,PHY
-10,Department of Chemistry,Central,Educational,5.652002,-0.185689,07:00-20:00,CHE
-11,Department of Mathematics,Central,Educational,5.653876,-0.184413,07:00-20:00,MTH
-12,Department of Statistics,Central,Educational,5.654012,-0.184086,07:00-20:00,STA
-13,UG Business School,East Academic,Educational,5.652809,-0.188627,08:00-20:00,UGBS
-14,School of Law,Central,Educational,5.650500,-0.185500,08:00-18:00,LAW
-15,College of Humanities,Central,Educational,5.650700,-0.186200,08:00-18:00,HUM
-16,Institute of African Studies,Central,Educational,5.651500,-0.184700,08:00-18:00,IAS
-17,Noguchi Memorial Institute,Medical,Research,5.654800,-0.179800,08:00-17:00,NOG
-18,School of Public Health,Medical,Educational,5.654300,-0.180800,08:00-18:00,SPH
-19,University Hospital,Medical,Medical,5.651725,-0.178107,00:00-24:00,HOS
-20,Pharmacy,Medical,Medical,5.651500,-0.178000,08:00-17:00,PHA
-21,Student Centre,Central,Commercial,5.649800,-0.183500,07:00-22:00,STC
-22,Central Cafeteria,Central,Commercial,5.646969,-0.187085,06:00-21:00,CAF
-23,Bookshop,Central,Commercial,5.651168,-0.186653,08:00-18:00,BKS
-24,Banking Square,Central,Commercial,5.643215,-0.185705,08:00-17:00,BNK
-25,Night Market,East Residential,Commercial,5.642503,-0.186282,17:00-02:00,NMK
-26,Legon Hall,Residential,Residential,5.640701,-0.179035,00:00-24:00,LGH
-27,Commonwealth Hall,Residential,Residential,5.651310,-0.192583,00:00-24:00,COM
-28,Mensah Sarbah Hall,Residential,Residential,5.645399,-0.187320,00:00-24:00,MSH
-29,Volta Hall,Residential,Residential,5.651496,-0.189693,00:00-24:00,VOL
-30,Akuafo Hall,Residential,Residential,5.647965,-0.185692,00:00-24:00,AKU
-31,Jubilee Hall,Residential,Residential,5.640461,-0.186261,00:00-24:00,JUB
-32,Hilla Limann Hall,Residential,Residential,5.637465,-0.184651,00:00-24:00,HIL
-33,Jean Nelson Hall,Residential,Residential,5.635340,-0.188475,00:00-24:00,JNH
-34,Alexander Kwapong Hall,Residential,Residential,5.636495,-0.185003,00:00-24:00,AKH
-35,Elizabeth Frances Sey Hall,Residential,Residential,5.635937,-0.187372,00:00-24:00,EFS
-36,Pentagon Hostel,Residential,Residential,5.639000,-0.184000,00:00-24:00,PEN
-37,International Students Hostel,Residential,Residential,5.639769,-0.185137,00:00-24:00,ISH
-38,Sports Stadium,West Campus,Recreation,5.639030,-0.180085,06:00-21:00,STD
-39,Athletic Oval,West Campus,Recreation,5.648381,-0.186325,06:00-20:00,OVL
-40,Tennis Courts,West Campus,Recreation,5.648500,-0.186500,06:00-20:00,TEN
-41,Basketball Court,West Campus,Recreation,5.648300,-0.186300,06:00-20:00,BBC
-42,Football Pitch,West Campus,Recreation,5.639200,-0.180500,06:00-20:00,FTP
-43,Botanical Gardens,North Campus,Recreation,5.660839,-0.186576,06:00-18:00,BTG
-44,Open Air Theatre,North Campus,Recreation,5.660000,-0.187000,08:00-20:00,OAT
-45,University Chapel,Central,Religious,5.650400,-0.182500,06:00-20:00,CHP
-46,Islamic Centre,East Campus,Religious,5.651800,-0.179300,05:00-21:00,ISC
-47,East Gate,East Entrance,Security,5.649500,-0.175200,00:00-24:00,EGT
-48,West Gate,West Entrance,Security,5.651200,-0.197800,00:00-24:00,WGT
-49,Transport Office,Central,Administrative,5.649681,-0.180955,08:00-17:00,TRN
-50,Directorate of Student Affairs,Central,Administrative,5.649900,-0.183600,08:00-17:00,DSA
+name,latitude,longitude
+Balme Library,5.6518,-0.1871
+Great Hall,5.6507,-0.196
+College of Humanities,5.6537,-0.1822
+Computer Science Department,5.6545,-0.1838
+Business School,5.6587,-0.1777
+Geography & Resource Development,5.651,-0.1832
+School of Law,5.654,-0.1832
+Department of Chemistry,5.6528,-0.1853
+Department of Home Science,5.6527,-0.1845
+Department of Psychology,5.6551,-0.1866
+Department of Information Studies,5.6552,-0.1871
+Department of Marine and Fisheries Sciences,5.6537,-0.1884
+Department of Educational Studies and Leadership (DESL),5.6528,-0.1812
+Department of Teacher Education,5.6526,-0.181
+International Programmes office,5.6536,-0.1819
+JQB Lecture Hall,5.6523,-0.1819
+Institute of Africa Studies,5.6511,-0.1819
+Department of Adult Education,5.6515,-0.1811
+Department of Archaeology,5.6518,-0.1813
+School of Continuing and Distance Education,5.6508,-0.1811
+Department of Geology,5.6512,-0.1845
+Centre for International Affairs,5.6521,-0.1841
+Department of Physics,5.6512,-0.1856
+Department of Plant and Environmental Biology,5.6539,-0.1862
+School of Pharmacy,5.6538,-0.1893
+Department of Biochemistry,5.6547,-0.1894
+School of Nursing and Midwifery,5.6538,-0.1902
+French Department,5.6509,-0.1887
+Department Of Animal Science,5.6499,-0.1832
+Department of Agriculture Economics and Agribusiness,5.6497,-0.1834
+Faculty of Agriculture,5.6502,-0.1838
+Biotechnology Laboratory,5.6488,-0.1837
+CEGENSA - College,5.6491,-0.1837
+Department Of Crop Science,5.6501,-0.1848
+Department of Music,5.6492,-0.1808
+Department Of Economics,5.651,-0.1874
+Research and Innovation Office Complex,5.6537,-0.1928
+Biomedical Engineering Department,5.6556,-0.1831
+New N Block,5.656,-0.1879
+Centre for Climate Change and Sustainability Studies-C3SS,5.6566,-0.1879
+GCB Lecture Building,5.655,-0.1883
+Sociology Department,5.6503,-0.1897
+School of Graduate studies,5.6531,-0.1907
+Department of Modern Languages,5.6494,-0.1877
+Maison Française Legon - Educational institution,5.6493,-0.1877
+Department of Soil Science,5.6503,-0.1848
+Department Of Family And Consumer Science,5.6503,-0.1841
+UG Creche and Kindergarten School,5.6497,-0.1839
+Mfodwo Complex/ N Block - Training center,5.6546,-0.187
+School of Social Sciences,5.6551,-0.1873
