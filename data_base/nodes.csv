@@ -1,0 +1,96 @@
+id,name,category,latitude,longitude
+balme-library,Balme Library,academic,5.6518,-0.1871
+biomed-dept,Biomedical Engineering Department,academic,5.6556,-0.1831
+biotech-lab,Biotechnology Laboratory,academic,5.6488,-0.1837
+CEGENSA,CEGENSA - College,academic,5.6491,-0.1837
+CSPS,CSPS - Centre for Social Policy Studies,academic,5.6549,-0.1876
+c3ss,Centre for Climate Change and Sustainability Studies-C3SS,academic,5.6566,-0.1879
+inter-affairs,Centre for International Affairs,academic,5.6521,-0.1841
+humanities,College of Humanities,academic,5.6537,-0.1822
+animal-science-dept,Department Of Animal Science,academic,5.6499,-0.1832
+crop-science,Department Of Crop Science,academic,5.6501,-0.1848
+econs-dept,Department Of Economics,academic,5.651,-0.1874
+fam-and-consumer,Department Of Family And Consumer Science,academic,5.6503,-0.1841
+history-dept,Department Of History,academic,5.6501,-0.1894
+philosophy-&-classics,Department Of Philosophy and Classics - Research Institute,academic,5.6509,-0.1881
+religions,Department for the Study of Religions - Research Institute,academic,5.6509,-0.1883
+adult-edu,Department of Adult Education,academic,5.6515,-0.1811
+agriecons-agricbusiness,Department of Agriculture Economics and Agribusiness,academic,5.6497,-0.1834
+animal-biology,Department of Animal Biology,academic,5.6534,-0.1875
+archaeology,Department of Archaeology,academic,5.6518,-0.1813
+biochem-dept,Department of Biochemistry,academic,5.6547,-0.1894
+chemistry-dept,Department of Chemistry,academic,5.6528,-0.1853
+computer-science,Department of Computer Science,academic,5.6545,-0.1838
+education-dept,Department of Educational Studies and Leadership (DESL),academic,5.6528,-0.1812
+geography-dept,Department of Geography and Resource Development,academic,5.651,-0.1832
+geology-dept,Department of Geology,academic,5.6512,-0.1845
+home-science,Department of Home Science,academic,5.6527,-0.1845
+info-studies,Department of Information Studies,academic,5.6552,-0.1871
+marine-&-fisheries,Department of Marine and Fisheries Sciences,academic,5.6537,-0.1884
+maths-dept,Department of Mathematics,academic,5.6538,-0.1841
+modern-langs,Department of Modern Languages,academic,5.6494,-0.1877
+music-dept,Department of Music,academic,5.6492,-0.1808
+physics-dept,Department of Physics,academic,5.6512,-0.1856
+plant-&-envt-biology,Department of Plant and Environmental Biology,academic,5.6539,-0.1862
+political-science,Department of Political Science,academic,5.6547,-0.1864
+psychology,Department of Psychology,academic,5.6551,-0.1866
+soil-science,Department of Soil Science,academic,5.6503,-0.1848
+stats-dept,Department of Statistics,academic,5.6538,-0.1838
+teacher-education,Department of Teacher Education,academic,5.6526,-0.181
+economic-policy,Economic Policy Management Programme Office - Research Institute,academic,5.6512,-0.188
+agric-faculty,Faculty of Agriculture,academic,5.6502,-0.1838
+french-dept,French Department,academic,5.6509,-0.1887
+GCB-lecture-hall,GCB Lecture Building,academic,5.655,-0.1883
+great-hall,Great Hall,academic,5.6507,-0.196
+africa-studies,Institute of Africa Studies,academic,5.6511,-0.1819
+isser,Institute of Statistical Social and Economic Research(ISSER),academic,5.6545,-0.1844
+inter-prog-office,International Programmes office,academic,5.6536,-0.1819
+jqb,JQB Lecture Hall,academic,5.6523,-0.1819
+maison-francaise,Maison Française Legon - Educational institution,academic,5.6493,-0.1877
+MIASA,Merian Institute for Advanced Studies in Africa (MIASA) - Research institute,academic,5.6479,-0.1912
+mfodwo,Mfodwo Complex/ N Block - Training center,academic,5.6546,-0.187
+N-block,New N Block,academic,5.656,-0.1879
+CERGIS,RS/GIS Lab - Research institute,academic,5.6513,-0.1828
+research-office,Research and Innovation Office Complex,academic,5.6537,-0.1928
+cont-&-dist-school,School of Continuing and Distance Education,academic,5.6508,-0.1811
+engineering,School of Engineering Sciences,academic,5.6553,-0.183
+GRASAG,School of Graduate studies,academic,5.6531,-0.1907
+nursing-and-midwifery,School of Nursing and Midwifery,academic,5.6538,-0.1902
+performing-arts,School of Performing Arts,academic,5.6501,-0.1819
+pharmacy-school,School of Pharmacy,academic,5.6538,-0.1893
+public-health,School of Public Health,academic,5.6366,-0.1827
+socioso,School of Social Sciences,academic,5.6551,-0.1873
+sociology-dept,Sociology Department,academic,5.6503,-0.1897
+UG-creche-kg,UG Creche and Kindergarten School,academic,5.6497,-0.1839
+law-school,UG School of Law,academic,5.654,-0.1832
+business-school,University of Ghana Business School,academic,5.6587,-0.1777
+WAGMC,West African Genetic Medicine Centre - WAGMC,academic,5.6348,-0.1847
+akuafo-hall,Akuafo Hall,residence,5.6503,-0.1857
+akuafo-hall-annex,Akuafo Hall Annex,residence,5.6476,-0.1856
+kwapong-hall,Alexander Kwapong Hall,residence,5.637,-0.1855
+bani-hostel,Bani Hostel,residence,5.663,-0.1797
+commonwealth-hall,Commonwealth Hall,residence,5.6506,-0.1925
+limann-hall,Dr. Hilla Limann Hall,residence,5.6373,-0.1848
+sey-hall,Elizabeth Sey Hall,residence,5.6358,-0.1877
+evandy-hostel,Evandy Hostel,residence,5.6629,-0.1817
+ish-hostel,International Student Hostel,residence,5.6399,-0.1852
+jean-nelson-hall,Jean Nelson Akah Hall,residence,5.6355,-0.1882
+jubilee-hall,Jubilee Hall,residence,5.6405,-0.186
+legon-hall,Legon Hall,residence,5.6502,-0.1884
+legon-hall-annex,Legon Hall Annex,residence,5.6474,-0.1881
+mensah-sarbah-annex,Mensah Sarbah Annex,residence,5.6454,-0.1854
+mensah-sarbah-hall,Mensah Sarbah Hall,residence,5.6462,-0.1871
+old-pentagon-blocks,Old Pentagon Blocks,residence,5.6567,-0.1814
+pent-hostel-block-a,Pent Hostel Block A,residence,5.6572,-0.182
+pent-hostel-block-b,Pent Hostel Block B,residence,5.6585,-0.1819
+pent-hostel-block-c,Pent Hostel Block C,residence,5.6584,-0.1813
+tf-hostel,TF Hostel,residence,5.6662,-0.1821
+valco-trust-hostel,Valco Trust Hostel,residence,5.6443,-0.1869
+vikings-hostel,Vikings Hostel,residence,5.6442,-0.1856
+volta-hall,Volta Hall,residence,5.6518,-0.1898
+cafeteria,Central Cafeteria,services,5.6468,-0.1868
+ecowas-coastal-marine,ECOWAS Coastal & Marine Resources Management Centre,services,5.6527,-0.1839
+ghkorea-info,Ghana Korea Information Access Centre,services,5.652,-0.1877
+hospital,Legon Hospital,services,5.6511,-0.1779
+bank,UG Banking Square,services,5.6427,-0.1856
+UG-Stadium,University of Ghana Sports Stadium,services,5.6393,-0.1811

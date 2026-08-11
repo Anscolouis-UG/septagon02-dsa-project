@@ -31,12 +31,13 @@ public class BFS {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  BFS — UG Legon Campus  (data_base/roads.csv)");
+        System.out.println("  BFS — UG Legon Campus  (data_base/edges_knn_sparse.csv)");
         System.out.println("==================================================\n");
 
         datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomMap<String, Integer> idToIndex = new datastructures.CustomMap<>();
         datastructures.CustomGraph graph = GraphLoader.load(
-            names, "data_base/locations.csv", "data_base/roads.csv");
+            names, idToIndex, "data_base/nodes.csv", "data_base/edges_knn_sparse.csv");
 
         int start = 0; // Main Gate (location_id=1, 0-based index=0)
         System.out.println("Starting BFS from: " + names.get(start) + " (index " + start + ")\n");

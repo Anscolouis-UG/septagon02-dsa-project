@@ -22,7 +22,7 @@ public class SearchSortDemo {
     static class ServiceRequest {
         int    id;
         String type;
-        int    locationId;
+        String locationId;
         String priority;
         int    priorityScore;
         String status;
@@ -36,7 +36,7 @@ public class SearchSortDemo {
         ServiceRequest(String[] cols) {
             this.id           = Integer.parseInt(cols[0].trim());
             this.type         = cols[1].trim();
-            this.locationId   = Integer.parseInt(cols[2].trim());
+            this.locationId   = cols[2].trim();
             this.priority     = cols[3].trim();
             this.priorityScore = parsePriority(cols[3].trim());
             this.status       = cols[4].trim();
@@ -72,7 +72,7 @@ public class SearchSortDemo {
         String name;
         String type;
         int    capacity;
-        int    locationId;
+        String locationId;
         String status;
         double costPerHour;
 
@@ -81,7 +81,7 @@ public class SearchSortDemo {
             this.name        = cols[1].trim();
             this.type        = cols[2].trim();
             this.capacity    = Integer.parseInt(cols[3].trim());
-            this.locationId  = Integer.parseInt(cols[4].trim());
+            this.locationId  = cols[4].trim();
             this.status      = cols[5].trim();
             this.costPerHour = Double.parseDouble(cols[6].trim());
         }

@@ -11,27 +11,21 @@ DROP TABLE IF EXISTS LOCATIONS;
 
 -- ===================== LOCATIONS =====================
 CREATE TABLE LOCATIONS (
-    location_id     INTEGER PRIMARY KEY,
-    name            TEXT NOT NULL UNIQUE,
-    district        TEXT NOT NULL,
-    area_type       TEXT NOT NULL,
+    id              TEXT PRIMARY KEY,
+    name            TEXT NOT NULL,
+    category        TEXT NOT NULL,
     latitude        REAL NOT NULL,
-    longitude       REAL NOT NULL,
-    operating_hours TEXT NOT NULL,
-    building_code   TEXT UNIQUE
+    longitude       REAL NOT NULL
 );
 
 -- ===================== ROADS =====================
 CREATE TABLE ROADS (
-    road_id         INTEGER PRIMARY KEY,
-    road_name       TEXT NOT NULL,
-    road_type       TEXT NOT NULL,
-    start_location  TEXT NOT NULL,
-    end_location    TEXT NOT NULL,
-    distance_m      REAL NOT NULL CHECK (distance_m > 0),
-    speed_limit_kmh INTEGER NOT NULL CHECK (speed_limit_kmh > 0),
-    one_way         TEXT NOT NULL CHECK (one_way IN ('Yes', 'No')),
-    surface         TEXT NOT NULL
+    source          TEXT NOT NULL,
+    target          TEXT NOT NULL,
+    distance_km     REAL NOT NULL,
+    distance_m      REAL NOT NULL,
+    FOREIGN KEY (source) REFERENCES LOCATIONS(id),
+    FOREIGN KEY (target) REFERENCES LOCATIONS(id)
 );
 
 -- ===================== RESOURCES =====================
@@ -40,17 +34,17 @@ CREATE TABLE RESOURCES (
     resource_name       TEXT NOT NULL,
     resource_type       TEXT NOT NULL,
     capacity            INTEGER NOT NULL,
-    current_location_id INTEGER,
+    current_location_id TEXT,
     availability_status TEXT NOT NULL,
     cost_per_hour       REAL NOT NULL CHECK (cost_per_hour >= 0),
-    FOREIGN KEY (current_location_id) REFERENCES LOCATIONS(location_id)
+    FOREIGN KEY (current_location_id) REFERENCES LOCATIONS(id)
 );
 
 -- ===================== SERVICE_REQUESTS =====================
 CREATE TABLE SERVICE_REQUESTS (
     request_id               INTEGER PRIMARY KEY,
     request_type             TEXT NOT NULL,
-    requester_location_id    INTEGER NOT NULL,
+    requester_location_id    TEXT NOT NULL,
     priority                 TEXT NOT NULL,
     status                   TEXT NOT NULL,
     date_created             TEXT NOT NULL,
@@ -59,7 +53,7 @@ CREATE TABLE SERVICE_REQUESTS (
     required_resource_type   TEXT NOT NULL,
     estimated_duration_hours REAL NOT NULL,
     description              TEXT NOT NULL,
-    FOREIGN KEY (requester_location_id) REFERENCES LOCATIONS(location_id)
+    FOREIGN KEY (requester_location_id) REFERENCES LOCATIONS(id)
 );
 
 -- Useful indexes

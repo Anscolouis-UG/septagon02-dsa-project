@@ -1,50 +1,104 @@
 road_id,road_name,road_type,start_location,end_location,distance_m,speed_limit_kmh,one_way,surface,road_id
-1,Main Entrance Road,Primary,Main Gate,University Square,240,30,No,Asphalt,1
-2,University Square Road,Primary,University Square,Balme Library,180,20,No,Asphalt,2
-3,Library Drive,Primary,Balme Library,Great Hall,160,20,No,Asphalt,3
-4,Administration Road,Secondary,Great Hall,Registry,90,20,No,Asphalt,4
-5,Conference Drive,Secondary,Registry,Cedi Conference Centre,80,20,No,Asphalt,5
-6,Science Road,Primary,Balme Library,School of Physical and Mathematical Sciences,170,20,No,Asphalt,6
-7,Computer Science Road,Secondary,School of Physical and Mathematical Sciences,Department of Computer Science,60,15,No,Asphalt,7
-8,Physics Road,Secondary,School of Physical and Mathematical Sciences,Department of Physics,45,15,No,Asphalt,8
-9,Chemistry Road,Secondary,Department of Physics,Department of Chemistry,50,15,No,Asphalt,9
-10,Mathematics Walk,Pedestrian,School of Physical and Mathematical Sciences,Department of Mathematics,40,5,No,Paved,10
-11,Statistics Walk,Pedestrian,Department of Mathematics,Department of Statistics,35,5,No,Paved,11
-12,UGBS Road,Primary,University Square,UG Business School,290,25,No,Asphalt,12
-13,Law Avenue,Secondary,Balme Library,School of Law,140,20,No,Asphalt,13
-14,Humanities Drive,Secondary,School of Law,College of Humanities,110,20,No,Asphalt,14
-15,IAS Road,Secondary,College of Humanities,Institute of African Studies,120,20,No,Asphalt,15
-16,Noguchi Road,Primary,Institute of African Studies,Noguchi Memorial Institute,320,25,No,Asphalt,16
-17,Hospital Road,Secondary,Noguchi Memorial Institute,University Hospital,90,20,No,Asphalt,17
-18,Student Centre Road,Primary,University Square,Student Centre,130,20,No,Asphalt,18
-19,Cafeteria Walk,Pedestrian,Student Centre,Central Cafeteria,60,5,No,Paved,19
-20,Bookshop Walk,Pedestrian,Student Centre,Bookshop,45,5,No,Paved,20
-21,Banking Walk,Pedestrian,Bookshop,Banking Square,40,5,No,Paved,21
-22,Night Market Road,Primary,UG Business School,Night Market,370,20,No,Asphalt,22
-23,Legon Hall Road,Secondary,Balme Library,Legon Hall,260,20,No,Asphalt,23
-24,Commonwealth Road,Primary,Legon Hall,Commonwealth Hall,240,25,No,Asphalt,24
-25,Sarbah Road,Secondary,Legon Hall,Mensah Sarbah Hall,170,20,No,Asphalt,25
-26,Volta Hall Road,Secondary,Legon Hall,Volta Hall,120,20,No,Asphalt,26
-27,Akuafo Road,Secondary,Legon Hall,Akuafo Hall,100,20,No,Asphalt,27
-28,Jubilee Road,Primary,Night Market,Jubilee Hall,150,20,No,Asphalt,28
-29,Hilla Limann Road,Secondary,Jubilee Hall,Hilla Limann Hall,80,20,No,Asphalt,29
-30,Jean Nelson Road,Secondary,Hilla Limann Hall,Jean Nelson Hall,55,20,No,Asphalt,30
-31,Kwapong Road,Secondary,Jean Nelson Hall,Alexander Kwapong Hall,60,20,No,Asphalt,31
-32,Sey Hall Road,Secondary,Alexander Kwapong Hall,Elizabeth Frances Sey Hall,70,20,No,Asphalt,32
-33,Pentagon Access Road,Secondary,Night Market,Pentagon Hostel,90,20,No,Asphalt,33
-34,International Hostel Road,Secondary,Pentagon Hostel,International Students Hostel,60,20,No,Asphalt,34
-35,Sports Road,Primary,Balme Library,Sports Stadium,420,25,No,Asphalt,35
-36,Oval Road,Secondary,Sports Stadium,Athletic Oval,70,20,No,Asphalt,36
-37,Tennis Court Road,Secondary,Athletic Oval,Tennis Courts,65,20,No,Asphalt,37
-38,Basketball Court Road,Secondary,Tennis Courts,Basketball Court,40,15,No,Paved,38
-39,Football Pitch Road,Secondary,Sports Stadium,Football Pitch,90,20,No,Asphalt,39
-40,Botanical Gardens Road,Primary,Great Hall,Botanical Gardens,500,20,No,Asphalt,40
-41,Open Air Theatre Road,Secondary,Botanical Gardens,Open Air Theatre,110,15,No,Paved,41
-42,Chapel Road,Secondary,Student Centre,University Chapel,150,20,No,Asphalt,42
-43,Islamic Centre Road,Secondary,University Chapel,Islamic Centre,180,20,No,Asphalt,43
-44,East Gate Road,Primary,UG Business School,East Gate,260,30,No,Asphalt,44
-45,West Gate Road,Primary,Sports Stadium,West Gate,230,30,No,Asphalt,45
-46,Transport Office Road,Secondary,Student Centre,Transport Office,70,20,No,Asphalt,46
-47,Student Affairs Road,Secondary,Transport Office,Directorate of Student Affairs,50,20,No,Asphalt,47
-48,Library Walkway,Pedestrian,Balme Library,Student Centre,90,5,No,Paved,48
-49,Great Hall Walkway,Pedestrian,Great Hall,Balme Library,80,5,No,Paved,49
+1,Road 1,Pedestrian,Department of Archaeology,Department of Adult Education,40,5,No,Asphalt,1
+2,Road 2,Pedestrian,Faculty of Agriculture,Department Of Family And Consumer Science,35,5,No,Asphalt,2
+3,Road 3,Pedestrian,Department Of Crop Science,Department of Soil Science,22,5,No,Asphalt,3
+4,Road 4,Secondary,School of Pharmacy,School of Graduate studies,173,20,No,Asphalt,4
+5,Road 5,Primary,Biomedical Engineering Department,School of Law,178,30,No,Asphalt,5
+6,Road 6,Primary,Department of Music,School of Continuing and Distance Education,181,30,No,Asphalt,6
+7,Road 7,Secondary,Department of Agriculture Economics and Agribusiness,CEGENSA - College,75,20,No,Asphalt,7
+8,Road 8,Primary,Biotechnology Laboratory,Department of Agriculture Economics and Agribusiness,105,30,No,Asphalt,8
+9,Road 9,Primary,School of Continuing and Distance Education,Department of Archaeology,113,30,No,Asphalt,9
+10,Road 10,Primary,Geography & Resource Development,Department Of Animal Science,122,30,No,Asphalt,10
+11,Road 11,Pedestrian,Department Of Animal Science,Faculty of Agriculture,74,5,No,Asphalt,11
+12,Road 12,Pedestrian,Biotechnology Laboratory,UG Creche and Kindergarten School,102,5,No,Asphalt,12
+13,Road 13,Pedestrian,School of Law,College of Humanities,116,5,No,Asphalt,13
+14,Road 14,Primary,Department Of Family And Consumer Science,Department of Geology,109,30,No,Asphalt,14
+15,Road 15,Pedestrian,JQB Lecture Hall,International Programmes office,145,5,No,Asphalt,15
+16,Road 16,Primary,School of Pharmacy,School of Nursing and Midwifery,100,30,No,Asphalt,16
+17,Road 17,Secondary,French Department,Department of Modern Languages,200,20,No,Asphalt,17
+18,Road 18,Secondary,Business School,College of Humanities,746,20,No,Asphalt,18
+19,Road 19,Secondary,Department Of Crop Science,UG Creche and Kindergarten School,109,20,No,Asphalt,19
+20,Road 20,Pedestrian,Great Hall,School of Graduate studies,644,5,No,Asphalt,20
+21,Road 21,Pedestrian,Department Of Economics,Maison Française Legon - Educational institution,192,5,No,Asphalt,21
+22,Road 22,Secondary,Computer Science Department,School of Law,87,20,No,Asphalt,22
+23,Road 23,Primary,Department of Geology,Department of Physics,122,30,No,Asphalt,23
+24,Road 24,Primary,Department of Educational Studies and Leadership (DESL),Department of Archaeology,112,30,No,Asphalt,24
+25,Road 25,Secondary,Department of Psychology,Department of Information Studies,56,20,No,Asphalt,25
+26,Road 26,Pedestrian,Geography & Resource Development,Faculty of Agriculture,111,5,No,Asphalt,26
+27,Road 27,Secondary,School of Social Sciences,Department of Psychology,77,20,No,Asphalt,27
+28,Road 28,Pedestrian,School of Graduate studies,Department of Biochemistry,229,5,No,Asphalt,28
+29,Road 29,Secondary,Department Of Crop Science,Department of Physics,151,20,No,Asphalt,29
+30,Road 30,Pedestrian,School of Nursing and Midwifery,Department of Biochemistry,134,5,No,Asphalt,30
+31,Road 31,Pedestrian,Centre for Climate Change and Sustainability Studies-C3SS,Department of Information Studies,179,5,No,Asphalt,31
+32,Road 32,Pedestrian,Sociology Department,Maison Française Legon - Educational institution,248,5,No,Asphalt,32
+33,Road 33,Pedestrian,Department of Chemistry,Centre for International Affairs,154,5,No,Asphalt,33
+34,Road 34,Secondary,Maison Française Legon - Educational institution,French Department,210,20,No,Asphalt,34
+35,Road 35,Secondary,New N Block,Centre for Climate Change and Sustainability Studies-C3SS,67,20,No,Asphalt,35
+36,Road 36,Secondary,School of Social Sciences,Centre for Climate Change and Sustainability Studies-C3SS,180,20,No,Asphalt,36
+37,Road 37,Pedestrian,Sociology Department,Great Hall,699,5,No,Asphalt,37
+38,Road 38,Primary,Mfodwo Complex/ N Block - Training center,School of Social Sciences,65,30,No,Asphalt,38
+39,Road 39,Pedestrian,Department of Adult Education,Institute of Africa Studies,99,5,No,Asphalt,39
+40,Road 40,Secondary,Department of Teacher Education,Department of Educational Studies and Leadership (DESL),31,20,No,Asphalt,40
+41,Road 41,Pedestrian,Department of Biochemistry,Department of Marine and Fisheries Sciences,157,5,No,Asphalt,41
+42,Road 42,Primary,JQB Lecture Hall,Department of Archaeology,87,30,No,Asphalt,42
+43,Road 43,Primary,School of Graduate studies,Research and Innovation Office Complex,242,30,No,Asphalt,43
+44,Road 44,Primary,Department of Chemistry,Department of Plant and Environmental Biology,158,30,No,Asphalt,44
+45,Road 45,Pedestrian,Department of Geology,Department of Home Science,167,5,No,Asphalt,45
+46,Road 46,Primary,Biomedical Engineering Department,Computer Science Department,145,30,No,Asphalt,46
+47,Road 47,Secondary,Department of Information Studies,School of Social Sciences,25,20,No,Asphalt,47
+48,Road 48,Primary,Department of Music,Institute of Africa Studies,244,30,No,Asphalt,48
+49,Road 49,Pedestrian,Department Of Family And Consumer Science,Department of Soil Science,77,5,No,Asphalt,49
+50,Road 50,Pedestrian,GCB Lecture Building,New N Block,120,5,No,Asphalt,50
+51,Road 51,Primary,Geography & Resource Development,Institute of Africa Studies,144,30,No,Asphalt,51
+52,Road 52,Primary,Department of Agriculture Economics and Agribusiness,UG Creche and Kindergarten School,55,30,No,Asphalt,52
+53,Road 53,Secondary,Institute of Africa Studies,School of Continuing and Distance Education,95,20,No,Asphalt,53
+54,Road 54,Pedestrian,Department of Archaeology,Institute of Africa Studies,102,5,No,Asphalt,54
+55,Road 55,Primary,Geography & Resource Development,Department Of Family And Consumer Science,126,30,No,Asphalt,55
+56,Road 56,Primary,Department of Biochemistry,GCB Lecture Building,126,30,No,Asphalt,56
+57,Road 57,Primary,Department of Educational Studies and Leadership (DESL),JQB Lecture Hall,95,30,No,Asphalt,57
+58,Road 58,Pedestrian,International Programmes office,Department of Educational Studies and Leadership (DESL),118,5,No,Asphalt,58
+59,Road 59,Primary,Department Of Family And Consumer Science,UG Creche and Kindergarten School,70,30,No,Asphalt,59
+60,Road 60,Pedestrian,GCB Lecture Building,School of Social Sciences,111,5,No,Asphalt,60
+61,Road 61,Secondary,JQB Lecture Hall,Department of Teacher Education,105,20,No,Asphalt,61
+62,Road 62,Pedestrian,Faculty of Agriculture,Department of Agriculture Economics and Agribusiness,71,5,No,Asphalt,62
+63,Road 63,Pedestrian,School of Pharmacy,Department of Biochemistry,101,5,No,Asphalt,63
+64,Road 64,Pedestrian,Mfodwo Complex/ N Block - Training center,Department of Information Studies,68,5,No,Asphalt,64
+65,Road 65,Secondary,Department of Physics,Balme Library,179,20,No,Asphalt,65
+66,Road 66,Primary,Faculty of Agriculture,UG Creche and Kindergarten School,57,30,No,Asphalt,66
+67,Road 67,Primary,Department of Modern Languages,Sociology Department,243,30,No,Asphalt,67
+68,Road 68,Secondary,Department of Geology,Centre for International Affairs,109,20,No,Asphalt,68
+69,Road 69,Primary,Department Of Economics,Balme Library,95,30,No,Asphalt,69
+70,Road 70,Secondary,Department of Teacher Education,Department of Archaeology,95,20,No,Asphalt,70
+71,Road 71,Primary,French Department,Department Of Economics,144,30,No,Asphalt,71
+72,Road 72,Primary,Department of Adult Education,Department of Music,258,30,No,Asphalt,72
+73,Road 73,Pedestrian,Balme Library,French Department,203,5,No,Asphalt,73
+74,Road 74,Secondary,Department Of Family And Consumer Science,Department Of Crop Science,81,20,No,Asphalt,74
+75,Road 75,Secondary,Department of Psychology,Mfodwo Complex/ N Block - Training center,71,20,No,Asphalt,75
+76,Road 76,Primary,School of Nursing and Midwifery,Research and Innovation Office Complex,288,30,No,Asphalt,76
+77,Road 77,Secondary,School of Social Sciences,New N Block,120,20,No,Asphalt,77
+78,Road 78,Secondary,Biotechnology Laboratory,CEGENSA - College,33,20,No,Asphalt,78
+79,Road 79,Primary,School of Pharmacy,Department of Marine and Fisheries Sciences,100,30,No,Asphalt,79
+80,Road 80,Pedestrian,School of Graduate studies,School of Nursing and Midwifery,95,5,No,Asphalt,80
+81,Road 81,Secondary,Department of Psychology,Department of Plant and Environmental Biology,141,20,No,Asphalt,81
+82,Road 82,Primary,Mfodwo Complex/ N Block - Training center,Department of Plant and Environmental Biology,118,30,No,Asphalt,82
+83,Road 83,Secondary,Biomedical Engineering Department,College of Humanities,234,20,No,Asphalt,83
+84,Road 84,Secondary,Department of Agriculture Economics and Agribusiness,Department Of Animal Science,31,20,No,Asphalt,84
+85,Road 85,Primary,Research and Innovation Office Complex,School of Pharmacy,387,30,No,Asphalt,85
+86,Road 86,Secondary,School of Continuing and Distance Education,Department of Adult Education,78,20,No,Asphalt,86
+87,Road 87,Primary,Department Of Animal Science,UG Creche and Kindergarten School,81,30,No,Asphalt,87
+88,Road 88,Secondary,Centre for International Affairs,Department of Home Science,80,20,No,Asphalt,88
+89,Road 89,Secondary,Department of Marine and Fisheries Sciences,GCB Lecture Building,145,20,No,Asphalt,89
+90,Road 90,Primary,International Programmes office,College of Humanities,35,30,No,Asphalt,90
+91,Road 91,Primary,Biomedical Engineering Department,Business School,690,30,No,Asphalt,91
+92,Road 92,Primary,Computer Science Department,College of Humanities,198,30,No,Asphalt,92
+93,Road 93,Primary,CEGENSA - College,UG Creche and Kindergarten School,70,30,No,Asphalt,93
+94,Road 94,Pedestrian,Department Of Economics,Department of Modern Languages,181,5,No,Asphalt,94
+95,Road 95,Primary,Department of Soil Science,Department of Geology,105,30,No,Asphalt,95
+96,Road 96,Secondary,College of Humanities,Department of Educational Studies and Leadership (DESL),149,20,No,Asphalt,96
+97,Road 97,Pedestrian,Department of Physics,Department of Soil Science,134,5,No,Asphalt,97
+98,Road 98,Secondary,International Programmes office,Business School,733,20,No,Asphalt,98
+99,Road 99,Pedestrian,Research and Innovation Office Complex,Great Hall,486,5,No,Asphalt,99
+100,Road 100,Pedestrian,Sociology Department,French Department,129,5,No,Asphalt,100
+101,Road 101,Secondary,School of Law,International Programmes office,151,20,No,Asphalt,101
+102,Road 102,Pedestrian,Department of Modern Languages,Maison Française Legon - Educational institution,11,5,No,Asphalt,102
+103,Road 103,Secondary,Department of Home Science,Department of Chemistry,89,20,No,Asphalt,103

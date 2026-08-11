@@ -1,34 +1,19 @@
 """
 Generate synthetic Legon Campus dataset matching the team's schema:
-locations.csv, roads.csv, service_requests.csv, resources.csv
+service_requests.csv, resources.csv
 
-This gives Priscilla (Performance Specialist) realistic data to run the
-6 efficiency experiments against, until Samuella delivers the real dataset.
+This reads the valid string IDs from nodes.csv and generates the requests and resources using those IDs.
 """
 import csv
 import random
-import math
+import os
 
 random.seed(42)
 
-BUILDINGS = [
-    "Registry", "Balme Library", "Great Hall", "SRC Union Building",
-    "Commonwealth Hall", "Mensah Sarbah Hall", "Volta Hall", "Legon Hall",
-    "Jubilee Hall", "Akuafo Hall", "Physics Block", "Chemistry Block",
-    "Biology Block", "Engineering School", "Business School",
-    "School of Performing Arts", "School of Pharmacy", "Law School",
-    "Legon Clinic", "Central Cafeteria", "Athletic Oval", "Sports Complex",
-    "Parking Lot A", "Parking Lot B", "Parking Lot C",
-    "Security Gate 1 (Main)", "Security Gate 2 (Okponglo)", "Security Gate 3 (Haatso)",
-    "Water Treatment Plant", "Electrical Substation", "Waste Management Center",
-    "Vehicle Maintenance Garage", "Vice Chancellor's Office", "ISSER Building",
-    "Institute of African Studies", "School of Public Health", "Dental School",
-    "Nursing School", "Optometry School", "Info Studies Dept", "Computer Science Dept",
-    "Statistics Dept", "Mathematics Dept", "Geography Dept", "Sociology Dept",
-    "Political Science Dept", "History Dept", "Economics Dept", "Philosophy Dept",
-    "Night Market",
-]
-assert len(BUILDINGS) == 50, len(BUILDINGS)
+DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data_base")
+NODES_FILE = os.path.join(DATA_DIR, "nodes.csv")
+REQ_FILE = os.path.join(DATA_DIR, "service_requests.csv")
+RES_FILE = os.path.join(DATA_DIR, "resources.csv")
 
 REQUEST_TYPES = {
     "Maintenance": 0.40, "Delivery": 0.30, "Waste": 0.15,
@@ -39,67 +24,46 @@ PRIORITY_BY_TYPE = {
     "Delivery": "Medium", "Waste": "Medium", "Grounds": "Low",
 }
 
-def gen_locations(path, n=50):
-    # Fake a rough lat/lon grid around Legon (5.6506 N, -0.1875 E)
-    rows = []
-    for i, name in enumerate(BUILDINGS[:n], start=1):
-        lat = 5.6506 + random.uniform(-0.01, 0.01)
-        lon = -0.1875 + random.uniform(-0.01, 0.01)
-        rows.append([i, name, round(lat, 5), round(lon, 5)])
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["location_id", "name", "latitude", "longitude"])
-        w.writerows(rows)
-    return rows
+def load_node_ids(path):
+    ids = []
+    with open(path, "r") as f:
+        reader = csv.reader(f)
+        next(reader) # skip header
+        for row in reader:
+            if row:
+                ids.append(row[0])
+    return ids
 
-def gen_roads(path, n_locations=50, min_roads=110):
-    # Build a connected graph first (spanning tree), then add extra edges for realism
-    edges = set()
-    nodes = list(range(1, n_locations + 1))
-    random.shuffle(nodes)
-    connected = [nodes[0]]
-    remaining = nodes[1:]
-    for node in remaining:
-        other = random.choice(connected)
-        a, b = sorted((node, other))
-        edges.add((a, b))
-        connected.append(node)
-    # add extra random edges until we have enough
-    while len(edges) < min_roads:
-        a, b = random.sample(range(1, n_locations + 1), 2)
-        a, b = sorted((a, b))
-        if a != b:
-            edges.add((a, b))
-    rows = []
-    for i, (a, b) in enumerate(sorted(edges), start=1):
-        distance_km = round(random.uniform(0.2, 3.0), 2)
-        travel_time = round(distance_km * random.uniform(4, 8), 1)  # ~walking pace mins/km
-        rows.append([i, a, b, distance_km, travel_time])
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["road_id", "from_location_id", "to_location_id", "distance_km", "travel_time_minutes"])
-        w.writerows(rows)
-    return rows
-
-def gen_requests(path, n=320, n_locations=50):
+def gen_requests(path, valid_ids, n=320):
     types = list(REQUEST_TYPES.keys())
     weights = list(REQUEST_TYPES.values())
     rows = []
     for i in range(1, n + 1):
         rtype = random.choices(types, weights=weights)[0]
-        loc = random.randint(1, n_locations)
+        loc = random.choice(valid_ids)
         priority = PRIORITY_BY_TYPE[rtype]
         day = random.randint(1, 28)
         hour = random.randint(6, 20)
         deadline = f"2026-08-{day:02d} {hour:02d}:00"
-        rows.append([i, rtype, loc, priority, deadline])
+        
+        # We also need to map these to the exact CSV columns for SERVICE_REQUESTS
+        # request_id,request_type,requester_location_id,priority,status,date_created,deadline,assigned_team,required_resource_type,estimated_duration_hours,description
+        status = random.choice(["Pending", "Assigned", "In Progress"])
+        date_created = f"2026-08-{day-1:02d} {hour:02d}:00" if day > 1 else f"2026-07-28 {hour:02d}:00"
+        team = "Maintenance Team"
+        resource_type = "Personnel"
+        duration = random.randint(1, 5)
+        description = f"Routine {rtype} task at {loc}"
+        
+        rows.append([i, rtype, loc, priority, status, date_created, deadline, team, resource_type, duration, description])
+        
     with open(path, "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["request_id", "request_type", "requester_location_id", "priority", "deadline"])
+        w.writerow(["request_id", "request_type", "requester_location_id", "priority", "status", "date_created", "deadline", "assigned_team", "required_resource_type", "estimated_duration_hours", "description"])
         w.writerows(rows)
     return rows
 
-def gen_resources(path, n=30, n_locations=50):
+def gen_resources(path, valid_ids, n=30):
     types = ["Personnel", "Vehicle", "Equipment"]
     names = {
         "Personnel": ["Maintenance Team", "Cleaning Crew", "Security Team"],
@@ -111,17 +75,21 @@ def gen_resources(path, n=30, n_locations=50):
         rtype = random.choices(types, weights=[0.4, 0.35, 0.25])[0]
         name = f"{random.choice(names[rtype])} {i}"
         capacity = random.choice([3, 4, 2000, 5000, 1]) if rtype != "Personnel" else random.randint(2, 4)
-        loc = random.randint(1, n_locations)
-        rows.append([i, name, rtype, capacity, loc])
+        loc = random.choice(valid_ids)
+        
+        # resource_id,resource_name,resource_type,capacity,current_location_id,availability_status,cost_per_hour
+        status = random.choice(["Available", "In Use", "Maintenance"])
+        cost = random.randint(10, 50)
+        
+        rows.append([i, name, rtype, capacity, loc, status, cost])
     with open(path, "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["resource_id", "resource_name", "resource_type", "capacity", "current_location_id"])
+        w.writerow(["resource_id", "resource_name", "resource_type", "capacity", "current_location_id", "availability_status", "cost_per_hour"])
         w.writerows(rows)
     return rows
 
 if __name__ == "__main__":
-    locs = gen_locations("locations.csv")
-    roads = gen_roads("roads.csv")
-    reqs = gen_requests("service_requests.csv")
-    res = gen_resources("resources.csv")
-    print(f"locations: {len(locs)}, roads: {len(roads)}, requests: {len(reqs)}, resources: {len(res)}")
+    valid_ids = load_node_ids(NODES_FILE)
+    reqs = gen_requests(REQ_FILE, valid_ids)
+    res = gen_resources(RES_FILE, valid_ids)
+    print(f"Generated {len(reqs)} requests and {len(res)} resources based on {len(valid_ids)} nodes.")

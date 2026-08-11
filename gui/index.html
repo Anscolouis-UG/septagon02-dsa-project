@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghana Smart Campus  DSA Operations Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0d1117; --surface:#161b22; --surface2:#1f2937; --border:#30363d;
+      --accent:#00d4aa; --accent2:#7c3aed; --accent3:#f59e0b; --accent4:#ef4444;
+      --text:#e6edf3; --text-dim:#8b949e; --radius:12px; --sidebar:260px;
+    }
+    html, body { height:100%; overflow:hidden; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); display:flex; }
+    #sidebar { width:var(--sidebar); min-width:var(--sidebar); background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; padding:20px 0; gap:4px; overflow-y:auto; }
+    .sidebar-logo { padding:0 20px 20px; border-bottom:1px solid var(--border); margin-bottom:12px; }
+    .sidebar-logo h2 { font-size:13px; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase; }
+    .sidebar-logo p { font-size:11px; color:var(--text-dim); margin-top:4px; }
+    .nav-section-label { font-size:10px; font-weight:600; color:var(--text-dim); letter-spacing:1.2px; text-transform:uppercase; padding:12px 20px 4px; }
+    .nav-btn { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text-dim); border:none; background:none; width:100%; text-align:left; border-left:3px solid transparent; transition:all 0.2s; font-family:'Inter',sans-serif; }
+    .nav-btn:hover { background:rgba(255,255,255,0.04); color:var(--text); }
+    .nav-btn.active { background:rgba(0,212,170,0.08); color:var(--accent); border-left-color:var(--accent); }
+    .nav-btn .icon { font-size:16px; width:20px; text-align:center; }
+    .nav-divider { height:1px; background:var(--border); margin:8px 20px; }
+    #main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+    #topbar { height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; border-bottom:1px solid var(--border); background:var(--surface); flex-shrink:0; }
+    #topbar h1 { font-size:16px; font-weight:600; }
+    .badge { font-size:11px; background:rgba(0,212,170,0.15); color:var(--accent); padding:3px 10px; border-radius:20px; font-weight:600; }
+    #content { flex:1; overflow-y:auto; padding:28px; display:flex; flex-direction:column; gap:24px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px; }
+    .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    .card-title { font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; }
+    .card-title .dot { width:8px; height:8px; border-radius:50%; }
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; position:relative; overflow:hidden; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .stat-card.c1::before { background:var(--accent); }
+    .stat-card.c2::before { background:var(--accent2); }
+    .stat-card.c3::before { background:var(--accent3); }
+    .stat-card.c4::before { background:var(--accent4); }
+    .stat-value { font-size:28px; font-weight:700; font-family:'JetBrains Mono'; }
+    .stat-label { font-size:12px; color:var(--text-dim); margin-top:4px; }
+    .stat-icon { position:absolute; top:18px; right:18px; font-size:24px; opacity:0.4; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    #graphCanvas,#traversalCanvas,#dijkCanvas,#mstCanvas { width:100%; border-radius:8px; background:#0a0e14; display:block; }
+    .canvas-overlay { position:absolute; top:10px; left:10px; background:rgba(13,17,23,0.85); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:11px; color:var(--text-dim); }
+    .legend-item { display:flex; align-items:center; gap:6px; margin:3px 0; }
+    .legend-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .btn { padding:8px 16px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text); font-size:13px; font-weight:500; cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif; }
+    .btn:hover { border-color:var(--accent); color:var(--accent); }
+    .btn.primary { background:var(--accent); color:#000; border-color:var(--accent); font-weight:600; }
+    .btn.primary:hover { background:#00b894; }
+    .btn.danger { background:rgba(239,68,68,0.15); color:var(--accent4); border-color:var(--accent4); }
+    select.btn { appearance:none; padding-right:28px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; background-color:var(--surface2); }
+    .log-box { background:#0a0e14; border:1px solid var(--border); border-radius:8px; padding:14px; font-family:'JetBrains Mono',monospace; font-size:12px; height:220px; overflow-y:auto; line-height:1.7; color:#c9d1d9; }
+    .log-line { animation:fadeIn 0.3s ease; }
+    .log-step { color:var(--accent); }
+    .log-visit { color:#7dd3fc; }
+    .log-edge { color:var(--accent3); }
+    .log-result { color:#a78bfa; }
+    .log-done { color:var(--accent); font-weight:600; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:translateY(0)} }
+    .budget-bar-wrap { display:flex; flex-direction:column; gap:12px; }
+    .budget-row { display:flex; align-items:center; gap:14px; }
+    .budget-label { font-size:12px; font-weight:500; width:100px; flex-shrink:0; }
+    .bar-track { flex:1; height:12px; background:var(--surface2); border-radius:6px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:6px; transition:width 1s ease; width:0%; }
+    .budget-val { font-size:12px; font-family:'JetBrains Mono'; color:var(--text-dim); width:90px; text-align:right; flex-shrink:0; }
+    .ds-card { background:var(--surface2); border-radius:8px; padding:16px; border-left:3px solid var(--accent); }
+    .ds-card h4 { font-size:13px; font-weight:600; margin-bottom:6px; }
+    .ds-card p { font-size:12px; color:var(--text-dim); line-height:1.6; }
+    .ds-card .complexity { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+    .chip { font-size:11px; font-family:'JetBrains Mono'; padding:2px 8px; border-radius:4px; background:rgba(0,212,170,0.1); color:var(--accent); border:1px solid rgba(0,212,170,0.2); }
+    .chip.w { background:rgba(239,68,68,0.1); color:#f87171; border-color:rgba(239,68,68,0.2); }
+    #tooltip { position:fixed; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12px; pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:1000; max-width:220px; }
+    #tooltip strong { display:block; margin-bottom:4px; font-size:13px; color:var(--accent); }
+    #tooltip .tip-row { display:flex; justify-content:space-between; gap:16px; color:var(--text-dim); }
+    .section { display:none; flex-direction:column; gap:24px; }
+    .section.active { display:flex; }
+    #step-badge { background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.3); color:var(--accent); font-size:12px; font-family:'JetBrains Mono'; padding:4px 12px; border-radius:20px; }
+    .algo-info { font-size:12px; color:var(--text-dim); line-height:1.7; }
+    .algo-info strong { color:var(--text); }
+    .cmd-box { background:#0a0e14; border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-family:'JetBrains Mono'; font-size:12px; color:var(--accent3); overflow-x:auto; white-space:nowrap; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+    #graph-wrap { position:relative; }
+  </style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <h2> DSA Optimizer</h2>
+    <p>UG Legon Campus · DCIT 204</p>
+  </div>
+  <span class="nav-section-label">Overview</span>
+  <button class="nav-btn active" data-section="dashboard"><span class="icon"></span> Dashboard</button>
+  <span class="nav-section-label">Graph Algorithms</span>
+  <button class="nav-btn" data-section="graph"><span class="icon"></span> Campus Graph</button>
+  <button class="nav-btn" data-section="traversal"><span class="icon"></span> BFS / DFS</button>
+  <button class="nav-btn" data-section="shortest"><span class="icon"></span> Dijkstra</button>
+  <button class="nav-btn" data-section="mst"><span class="icon"></span> Kruskal / Prim</button>
+  <div class="nav-divider"></div>
+  <span class="nav-section-label">Data & Structures</span>
+  <button class="nav-btn" data-section="structures"><span class="icon"></span> All Structures</button>
+  <button class="nav-btn" data-section="dp"><span class="icon"></span> Budget Optimizer</button>
+  <div class="nav-divider"></div>
+  <span class="nav-section-label">Reference</span>
+  <button class="nav-btn" data-section="commands"><span class="icon"></span> CLI Reference</button>
+</nav>
+
+<div id="main">
+  <div id="topbar">
+    <h1 id="page-title">Dashboard</h1>
+    <span class="badge"> septagon02-dsa-project</span>
+  </div>
+  <div id="content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="section-dashboard">
+      <div class="stats-row">
+        <div class="stat-card c1"><div class="stat-icon"></div><div class="stat-value" style="color:var(--accent)">50</div><div class="stat-label">Campus Locations</div></div>
+        <div class="stat-card c2"><div class="stat-icon"></div><div class="stat-value" style="color:#a78bfa">49</div><div class="stat-label">Road Connections</div></div>
+        <div class="stat-card c3"><div class="stat-icon"></div><div class="stat-value" style="color:var(--accent3)">14</div><div class="stat-label">Custom Data Structures</div></div>
+        <div class="stat-card c4"><div class="stat-icon"></div><div class="stat-value" style="color:var(--accent4)">7</div><div class="stat-label">Algorithms Implemented</div></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>Project Architecture</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent)">Layer 1  Data</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">4 CSV files  CSVLoader  george.db (SQLite)</div></div>
+            <div style="background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:#a78bfa">Layer 2  Data Structures</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">14 custom Java structures · no java.util</div></div>
+            <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent3)">Layer 3  Algorithms</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">BFS, DFS, Dijkstra, Kruskal, Prim, Search/Sort, DP</div></div>
+            <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:12px 14px;"><div style="font-size:12px;font-weight:600;color:var(--accent4)">Layer 4  Performance</div><div style="font-size:12px;color:var(--text-dim);margin-top:4px">Python benchmarking harness · 6 scaling experiments</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Quick Start Commands</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+            <div><div style="color:var(--text-dim);margin-bottom:4px">① Run all demos at once:</div><div class="cmd-box">zsh run_all_demos.sh</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">② Seed the database:</div><div class="cmd-box">java -cp "out:lib/sqlite-jdbc.jar" CSVLoader</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">③ Run Dijkstra:</div><div class="cmd-box">java -cp out algorithms.Dijkstra</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">④ Run unit tests:</div><div class="cmd-box">mvn test</div></div>
+            <div><div style="color:var(--text-dim);margin-bottom:4px">⑤ Performance benchmarks:</div><div class="cmd-box">cd src/Performance && python run_experiments.py</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>Test Suite  16 Files</div></div>
+        <div id="test-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+      </div>
+    </div>
+
+    <!-- CAMPUS GRAPH -->
+    <div class="section" id="section-graph">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>UG Legon Campus Network</div><span id="hover-label" style="font-size:12px;color:var(--accent);font-family:'JetBrains Mono'"></span></div>
+        <div id="graph-wrap">
+          <canvas id="graphCanvas" height="520"></canvas>
+          <div class="canvas-overlay">
+            <div class="legend-item"><div class="legend-dot" style="background:#00d4aa"></div>Academic</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Residence</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Services</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text-dim)">Hover over a node to see details. Nodes positioned by real GPS coordinates.</div>
+      </div>
+    </div>
+
+    <!-- BFS/DFS -->
+    <div class="section" id="section-traversal">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#60a5fa"></span>Graph Traversal</div><span id="step-badge">Step 0 / 0</span></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="algo-select"><option value="bfs">BFS  Breadth-First</option><option value="dfs">DFS  Depth-First</option></select>
+            <select class="btn" id="start-select"></select>
+            <button class="btn primary" id="btn-run-traversal"> Run</button>
+            <button class="btn danger" id="btn-reset-traversal"> Reset</button>
+          </div>
+          <canvas id="traversalCanvas" height="360"></canvas>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#60a5fa"></span>Output Log</div></div>
+          <div class="log-box" id="traversal-log" style="flex:1;height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info" id="algo-info-text"><strong>BFS (Breadth-First Search)</strong><br>Explores layer by layer using a queue. Guarantees fewest hops.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure used:</strong> CustomQueue</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIJKSTRA -->
+    <div class="section" id="section-shortest">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#f59e0b"></span>Dijkstra  Shortest Path</div></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="dijk-source"></select>
+            <select class="btn" id="dijk-target"></select>
+            <button class="btn primary" id="btn-run-dijk"> Find Path</button>
+            <button class="btn danger" id="btn-reset-dijk"> Reset</button>
+          </div>
+          <canvas id="dijkCanvas" height="360"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#f59e0b"></span>Results</div></div>
+          <div class="log-box" id="dijk-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info"><strong>Dijkstra's Algorithm</strong><br>Finds shortest weighted path between two nodes using a greedy priority queue approach.<br><br><strong>Complexity:</strong> O((V+E) log V)<br><strong>Weights:</strong> Road distances in metres</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MST -->
+    <div class="section" id="section-mst">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>Minimum Spanning Tree</div></div>
+          <div class="controls" style="margin-bottom:14px;">
+            <select class="btn" id="mst-algo-select"><option value="kruskal">Kruskal's Algorithm</option><option value="prim">Prim's Algorithm</option></select>
+            <button class="btn primary" id="btn-run-mst"> Build MST</button>
+            <button class="btn danger" id="btn-reset-mst"> Reset</button>
+          </div>
+          <canvas id="mstCanvas" height="360"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:#a78bfa"></span>MST Output</div></div>
+          <div class="log-box" id="mst-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info" id="mst-info-text"><strong>Kruskal's Algorithm</strong><br>Sorts edges by weight and adds greedily, using Union-Find for cycle detection.<br><br><strong>Complexity:</strong> O(E log E)<br><strong>Structure:</strong> CustomDisjointSet</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA STRUCTURES -->
+    <div class="section" id="section-structures">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Custom Data Structures Reference</div></div>
+        <div id="ds-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;"></div>
+      </div>
+    </div>
+
+    <!-- BUDGET DP -->
+    <div class="section" id="section-dp">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>DP Budget Allocator</div></div>
+          <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <label style="font-size:12px;color:var(--text-dim)">Total Budget (GHS):</label>
+            <input id="budget-input" type="number" value="288000" min="1000" step="1000" style="width:130px;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:13px;" />
+            <button class="btn primary" id="btn-run-dp"> Optimize</button>
+          </div>
+          <div class="budget-bar-wrap" id="dp-bars"></div>
+          <div style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text-dim);" id="dp-summary"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent)"></span>Allocation Log</div></div>
+          <div class="log-box" id="dp-log" style="height:240px;"></div>
+          <div style="margin-top:14px;"><div class="algo-info"><strong>Knapsack Budget Allocation (DP)</strong><br>Maximises total priority benefit across 5 service sectors within a budget constraint.<br><br><strong>Complexity:</strong> O(n × B/UNIT) pseudo-polynomial<br><strong>Priority weights:</strong> Critical=4, High=3, Medium=2, Low=1</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLI -->
+    <div class="section" id="section-commands">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Compile</div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+          <div><div style="color:var(--text-dim);margin-bottom:4px">Pass 1  data structures:</div><div class="cmd-box">javac -d out src/datastructures/*.java</div></div>
+          <div><div style="color:var(--text-dim);margin-bottom:4px">Pass 2  algorithms + DB layer:</div><div class="cmd-box">javac -cp "out:lib/sqlite-jdbc.jar" -d out src/*.java src/algorithms/*.java</div></div>
+        </div>
+      </div>
+      <div id="cmd-sections"></div>
+    </div>
+
+  </div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+const LOCATIONS = [{"id": "balme-library", "name": "Balme Library", "type": "academic", "lat": 5.6518, "lon": -0.1871}, {"id": "biomed-dept", "name": "Biomedical Engineering Department", "type": "academic", "lat": 5.6556, "lon": -0.1831}, {"id": "biotech-lab", "name": "Biotechnology Laboratory", "type": "academic", "lat": 5.6488, "lon": -0.1837}, {"id": "CEGENSA", "name": "CEGENSA - College", "type": "academic", "lat": 5.6491, "lon": -0.1837}, {"id": "CSPS", "name": "CSPS - Centre for Social Policy Studies", "type": "academic", "lat": 5.6549, "lon": -0.1876}, {"id": "c3ss", "name": "Centre for Climate Change and Sustainability Studies-C3SS", "type": "academic", "lat": 5.6566, "lon": -0.1879}, {"id": "inter-affairs", "name": "Centre for International Affairs", "type": "academic", "lat": 5.6521, "lon": -0.1841}, {"id": "humanities", "name": "College of Humanities", "type": "academic", "lat": 5.6537, "lon": -0.1822}, {"id": "animal-science-dept", "name": "Department Of Animal Science", "type": "academic", "lat": 5.6499, "lon": -0.1832}, {"id": "crop-science", "name": "Department Of Crop Science", "type": "academic", "lat": 5.6501, "lon": -0.1848}, {"id": "econs-dept", "name": "Department Of Economics", "type": "academic", "lat": 5.651, "lon": -0.1874}, {"id": "fam-and-consumer", "name": "Department Of Family And Consumer Science", "type": "academic", "lat": 5.6503, "lon": -0.1841}, {"id": "history-dept", "name": "Department Of History", "type": "academic", "lat": 5.6501, "lon": -0.1894}, {"id": "philosophy-&-classics", "name": "Department Of Philosophy and Classics - Research Institute", "type": "academic", "lat": 5.6509, "lon": -0.1881}, {"id": "religions", "name": "Department for the Study of Religions - Research Institute", "type": "academic", "lat": 5.6509, "lon": -0.1883}, {"id": "adult-edu", "name": "Department of Adult Education", "type": "academic", "lat": 5.6515, "lon": -0.1811}, {"id": "agriecons-agricbusiness", "name": "Department of Agriculture Economics and Agribusiness", "type": "academic", "lat": 5.6497, "lon": -0.1834}, {"id": "animal-biology", "name": "Department of Animal Biology", "type": "academic", "lat": 5.6534, "lon": -0.1875}, {"id": "archaeology", "name": "Department of Archaeology", "type": "academic", "lat": 5.6518, "lon": -0.1813}, {"id": "biochem-dept", "name": "Department of Biochemistry", "type": "academic", "lat": 5.6547, "lon": -0.1894}, {"id": "chemistry-dept", "name": "Department of Chemistry", "type": "academic", "lat": 5.6528, "lon": -0.1853}, {"id": "computer-science", "name": "Department of Computer Science", "type": "academic", "lat": 5.6545, "lon": -0.1838}, {"id": "education-dept", "name": "Department of Educational Studies and Leadership (DESL)", "type": "academic", "lat": 5.6528, "lon": -0.1812}, {"id": "geography-dept", "name": "Department of Geography and Resource Development", "type": "academic", "lat": 5.651, "lon": -0.1832}, {"id": "geology-dept", "name": "Department of Geology", "type": "academic", "lat": 5.6512, "lon": -0.1845}, {"id": "home-science", "name": "Department of Home Science", "type": "academic", "lat": 5.6527, "lon": -0.1845}, {"id": "info-studies", "name": "Department of Information Studies", "type": "academic", "lat": 5.6552, "lon": -0.1871}, {"id": "marine-&-fisheries", "name": "Department of Marine and Fisheries Sciences", "type": "academic", "lat": 5.6537, "lon": -0.1884}, {"id": "maths-dept", "name": "Department of Mathematics", "type": "academic", "lat": 5.6538, "lon": -0.1841}, {"id": "modern-langs", "name": "Department of Modern Languages", "type": "academic", "lat": 5.6494, "lon": -0.1877}, {"id": "music-dept", "name": "Department of Music", "type": "academic", "lat": 5.6492, "lon": -0.1808}, {"id": "physics-dept", "name": "Department of Physics", "type": "academic", "lat": 5.6512, "lon": -0.1856}, {"id": "plant-&-envt-biology", "name": "Department of Plant and Environmental Biology", "type": "academic", "lat": 5.6539, "lon": -0.1862}, {"id": "political-science", "name": "Department of Political Science", "type": "academic", "lat": 5.6547, "lon": -0.1864}, {"id": "psychology", "name": "Department of Psychology", "type": "academic", "lat": 5.6551, "lon": -0.1866}, {"id": "soil-science", "name": "Department of Soil Science", "type": "academic", "lat": 5.6503, "lon": -0.1848}, {"id": "stats-dept", "name": "Department of Statistics", "type": "academic", "lat": 5.6538, "lon": -0.1838}, {"id": "teacher-education", "name": "Department of Teacher Education", "type": "academic", "lat": 5.6526, "lon": -0.181}, {"id": "economic-policy", "name": "Economic Policy Management Programme Office - Research Institute", "type": "academic", "lat": 5.6512, "lon": -0.188}, {"id": "agric-faculty", "name": "Faculty of Agriculture", "type": "academic", "lat": 5.6502, "lon": -0.1838}, {"id": "french-dept", "name": "French Department", "type": "academic", "lat": 5.6509, "lon": -0.1887}, {"id": "GCB-lecture-hall", "name": "GCB Lecture Building", "type": "academic", "lat": 5.655, "lon": -0.1883}, {"id": "great-hall", "name": "Great Hall", "type": "academic", "lat": 5.6507, "lon": -0.196}, {"id": "africa-studies", "name": "Institute of Africa Studies", "type": "academic", "lat": 5.6511, "lon": -0.1819}, {"id": "isser", "name": "Institute of Statistical Social and Economic Research(ISSER)", "type": "academic", "lat": 5.6545, "lon": -0.1844}, {"id": "inter-prog-office", "name": "International Programmes office", "type": "academic", "lat": 5.6536, "lon": -0.1819}, {"id": "jqb", "name": "JQB Lecture Hall", "type": "academic", "lat": 5.6523, "lon": -0.1819}, {"id": "maison-francaise", "name": "Maison Fran\u00e7aise Legon - Educational institution", "type": "academic", "lat": 5.6493, "lon": -0.1877}, {"id": "MIASA", "name": "Merian Institute for Advanced Studies in Africa (MIASA) - Research institute", "type": "academic", "lat": 5.6479, "lon": -0.1912}, {"id": "mfodwo", "name": "Mfodwo Complex/ N Block - Training center", "type": "academic", "lat": 5.6546, "lon": -0.187}, {"id": "N-block", "name": "New N Block", "type": "academic", "lat": 5.656, "lon": -0.1879}, {"id": "CERGIS", "name": "RS/GIS Lab - Research institute", "type": "academic", "lat": 5.6513, "lon": -0.1828}, {"id": "research-office", "name": "Research and Innovation Office Complex", "type": "academic", "lat": 5.6537, "lon": -0.1928}, {"id": "cont-&-dist-school", "name": "School of Continuing and Distance Education", "type": "academic", "lat": 5.6508, "lon": -0.1811}, {"id": "engineering", "name": "School of Engineering Sciences", "type": "academic", "lat": 5.6553, "lon": -0.183}, {"id": "GRASAG", "name": "School of Graduate studies", "type": "academic", "lat": 5.6531, "lon": -0.1907}, {"id": "nursing-and-midwifery", "name": "School of Nursing and Midwifery", "type": "academic", "lat": 5.6538, "lon": -0.1902}, {"id": "performing-arts", "name": "School of Performing Arts", "type": "academic", "lat": 5.6501, "lon": -0.1819}, {"id": "pharmacy-school", "name": "School of Pharmacy", "type": "academic", "lat": 5.6538, "lon": -0.1893}, {"id": "public-health", "name": "School of Public Health", "type": "academic", "lat": 5.6366, "lon": -0.1827}, {"id": "socioso", "name": "School of Social Sciences", "type": "academic", "lat": 5.6551, "lon": -0.1873}, {"id": "sociology-dept", "name": "Sociology Department", "type": "academic", "lat": 5.6503, "lon": -0.1897}, {"id": "UG-creche-kg", "name": "UG Creche and Kindergarten School", "type": "academic", "lat": 5.6497, "lon": -0.1839}, {"id": "law-school", "name": "UG School of Law", "type": "academic", "lat": 5.654, "lon": -0.1832}, {"id": "business-school", "name": "University of Ghana Business School", "type": "academic", "lat": 5.6587, "lon": -0.1777}, {"id": "WAGMC", "name": "West African Genetic Medicine Centre - WAGMC", "type": "academic", "lat": 5.6348, "lon": -0.1847}, {"id": "akuafo-hall", "name": "Akuafo Hall", "type": "residence", "lat": 5.6503, "lon": -0.1857}, {"id": "akuafo-hall-annex", "name": "Akuafo Hall Annex", "type": "residence", "lat": 5.6476, "lon": -0.1856}, {"id": "kwapong-hall", "name": "Alexander Kwapong Hall", "type": "residence", "lat": 5.637, "lon": -0.1855}, {"id": "bani-hostel", "name": "Bani Hostel", "type": "residence", "lat": 5.663, "lon": -0.1797}, {"id": "commonwealth-hall", "name": "Commonwealth Hall", "type": "residence", "lat": 5.6506, "lon": -0.1925}, {"id": "limann-hall", "name": "Dr. Hilla Limann Hall", "type": "residence", "lat": 5.6373, "lon": -0.1848}, {"id": "sey-hall", "name": "Elizabeth Sey Hall", "type": "residence", "lat": 5.6358, "lon": -0.1877}, {"id": "evandy-hostel", "name": "Evandy Hostel", "type": "residence", "lat": 5.6629, "lon": -0.1817}, {"id": "ish-hostel", "name": "International Student Hostel", "type": "residence", "lat": 5.6399, "lon": -0.1852}, {"id": "jean-nelson-hall", "name": "Jean Nelson Akah Hall", "type": "residence", "lat": 5.6355, "lon": -0.1882}, {"id": "jubilee-hall", "name": "Jubilee Hall", "type": "residence", "lat": 5.6405, "lon": -0.186}, {"id": "legon-hall", "name": "Legon Hall", "type": "residence", "lat": 5.6502, "lon": -0.1884}, {"id": "legon-hall-annex", "name": "Legon Hall Annex", "type": "residence", "lat": 5.6474, "lon": -0.1881}, {"id": "mensah-sarbah-annex", "name": "Mensah Sarbah Annex", "type": "residence", "lat": 5.6454, "lon": -0.1854}, {"id": "mensah-sarbah-hall", "name": "Mensah Sarbah Hall", "type": "residence", "lat": 5.6462, "lon": -0.1871}, {"id": "old-pentagon-blocks", "name": "Old Pentagon Blocks", "type": "residence", "lat": 5.6567, "lon": -0.1814}, {"id": "pent-hostel-block-a", "name": "Pent Hostel Block A", "type": "residence", "lat": 5.6572, "lon": -0.182}, {"id": "pent-hostel-block-b", "name": "Pent Hostel Block B", "type": "residence", "lat": 5.6585, "lon": -0.1819}, {"id": "pent-hostel-block-c", "name": "Pent Hostel Block C", "type": "residence", "lat": 5.6584, "lon": -0.1813}, {"id": "tf-hostel", "name": "TF Hostel", "type": "residence", "lat": 5.6662, "lon": -0.1821}, {"id": "valco-trust-hostel", "name": "Valco Trust Hostel", "type": "residence", "lat": 5.6443, "lon": -0.1869}, {"id": "vikings-hostel", "name": "Vikings Hostel", "type": "residence", "lat": 5.6442, "lon": -0.1856}, {"id": "volta-hall", "name": "Volta Hall", "type": "residence", "lat": 5.6518, "lon": -0.1898}, {"id": "cafeteria", "name": "Central Cafeteria", "type": "services", "lat": 5.6468, "lon": -0.1868}, {"id": "ecowas-coastal-marine", "name": "ECOWAS Coastal & Marine Resources Management Centre", "type": "services", "lat": 5.6527, "lon": -0.1839}, {"id": "ghkorea-info", "name": "Ghana Korea Information Access Centre", "type": "services", "lat": 5.652, "lon": -0.1877}, {"id": "hospital", "name": "Legon Hospital", "type": "services", "lat": 5.6511, "lon": -0.1779}, {"id": "bank", "name": "UG Banking Square", "type": "services", "lat": 5.6427, "lon": -0.1856}, {"id": "UG-Stadium", "name": "University of Ghana Sports Stadium", "type": "services", "lat": 5.6393, "lon": -0.1811}];
+const ROADS = [{"from": "maison-francaise", "to": "modern-langs", "dist": 11, "type": "Primary"}, {"from": "philosophy-&-classics", "to": "religions", "dist": 22, "type": "Primary"}, {"from": "crop-science", "to": "soil-science", "dist": 22, "type": "Primary"}, {"from": "info-studies", "to": "socioso", "dist": 24, "type": "Primary"}, {"from": "agriecons-agricbusiness", "to": "animal-science-dept", "dist": 31, "type": "Primary"}, {"from": "education-dept", "to": "teacher-education", "dist": 31, "type": "Primary"}, {"from": "maths-dept", "to": "stats-dept", "dist": 33, "type": "Primary"}, {"from": "CEGENSA", "to": "biotech-lab", "dist": 33, "type": "Primary"}, {"from": "humanities", "to": "inter-prog-office", "dist": 35, "type": "Primary"}, {"from": "agric-faculty", "to": "fam-and-consumer", "dist": 35, "type": "Primary"}, {"from": "biomed-dept", "to": "engineering", "dist": 35, "type": "Primary"}, {"from": "economic-policy", "to": "philosophy-&-classics", "dist": 35, "type": "Primary"}, {"from": "CSPS", "to": "socioso", "dist": 40, "type": "Primary"}, {"from": "history-dept", "to": "sociology-dept", "dist": 40, "type": "Primary"}, {"from": "adult-edu", "to": "archaeology", "dist": 40, "type": "Primary"}, {"from": "french-dept", "to": "religions", "dist": 44, "type": "Primary"}, {"from": "economic-policy", "to": "religions", "dist": 47, "type": "Primary"}, {"from": "political-science", "to": "psychology", "dist": 49, "type": "Primary"}, {"from": "UG-creche-kg", "to": "agriecons-agricbusiness", "dist": 55, "type": "Primary"}, {"from": "CERGIS", "to": "geography-dept", "dist": 55, "type": "Primary"}, {"from": "info-studies", "to": "psychology", "dist": 56, "type": "Primary"}, {"from": "UG-creche-kg", "to": "agric-faculty", "dist": 56, "type": "Primary"}, {"from": "CSPS", "to": "info-studies", "dist": 64, "type": "Primary"}, {"from": "jean-nelson-hall", "to": "sey-hall", "dist": 64, "type": "Primary"}, {"from": "mfodwo", "to": "socioso", "dist": 64, "type": "Primary"}, {"from": "french-dept", "to": "philosophy-&-classics", "dist": 66, "type": "Primary"}, {"from": "computer-science", "to": "isser", "dist": 66, "type": "Primary"}, {"from": "ecowas-coastal-marine", "to": "home-science", "dist": 66, "type": "Primary"}, {"from": "N-block", "to": "c3ss", "dist": 66, "type": "Primary"}, {"from": "mfodwo", "to": "political-science", "dist": 67, "type": "Primary"}, {"from": "pent-hostel-block-b", "to": "pent-hostel-block-c", "dist": 67, "type": "Primary"}, {"from": "info-studies", "to": "mfodwo", "dist": 67, "type": "Primary"}, {"from": "balme-library", "to": "ghkorea-info", "dist": 70, "type": "Primary"}, {"from": "economic-policy", "to": "econs-dept", "dist": 70, "type": "Primary"}, {"from": "law-school", "to": "stats-dept", "dist": 70, "type": "Primary"}, {"from": "CEGENSA", "to": "UG-creche-kg", "dist": 70, "type": "Primary"}, {"from": "ecowas-coastal-marine", "to": "inter-affairs", "dist": 70, "type": "Primary"}, {"from": "UG-creche-kg", "to": "fam-and-consumer", "dist": 70, "type": "Primary"}, {"from": "agric-faculty", "to": "agriecons-agricbusiness", "dist": 71, "type": "Primary"}, {"from": "mfodwo", "to": "psychology", "dist": 71, "type": "Primary"}, {"from": "CSPS", "to": "mfodwo", "dist": 74, "type": "Primary"}, {"from": "agric-faculty", "to": "animal-science-dept", "dist": 74, "type": "Primary"}, {"from": "CEGENSA", "to": "agriecons-agricbusiness", "dist": 74, "type": "Primary"}, {"from": "cafeteria", "to": "mensah-sarbah-hall", "dist": 74, "type": "Primary"}, {"from": "fam-and-consumer", "to": "soil-science", "dist": 77, "type": "Primary"}, {"from": "psychology", "to": "socioso", "dist": 77, "type": "Primary"}, {"from": "adult-edu", "to": "cont-&-dist-school", "dist": 77, "type": "Primary"}, {"from": "computer-science", "to": "stats-dept", "dist": 77, "type": "Primary"}, {"from": "CSPS", "to": "GCB-lecture-hall", "dist": 78, "type": "Primary"}, {"from": "econs-dept", "to": "philosophy-&-classics", "dist": 78, "type": "Primary"}, {"from": "legon-hall", "to": "religions", "dist": 78, "type": "Primary"}, {"from": "home-science", "to": "inter-affairs", "dist": 80, "type": "Primary"}, {"from": "UG-creche-kg", "to": "animal-science-dept", "dist": 80, "type": "Primary"}, {"from": "crop-science", "to": "fam-and-consumer", "dist": 80, "type": "Primary"}, {"from": "economic-policy", "to": "french-dept", "dist": 84, "type": "Primary"}, {"from": "kwapong-hall", "to": "limann-hall", "dist": 84, "type": "Primary"}, {"from": "legon-hall", "to": "philosophy-&-classics", "dist": 84, "type": "Primary"}, {"from": "computer-science", "to": "maths-dept", "dist": 84, "type": "Primary"}, {"from": "isser", "to": "maths-dept", "dist": 84, "type": "Primary"}, {"from": "french-dept", "to": "legon-hall", "dist": 84, "type": "Primary"}, {"from": "archaeology", "to": "jqb", "dist": 86, "type": "Primary"}, {"from": "computer-science", "to": "law-school", "dist": 86, "type": "Primary"}, {"from": "old-pentagon-blocks", "to": "pent-hostel-block-a", "dist": 86, "type": "Primary"}, {"from": "chemistry-dept", "to": "home-science", "dist": 89, "type": "Primary"}, {"from": "plant-&-envt-biology", "to": "political-science", "dist": 91, "type": "Primary"}, {"from": "africa-studies", "to": "cont-&-dist-school", "dist": 94, "type": "Primary"}, {"from": "balme-library", "to": "econs-dept", "dist": 94, "type": "Primary"}, {"from": "archaeology", "to": "teacher-education", "dist": 94, "type": "Primary"}, {"from": "economic-policy", "to": "ghkorea-info", "dist": 94, "type": "Primary"}, {"from": "education-dept", "to": "jqb", "dist": 95, "type": "Primary"}, {"from": "info-studies", "to": "political-science", "dist": 95, "type": "Primary"}, {"from": "GRASAG", "to": "nursing-and-midwifery", "dist": 95, "type": "Primary"}, {"from": "adult-edu", "to": "africa-studies", "dist": 99, "type": "Primary"}, {"from": "akuafo-hall", "to": "soil-science", "dist": 99, "type": "Primary"}, {"from": "nursing-and-midwifery", "to": "pharmacy-school", "dist": 99, "type": "Primary"}, {"from": "econs-dept", "to": "religions", "dist": 100, "type": "Primary"}, {"from": "marine-&-fisheries", "to": "pharmacy-school", "dist": 100, "type": "Primary"}, {"from": "biochem-dept", "to": "pharmacy-school", "dist": 100, "type": "Primary"}, {"from": "akuafo-hall", "to": "physics-dept", "dist": 100, "type": "Primary"}, {"from": "akuafo-hall", "to": "crop-science", "dist": 102, "type": "Primary"}, {"from": "law-school", "to": "maths-dept", "dist": 102, "type": "Primary"}, {"from": "CERGIS", "to": "africa-studies", "dist": 102, "type": "Primary"}, {"from": "agriecons-agricbusiness", "to": "fam-and-consumer", "dist": 102, "type": "Primary"}, {"from": "africa-studies", "to": "archaeology", "dist": 102, "type": "Primary"}, {"from": "isser", "to": "stats-dept", "dist": 102, "type": "Primary"}, {"from": "UG-creche-kg", "to": "biotech-lab", "dist": 102, "type": "Primary"}, {"from": "CEGENSA", "to": "animal-science-dept", "dist": 104, "type": "Primary"}, {"from": "animal-biology", "to": "marine-&-fisheries", "dist": 105, "type": "Primary"}, {"from": "jqb", "to": "teacher-education", "dist": 105, "type": "Primary"}, {"from": "agriecons-agricbusiness", "to": "biotech-lab", "dist": 105, "type": "Primary"}, {"from": "geology-dept", "to": "soil-science", "dist": 105, "type": "Primary"}, {"from": "animal-science-dept", "to": "fam-and-consumer", "dist": 109, "type": "Primary"}, {"from": "UG-creche-kg", "to": "crop-science", "dist": 109, "type": "Primary"}, {"from": "political-science", "to": "socioso", "dist": 109, "type": "Primary"}, {"from": "geology-dept", "to": "inter-affairs", "dist": 109, "type": "Primary"}, {"from": "fam-and-consumer", "to": "geology-dept", "dist": 109, "type": "Primary"}, {"from": "ish-hostel", "to": "jubilee-hall", "dist": 110, "type": "Primary"}, {"from": "agric-faculty", "to": "geography-dept", "dist": 111, "type": "Primary"}, {"from": "agric-faculty", "to": "crop-science", "dist": 111, "type": "Primary"}, {"from": "history-dept", "to": "legon-hall", "dist": 111, "type": "Primary"}, {"from": "agric-faculty", "to": "soil-science", "dist": 111, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "socioso", "dist": 111, "type": "Primary"}, {"from": "africa-studies", "to": "performing-arts", "dist": 111, "type": "Primary"}, {"from": "archaeology", "to": "education-dept", "dist": 111, "type": "Primary"}, {"from": "CSPS", "to": "psychology", "dist": 112, "type": "Primary"}, {"from": "archaeology", "to": "cont-&-dist-school", "dist": 113, "type": "Primary"}, {"from": "humanities", "to": "law-school", "dist": 115, "type": "Primary"}, {"from": "econs-dept", "to": "ghkorea-info", "dist": 116, "type": "Primary"}, {"from": "mfodwo", "to": "plant-&-envt-biology", "dist": 117, "type": "Primary"}, {"from": "cont-&-dist-school", "to": "performing-arts", "dist": 117, "type": "Primary"}, {"from": "french-dept", "to": "history-dept", "dist": 118, "type": "Primary"}, {"from": "education-dept", "to": "inter-prog-office", "dist": 118, "type": "Primary"}, {"from": "legon-hall", "to": "modern-langs", "dist": 118, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "N-block", "dist": 119, "type": "Primary"}, {"from": "balme-library", "to": "economic-policy", "dist": 119, "type": "Primary"}, {"from": "N-block", "to": "socioso", "dist": 120, "type": "Primary"}, {"from": "geology-dept", "to": "physics-dept", "dist": 121, "type": "Primary"}, {"from": "animal-science-dept", "to": "geography-dept", "dist": 122, "type": "Primary"}, {"from": "CEGENSA", "to": "agric-faculty", "dist": 122, "type": "Primary"}, {"from": "adult-edu", "to": "teacher-education", "dist": 122, "type": "Primary"}, {"from": "ecowas-coastal-marine", "to": "stats-dept", "dist": 122, "type": "Primary"}, {"from": "ecowas-coastal-marine", "to": "maths-dept", "dist": 124, "type": "Primary"}, {"from": "adult-edu", "to": "jqb", "dist": 125, "type": "Primary"}, {"from": "computer-science", "to": "engineering", "dist": 125, "type": "Primary"}, {"from": "N-block", "to": "info-studies", "dist": 125, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "biochem-dept", "dist": 126, "type": "Primary"}, {"from": "fam-and-consumer", "to": "geography-dept", "dist": 126, "type": "Primary"}, {"from": "legon-hall", "to": "maison-francaise", "dist": 126, "type": "Primary"}, {"from": "crop-science", "to": "geology-dept", "dist": 126, "type": "Primary"}, {"from": "CSPS", "to": "N-block", "dist": 126, "type": "Primary"}, {"from": "french-dept", "to": "sociology-dept", "dist": 129, "type": "Primary"}, {"from": "home-science", "to": "maths-dept", "dist": 130, "type": "Primary"}, {"from": "ghkorea-info", "to": "philosophy-&-classics", "dist": 130, "type": "Primary"}, {"from": "africa-studies", "to": "jqb", "dist": 133, "type": "Primary"}, {"from": "biochem-dept", "to": "nursing-and-midwifery", "dist": 133, "type": "Primary"}, {"from": "physics-dept", "to": "soil-science", "dist": 133, "type": "Primary"}, {"from": "animal-science-dept", "to": "biotech-lab", "dist": 134, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "info-studies", "dist": 134, "type": "Primary"}, {"from": "mensah-sarbah-annex", "to": "vikings-hostel", "dist": 135, "type": "Primary"}, {"from": "ghkorea-info", "to": "religions", "dist": 139, "type": "Primary"}, {"from": "plant-&-envt-biology", "to": "psychology", "dist": 140, "type": "Primary"}, {"from": "isser", "to": "law-school", "dist": 144, "type": "Primary"}, {"from": "africa-studies", "to": "geography-dept", "dist": 144, "type": "Primary"}, {"from": "legon-hall", "to": "sociology-dept", "dist": 144, "type": "Primary"}, {"from": "valco-trust-hostel", "to": "vikings-hostel", "dist": 144, "type": "Primary"}, {"from": "animal-biology", "to": "mfodwo", "dist": 144, "type": "Primary"}, {"from": "inter-prog-office", "to": "jqb", "dist": 144, "type": "Primary"}, {"from": "biomed-dept", "to": "computer-science", "dist": 144, "type": "Primary"}, {"from": "home-science", "to": "stats-dept", "dist": 144, "type": "Primary"}, {"from": "adult-edu", "to": "education-dept", "dist": 145, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "marine-&-fisheries", "dist": 145, "type": "Primary"}, {"from": "pent-hostel-block-a", "to": "pent-hostel-block-b", "dist": 145, "type": "Primary"}, {"from": "animal-science-dept", "to": "performing-arts", "dist": 145, "type": "Primary"}, {"from": "engineering", "to": "law-school", "dist": 146, "type": "Primary"}, {"from": "balme-library", "to": "philosophy-&-classics", "dist": 149, "type": "Primary"}, {"from": "education-dept", "to": "humanities", "dist": 149, "type": "Primary"}, {"from": "inter-prog-office", "to": "teacher-education", "dist": 149, "type": "Primary"}, {"from": "CERGIS", "to": "jqb", "dist": 149, "type": "Primary"}, {"from": "inter-prog-office", "to": "law-school", "dist": 150, "type": "Primary"}, {"from": "history-dept", "to": "religions", "dist": 150, "type": "Primary"}, {"from": "crop-science", "to": "physics-dept", "dist": 151, "type": "Primary"}, {"from": "chemistry-dept", "to": "inter-affairs", "dist": 153, "type": "Primary"}, {"from": "animal-biology", "to": "plant-&-envt-biology", "dist": 154, "type": "Primary"}, {"from": "pent-hostel-block-a", "to": "pent-hostel-block-c", "dist": 154, "type": "Primary"}, {"from": "chemistry-dept", "to": "ecowas-coastal-marine", "dist": 155, "type": "Primary"}, {"from": "agric-faculty", "to": "biotech-lab", "dist": 156, "type": "Primary"}, {"from": "biochem-dept", "to": "marine-&-fisheries", "dist": 156, "type": "Primary"}, {"from": "animal-biology", "to": "ghkorea-info", "dist": 157, "type": "Primary"}, {"from": "music-dept", "to": "performing-arts", "dist": 157, "type": "Primary"}, {"from": "french-dept", "to": "volta-hall", "dist": 157, "type": "Primary"}, {"from": "geography-dept", "to": "inter-affairs", "dist": 157, "type": "Primary"}, {"from": "chemistry-dept", "to": "plant-&-envt-biology", "dist": 157, "type": "Primary"}, {"from": "cafeteria", "to": "legon-hall-annex", "dist": 158, "type": "Primary"}, {"from": "humanities", "to": "jqb", "dist": 159, "type": "Primary"}, {"from": "akuafo-hall-annex", "to": "cafeteria", "dist": 159, "type": "Primary"}, {"from": "CSPS", "to": "marine-&-fisheries", "dist": 160, "type": "Primary"}, {"from": "CERGIS", "to": "animal-science-dept", "dist": 161, "type": "Primary"}, {"from": "CERGIS", "to": "agric-faculty", "dist": 164, "type": "Primary"}, {"from": "balme-library", "to": "religions", "dist": 166, "type": "Primary"}, {"from": "akuafo-hall", "to": "geology-dept", "dist": 166, "type": "Primary"}, {"from": "CERGIS", "to": "performing-arts", "dist": 166, "type": "Primary"}, {"from": "bank", "to": "vikings-hostel", "dist": 166, "type": "Primary"}, {"from": "CSPS", "to": "animal-biology", "dist": 167, "type": "Primary"}, {"from": "sociology-dept", "to": "volta-hall", "dist": 167, "type": "Primary"}, {"from": "religions", "to": "sociology-dept", "dist": 168, "type": "Primary"}, {"from": "history-dept", "to": "philosophy-&-classics", "dist": 169, "type": "Primary"}, {"from": "modern-langs", "to": "philosophy-&-classics", "dist": 172, "type": "Primary"}, {"from": "chemistry-dept", "to": "maths-dept", "dist": 173, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "pharmacy-school", "dist": 173, "type": "Primary"}, {"from": "legon-hall-annex", "to": "mensah-sarbah-hall", "dist": 173, "type": "Primary"}, {"from": "GRASAG", "to": "pharmacy-school", "dist": 173, "type": "Primary"}, {"from": "GRASAG", "to": "volta-hall", "dist": 175, "type": "Primary"}, {"from": "akuafo-hall", "to": "fam-and-consumer", "dist": 177, "type": "Primary"}, {"from": "humanities", "to": "stats-dept", "dist": 177, "type": "Primary"}, {"from": "biomed-dept", "to": "law-school", "dist": 178, "type": "Primary"}, {"from": "engineering", "to": "isser", "dist": 178, "type": "Primary"}, {"from": "balme-library", "to": "physics-dept", "dist": 178, "type": "Primary"}, {"from": "c3ss", "to": "info-studies", "dist": 179, "type": "Primary"}, {"from": "c3ss", "to": "socioso", "dist": 179, "type": "Primary"}, {"from": "modern-langs", "to": "religions", "dist": 179, "type": "Primary"}, {"from": "econs-dept", "to": "modern-langs", "dist": 181, "type": "Primary"}, {"from": "cont-&-dist-school", "to": "music-dept", "dist": 181, "type": "Primary"}, {"from": "GCB-lecture-hall", "to": "c3ss", "dist": 183, "type": "Primary"}, {"from": "maison-francaise", "to": "philosophy-&-classics", "dist": 183, "type": "Primary"}, {"from": "biomed-dept", "to": "isser", "dist": 188, "type": "Primary"}, {"from": "engineering", "to": "stats-dept", "dist": 188, "type": "Primary"}, {"from": "old-pentagon-blocks", "to": "pent-hostel-block-c", "dist": 189, "type": "Primary"}, {"from": "maison-francaise", "to": "religions", "dist": 189, "type": "Primary"}, {"from": "CSPS", "to": "c3ss", "dist": 191, "type": "Primary"}, {"from": "econs-dept", "to": "maison-francaise", "dist": 191, "type": "Primary"}, {"from": "religions", "to": "volta-hall", "dist": 193, "type": "Primary"}, {"from": "history-dept", "to": "volta-hall", "dist": 194, "type": "Primary"}, {"from": "marine-&-fisheries", "to": "nursing-and-midwifery", "dist": 199, "type": "Primary"}, {"from": "CSPS", "to": "biochem-dept", "dist": 200, "type": "Primary"}, {"from": "mensah-sarbah-annex", "to": "valco-trust-hostel", "dist": 206, "type": "Primary"}, {"from": "old-pentagon-blocks", "to": "pent-hostel-block-b", "dist": 207, "type": "Primary"}, {"from": "mensah-sarbah-annex", "to": "mensah-sarbah-hall", "dist": 208, "type": "Primary"}, {"from": "mensah-sarbah-hall", "to": "valco-trust-hostel", "dist": 212, "type": "Primary"}, {"from": "biomed-dept", "to": "stats-dept", "dist": 214, "type": "Primary"}, {"from": "biomed-dept", "to": "pent-hostel-block-a", "dist": 215, "type": "Primary"}, {"from": "legon-hall-annex", "to": "maison-francaise", "dist": 215, "type": "Primary"}, {"from": "cafeteria", "to": "mensah-sarbah-annex", "dist": 219, "type": "Primary"}, {"from": "bani-hostel", "to": "evandy-hostel", "dist": 221, "type": "Primary"}, {"from": "biomed-dept", "to": "old-pentagon-blocks", "dist": 224, "type": "Primary"}, {"from": "nursing-and-midwifery", "to": "volta-hall", "dist": 226, "type": "Primary"}, {"from": "legon-hall-annex", "to": "modern-langs", "dist": 226, "type": "Primary"}, {"from": "akuafo-hall-annex", "to": "mensah-sarbah-hall", "dist": 227, "type": "Primary"}, {"from": "GRASAG", "to": "biochem-dept", "dist": 228, "type": "Primary"}, {"from": "bank", "to": "valco-trust-hostel", "dist": 228, "type": "Primary"}, {"from": "engineering", "to": "old-pentagon-blocks", "dist": 235, "type": "Primary"}, {"from": "engineering", "to": "pent-hostel-block-a", "dist": 238, "type": "Primary"}, {"from": "GRASAG", "to": "research-office", "dist": 241, "type": "Primary"}, {"from": "africa-studies", "to": "music-dept", "dist": 243, "type": "Primary"}, {"from": "limann-hall", "to": "public-health", "dist": 245, "type": "Primary"}, {"from": "akuafo-hall-annex", "to": "mensah-sarbah-annex", "dist": 245, "type": "Primary"}, {"from": "bank", "to": "jubilee-hall", "dist": 248, "type": "Primary"}, {"from": "akuafo-hall-annex", "to": "biotech-lab", "dist": 249, "type": "Primary"}, {"from": "adult-edu", "to": "music-dept", "dist": 257, "type": "Primary"}, {"from": "WAGMC", "to": "kwapong-hall", "dist": 260, "type": "Primary"}, {"from": "CEGENSA", "to": "akuafo-hall-annex", "dist": 268, "type": "Primary"}, {"from": "animal-science-dept", "to": "music-dept", "dist": 276, "type": "Primary"}, {"from": "akuafo-hall-annex", "to": "legon-hall-annex", "dist": 277, "type": "Primary"}, {"from": "mensah-sarbah-hall", "to": "vikings-hostel", "dist": 277, "type": "Primary"}, {"from": "kwapong-hall", "to": "sey-hall", "dist": 277, "type": "Primary"}, {"from": "WAGMC", "to": "limann-hall", "dist": 278, "type": "Primary"}, {"from": "cafeteria", "to": "valco-trust-hostel", "dist": 278, "type": "Primary"}, {"from": "nursing-and-midwifery", "to": "research-office", "dist": 287, "type": "Primary"}, {"from": "ish-hostel", "to": "limann-hall", "dist": 292, "type": "Primary"}, {"from": "WAGMC", "to": "public-health", "dist": 298, "type": "Primary"}, {"from": "bank", "to": "mensah-sarbah-annex", "dist": 301, "type": "Primary"}, {"from": "commonwealth-hall", "to": "sociology-dept", "dist": 311, "type": "Primary"}, {"from": "kwapong-hall", "to": "public-health", "dist": 313, "type": "Primary"}, {"from": "MIASA", "to": "sociology-dept", "dist": 314, "type": "Primary"}, {"from": "bank", "to": "ish-hostel", "dist": 314, "type": "Primary"}, {"from": "MIASA", "to": "history-dept", "dist": 315, "type": "Primary"}, {"from": "cafeteria", "to": "vikings-hostel", "dist": 318, "type": "Primary"}, {"from": "ish-hostel", "to": "kwapong-hall", "dist": 324, "type": "Primary"}, {"from": "commonwealth-hall", "to": "volta-hall", "dist": 327, "type": "Primary"}, {"from": "MIASA", "to": "commonwealth-hall", "dist": 332, "type": "Primary"}, {"from": "GRASAG", "to": "commonwealth-hall", "dist": 342, "type": "Primary"}, {"from": "jean-nelson-hall", "to": "kwapong-hall", "dist": 342, "type": "Primary"}, {"from": "commonwealth-hall", "to": "research-office", "dist": 346, "type": "Primary"}, {"from": "MIASA", "to": "legon-hall-annex", "dist": 347, "type": "Primary"}, {"from": "UG-Stadium", "to": "public-health", "dist": 348, "type": "Primary"}, {"from": "biomed-dept", "to": "pent-hostel-block-b", "dist": 348, "type": "Primary"}, {"from": "WAGMC", "to": "sey-hall", "dist": 350, "type": "Primary"}, {"from": "cont-&-dist-school", "to": "hospital", "dist": 355, "type": "Primary"}, {"from": "adult-edu", "to": "hospital", "dist": 356, "type": "Primary"}, {"from": "limann-hall", "to": "sey-hall", "dist": 361, "type": "Primary"}, {"from": "evandy-hostel", "to": "tf-hostel", "dist": 369, "type": "Primary"}, {"from": "biomed-dept", "to": "pent-hostel-block-c", "dist": 369, "type": "Primary"}, {"from": "engineering", "to": "pent-hostel-block-b", "dist": 376, "type": "Primary"}, {"from": "jubilee-hall", "to": "limann-hall", "dist": 379, "type": "Primary"}, {"from": "hospital", "to": "teacher-education", "dist": 381, "type": "Primary"}, {"from": "archaeology", "to": "hospital", "dist": 384, "type": "Primary"}, {"from": "hospital", "to": "music-dept", "dist": 384, "type": "Primary"}, {"from": "pharmacy-school", "to": "research-office", "dist": 387, "type": "Primary"}, {"from": "commonwealth-hall", "to": "great-hall", "dist": 387, "type": "Primary"}, {"from": "biochem-dept", "to": "research-office", "dist": 392, "type": "Primary"}, {"from": "engineering", "to": "pent-hostel-block-c", "dist": 392, "type": "Primary"}, {"from": "jubilee-hall", "to": "kwapong-hall", "dist": 393, "type": "Primary"}, {"from": "WAGMC", "to": "jean-nelson-hall", "dist": 395, "type": "Primary"}, {"from": "business-school", "to": "pent-hostel-block-c", "dist": 399, "type": "Primary"}, {"from": "MIASA", "to": "legon-hall", "dist": 401, "type": "Primary"}, {"from": "jubilee-hall", "to": "vikings-hostel", "dist": 413, "type": "Primary"}, {"from": "jean-nelson-hall", "to": "limann-hall", "dist": 426, "type": "Primary"}, {"from": "bani-hostel", "to": "tf-hostel", "dist": 444, "type": "Primary"}, {"from": "UG-Stadium", "to": "ish-hostel", "dist": 458, "type": "Primary"}, {"from": "ish-hostel", "to": "public-health", "dist": 459, "type": "Primary"}, {"from": "business-school", "to": "pent-hostel-block-b", "dist": 465, "type": "Primary"}, {"from": "business-school", "to": "old-pentagon-blocks", "dist": 465, "type": "Primary"}, {"from": "UG-Stadium", "to": "limann-hall", "dist": 465, "type": "Primary"}, {"from": "great-hall", "to": "research-office", "dist": 486, "type": "Primary"}, {"from": "evandy-hostel", "to": "pent-hostel-block-b", "dist": 489, "type": "Primary"}, {"from": "evandy-hostel", "to": "pent-hostel-block-c", "dist": 502, "type": "Primary"}, {"from": "business-school", "to": "pent-hostel-block-a", "dist": 504, "type": "Primary"}, {"from": "bani-hostel", "to": "business-school", "dist": 526, "type": "Primary"}, {"from": "ish-hostel", "to": "sey-hall", "dist": 533, "type": "Primary"}, {"from": "bani-hostel", "to": "pent-hostel-block-c", "dist": 541, "type": "Primary"}, {"from": "UG-Stadium", "to": "kwapong-hall", "dist": 550, "type": "Primary"}, {"from": "bani-hostel", "to": "pent-hostel-block-b", "dist": 556, "type": "Primary"}, {"from": "UG-Stadium", "to": "jubilee-hall", "dist": 558, "type": "Primary"}, {"from": "ish-hostel", "to": "jean-nelson-hall", "dist": 591, "type": "Primary"}, {"from": "MIASA", "to": "great-hall", "dist": 615, "type": "Primary"}, {"from": "evandy-hostel", "to": "pent-hostel-block-a", "dist": 634, "type": "Primary"}, {"from": "GRASAG", "to": "great-hall", "dist": 644, "type": "Primary"}, {"from": "great-hall", "to": "volta-hall", "dist": 696, "type": "Primary"}, {"from": "pent-hostel-block-b", "to": "tf-hostel", "dist": 856, "type": "Primary"}, {"from": "pent-hostel-block-c", "to": "tf-hostel", "dist": 871, "type": "Primary"}, {"from": "business-school", "to": "tf-hostel", "dist": 965, "type": "Primary"}];
+const SAMPLE_REQUESTS = [{"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Security", "priority": "Critical", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Grounds", "priority": "Low", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Grounds", "priority": "Low", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Security", "priority": "Critical", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Grounds", "priority": "Low", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Security", "priority": "Critical", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Waste", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Security", "priority": "Critical", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Grounds", "priority": "Low", "cost": 20000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 40000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Grounds", "priority": "Low", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 40000}, {"type": "Security", "priority": "Critical", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Maintenance", "priority": "High", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Waste", "priority": "Medium", "cost": 30000}, {"type": "Waste", "priority": "Medium", "cost": 50000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Maintenance", "priority": "High", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 10000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Maintenance", "priority": "High", "cost": 40000}, {"type": "Delivery", "priority": "Medium", "cost": 30000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Grounds", "priority": "Low", "cost": 50000}, {"type": "Delivery", "priority": "Medium", "cost": 20000}, {"type": "Security", "priority": "Critical", "cost": 50000}];
+
+
+
+const adj={};LOCATIONS.forEach(l=>{adj[l.id]=[];});ROADS.forEach(r=>{adj[r.from].push({to:r.to,dist:r.dist});adj[r.to].push({to:r.from,dist:r.dist});});
+const locById={};LOCATIONS.forEach(l=>{locById[l.id]=l;});
+const TYPE_COLOR={academic:"#00d4aa",residence:"#fb923c",services:"#ef4444"};
+
+function project(locs,w,h,pad=36){
+  const lats=locs.map(l=>l.lat),lons=locs.map(l=>l.lon);
+  const minLat=Math.min(...lats),maxLat=Math.max(...lats),minLon=Math.min(...lons),maxLon=Math.max(...lons);
+  return locs.map(l=>({...l,x:pad+(l.lon-minLon)/(maxLon-minLon)*(w-pad*2),y:pad+(maxLat-l.lat)/(maxLat-minLat)*(h-pad*2)}));
+}
+function drawGraph(canvas,projLocs,highlightNodes=new Set(),currentNode=null,mstEdges=null,pathEdges=null){
+  const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0a0e14';ctx.fillRect(0,0,w,h);
+  const nodeMap={};projLocs.forEach(l=>{nodeMap[l.id]=l;});
+  ROADS.forEach(r=>{
+    const a=nodeMap[r.from],b=nodeMap[r.to];if(!a||!b)return;
+    const isMST=mstEdges&&mstEdges.some(e=>(e.from===r.from&&e.to===r.to)||(e.from===r.to&&e.to===r.from));
+    const isPath=pathEdges&&pathEdges.some(e=>(e.from===r.from&&e.to===r.to)||(e.from===r.to&&e.to===r.from));
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    if(isPath){ctx.strokeStyle='#f59e0b';ctx.lineWidth=3;}
+    else if(isMST){ctx.strokeStyle='#a78bfa';ctx.lineWidth=2.5;}
+    else{ctx.strokeStyle=r.type==='Primary'?'#2d3748':'#1e2533';ctx.lineWidth=r.type==='Pedestrian'?1:1.5;}
+    ctx.stroke();
+  });
+  projLocs.forEach(l=>{
+    const isCurrent=l.id===currentNode,isVisited=highlightNodes.has(l.id);
+    let fill=TYPE_COLOR[l.type]||'#00d4aa';
+    if(isCurrent)fill='#ef4444';else if(isVisited)fill='#60a5fa';
+    const r=isCurrent?8:6;
+    ctx.beginPath();ctx.arc(l.x,l.y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();
+    if(isCurrent){ctx.beginPath();ctx.arc(l.x,l.y,13,0,Math.PI*2);ctx.strokeStyle='#ef444450';ctx.lineWidth=2;ctx.stroke();}
+  });
+}
+function resizeCanvas(c){const r=c.parentElement.getBoundingClientRect();c.width=r.width||700;}
+
+// NAV
+const navBtns=document.querySelectorAll('.nav-btn');
+const titles={dashboard:'Dashboard',graph:'Campus Graph',traversal:'BFS / DFS Traversal',shortest:'Dijkstra  Shortest Path',mst:'Kruskal / Prim  MST',structures:'Data Structures Reference',dp:'Budget Optimizer (DP)',commands:'CLI Command Reference'};
+navBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const sec=btn.dataset.section;
+    navBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('section-'+sec).classList.add('active');
+    document.getElementById('page-title').textContent=titles[sec];
+    if(sec==='graph')setTimeout(initGraphSection,50);
+    if(sec==='traversal')setTimeout(initTraversalSection,50);
+    if(sec==='shortest')setTimeout(initDijkSection,50);
+    if(sec==='mst')setTimeout(initMSTSection,50);
+  });
+});
+
+// DASHBOARD TEST GRID
+const TEST_SUITES=['BFSTest','BTreeTest','CustomArrayListTest','CustomDisjointSetTest','CustomGraphTest','CustomLinkedListTest','CustomMapTest','CustomQueueTest','CustomSetTest','CustomStackTest','DFSTest','DijkstraTest','DynamicProgrammingTest','HashTableTest','KruskalTest','PrimTest'];
+const tg=document.getElementById('test-grid');
+TEST_SUITES.forEach(t=>{const d=document.createElement('div');d.style.cssText='background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.15);border-radius:6px;padding:8px 10px;font-size:11px;display:flex;align-items:center;gap:6px;';d.innerHTML=`<span style="color:var(--accent)"></span><span style="color:var(--text-dim)">${t}</span>`;tg.appendChild(d);});
+
+// DATA STRUCTURES GRID
+const DS_DATA=[
+  {name:'CustomArrayList',desc:'Dynamic array for generic lists. Used throughout as the primary collection.',avg:'O(1) index',worst:'O(n) resize',c:'var(--accent)'},
+  {name:'CustomLinkedList',desc:'Doubly-linked list for sequential access and base for the deque.',avg:'O(1) insert',worst:'O(n) search',c:'var(--accent)'},
+  {name:'DispatchDeque',desc:'Double-ended queue for dispatching road segment updates.',avg:'O(1) push/pop',worst:'O(n) search',c:'#60a5fa'},
+  {name:'CustomStack',desc:'Array-backed LIFO stack used as DFS frontier.',avg:'O(1) push/pop',worst:'O(n) resize',c:'#60a5fa'},
+  {name:'CustomQueue',desc:'Linked FIFO queue used as BFS frontier.',avg:'O(1) enqueue',worst:'O(1) dequeue',c:'#60a5fa'},
+  {name:'CustomSet',desc:'Hash-backed set tracking visited vertices and unique IDs.',avg:'O(1) add',worst:'O(n) collision',c:'var(--accent3)'},
+  {name:'CustomMap',desc:'Key-value array mapping location IDs to display names.',avg:'O(n) search',worst:'O(n)',c:'var(--accent3)'},
+  {name:'HashTable',desc:'Chaining hash table for high-speed request lookups by ID.',avg:'O(1) get/put',worst:'O(n)',c:'var(--accent3)'},
+  {name:'CustomHeap',desc:'Max-heap priority queue for service requests and Dijkstra.',avg:'O(log n)',worst:'O(log n)',c:'#a78bfa'},
+  {name:'ResourceBST',desc:'Unbalanced BST for indexing resources by capacity.',avg:'O(log n)',worst:'O(n) skewed',c:'#a78bfa'},
+  {name:'CustomRedBlackTree',desc:'Self-balancing RB-tree for guaranteed O(log n) location indexing.',avg:'O(log n)',worst:'O(log n)',c:'var(--accent4)'},
+  {name:'BTree',desc:'M-way search tree used as a database index for record sets.',avg:'O(log_M n)',worst:'O(log_M n)',c:'var(--accent4)'},
+  {name:'CustomDisjointSet',desc:'Union-Find with path compression for cycle detection in Kruskal.',avg:'O(α(n))',worst:'O(α(n))',c:'#fb923c'},
+  {name:'CustomGraph',desc:'Adjacency-list graph for the 50-node UG Legon campus network.',avg:'O(1) add edge',worst:'O(V) adj',c:'#4ade80'}
+];
+const dsGrid=document.getElementById('ds-grid');
+DS_DATA.forEach(d=>{const el=document.createElement('div');el.className='ds-card';el.style.borderLeftColor=d.c;el.innerHTML=`<h4 style="color:${d.c}">${d.name}</h4><p>${d.desc}</p><div class="complexity"><span class="chip">avg ${d.avg}</span><span class="chip w">worst ${d.worst}</span></div>`;dsGrid.appendChild(el);});
+
+// CLI COMMANDS
+const CLI_SECTIONS=[
+  {title:'Database',color:'#60a5fa',cmds:[{desc:'Seed the SQLite database:',cmd:'java -cp "out:lib/sqlite-jdbc.jar" CSVLoader'},{desc:'Interactive DB query demo:',cmd:'java -cp "out:lib/sqlite-jdbc.jar" StructureDemo'}]},
+  {title:'Data Structures',color:'var(--accent3)',cmds:[{desc:'DispatchDeque:',cmd:'java -cp out datastructures.DispatchDeque'},{desc:'CustomHeap:',cmd:'java -cp out datastructures.CustomHeap'},{desc:'ResourceBST:',cmd:'java -cp out datastructures.ResourceBST'},{desc:'CustomRedBlackTree:',cmd:'java -cp out datastructures.CustomRedBlackTree'}]},
+  {title:'Graph Algorithms',color:'var(--accent)',cmds:[{desc:'BFS:',cmd:'java -cp out algorithms.BFS'},{desc:'DFS:',cmd:'java -cp out algorithms.DFS'},{desc:'Dijkstra:',cmd:'java -cp out algorithms.Dijkstra'},{desc:'Kruskal:',cmd:'java -cp out algorithms.Kruskal'},{desc:'Prim:',cmd:'java -cp out algorithms.Prim'}]},
+  {title:'Search, Sort & DP',color:'#a78bfa',cmds:[{desc:'Search & Sort automated:',cmd:'java -cp out algorithms.SearchSortDemo'},{desc:'Interactive UI:',cmd:'java -cp out algorithms.UserInterface'},{desc:'Dynamic Programming:',cmd:'java -cp out algorithms.DynamicProgramming'}]},
+  {title:'Performance (Python)',color:'var(--accent4)',cmds:[{desc:'Install deps:',cmd:'pip install -r src/Performance/requirements.txt'},{desc:'Run all 6 experiments:',cmd:'cd src/Performance && python run_experiments.py'}]}
+];
+const cmdSec=document.getElementById('cmd-sections');
+CLI_SECTIONS.forEach(sec=>{const c=document.createElement('div');c.className='card';c.innerHTML=`<div class="card-header"><div class="card-title"><span class="dot" style="background:${sec.color}"></span>${sec.title}</div></div><div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">${sec.cmds.map(x=>`<div><div style="color:var(--text-dim);margin-bottom:4px">${x.desc}</div><div class="cmd-box">${x.cmd}</div></div>`).join('')}</div>`;cmdSec.appendChild(c);});
+
+// GRAPH SECTION
+function initGraphSection(){
+  const canvas=document.getElementById('graphCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height);drawGraph(canvas,proj);
+  const tooltip=document.getElementById('tooltip'),hoverLabel=document.getElementById('hover-label');
+  canvas.onmousemove=e=>{
+    const rect=canvas.getBoundingClientRect(),sx=canvas.width/rect.width,sy=canvas.height/rect.height;
+    const mx=(e.clientX-rect.left)*sx,my=(e.clientY-rect.top)*sy;
+    let closest=null,minD=Infinity;
+    proj.forEach(l=>{const d=Math.hypot(l.x-mx,l.y-my);if(d<minD){minD=d;closest=l;}});
+    if(closest&&minD<20){
+      tooltip.style.opacity='1';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-10)+'px';
+      tooltip.innerHTML=`<strong>${closest.name}</strong><div class="tip-row"><span>Type</span><span>${closest.type}</span></div><div class="tip-row"><span>Connections</span><span>${adj[closest.id].length}</span></div><div class="tip-row"><span>ID</span><span>${closest.id}</span></div>`;
+      hoverLabel.textContent=closest.name;
+    }else{tooltip.style.opacity='0';hoverLabel.textContent='';}
+  };
+  canvas.onmouseleave=()=>{tooltip.style.opacity='0';hoverLabel.textContent='';};
+}
+
+// TRAVERSAL SECTION
+function initTraversalSection(){
+  const canvas=document.getElementById('traversalCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height-0,28);
+  const ss=document.getElementById('start-select');
+  if(!ss.children.length)LOCATIONS.forEach(l=>{const o=document.createElement('option');o.value=l.id;o.textContent=l.name;ss.appendChild(o);});
+  drawGraph(canvas,proj);
+  let timer=null;
+  document.getElementById('btn-reset-traversal').onclick=()=>{clearInterval(timer);drawGraph(canvas,proj);document.getElementById('traversal-log').innerHTML='';document.getElementById('step-badge').textContent='Step 0 / 0';};
+  document.getElementById('btn-run-traversal').onclick=()=>{
+    clearInterval(timer);
+    const algo=document.getElementById('algo-select').value,startId=ss.value;
+    const log=document.getElementById('traversal-log'),badge=document.getElementById('step-badge');
+    log.innerHTML='';
+    const steps=algo==='bfs'?runBFS(startId):runDFS(startId);
+    const visited=new Set();let i=0;
+    timer=setInterval(()=>{
+      if(i>=steps.length){clearInterval(timer);return;}
+      const s=steps[i];visited.add(s.id);badge.textContent=`Step ${i+1} / ${steps.length}`;
+      drawGraph(canvas,proj,new Set([...visited].slice(0,-1)),s.id);
+      const line=document.createElement('div');line.className='log-line';
+      line.innerHTML=`<span class="log-step">[${i+1}]</span> <span class="log-visit">${locById[s.id].name}</span>${s.via?' <span style="color:var(--text-dim)">via '+locById[s.via].name+'</span>':''}`;
+      log.appendChild(line);log.scrollTop=log.scrollHeight;i++;
+    },380);
+    document.getElementById('algo-info-text').innerHTML=algo==='bfs'
+      ?'<strong>BFS (Breadth-First Search)</strong><br>Explores layer by layer using a <em>queue (FIFO)</em>. Guarantees fewest hops.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure:</strong> CustomQueue'
+      :'<strong>DFS (Depth-First Search)</strong><br>Dives deep before backtracking using a <em>stack (LIFO)</em>.<br><br><strong>Complexity:</strong> O(V + E)<br><strong>Structure:</strong> CustomStack';
+  };
+}
+function runBFS(s){const visited=new Set([s]),q=[{id:s,via:null}],steps=[];while(q.length){const{id,via}=q.shift();steps.push({id,via});adj[id].forEach(e=>{if(!visited.has(e.to)){visited.add(e.to);q.push({id:e.to,via:id});}});}return steps;}
+function runDFS(s){const visited=new Set(),steps=[];function dfs(id,via){visited.add(id);steps.push({id,via});adj[id].forEach(e=>{if(!visited.has(e.to))dfs(e.to,id);});}dfs(s,null);return steps;}
+
+// DIJKSTRA SECTION
+function initDijkSection(){
+  const canvas=document.getElementById('dijkCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height,28);
+  const src=document.getElementById('dijk-source'),tgt=document.getElementById('dijk-target');
+  if(!src.children.length)LOCATIONS.forEach(l=>{let o=document.createElement('option');o.value=l.id;o.textContent=l.name;src.appendChild(o);o=document.createElement('option');o.value=l.id;o.textContent=l.name;tgt.appendChild(o);});
+  src.value='balme-library';tgt.value='biomed-dept';drawGraph(canvas,proj);
+  document.getElementById('btn-reset-dijk').onclick=()=>{drawGraph(canvas,proj);document.getElementById('dijk-log').innerHTML='';};
+  document.getElementById('btn-run-dijk').onclick=()=>{
+    const s=src.value,t=tgt.value;
+    const{dist,prev}=dijkstra(s);const log=document.getElementById('dijk-log');log.innerHTML='';
+    const path=[];let cur=t;while(cur!==null){path.unshift(cur);cur=prev[cur];}
+    const pathEdges=[];for(let i=0;i<path.length-1;i++)pathEdges.push({from:path[i],to:path[i+1]});
+    drawGraph(canvas,proj,new Set(path),t,null,pathEdges);
+    const addLine=html=>{const d=document.createElement('div');d.className='log-line';d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;};
+    addLine(`<span class="log-step">Source:</span> <span class="log-visit">${locById[s].name}</span>`);
+    addLine(`<span class="log-step">Target:</span> <span class="log-visit">${locById[t].name}</span>`);
+    if(dist[t]===Infinity){addLine(`<span class="log-result"> No path found</span>`);}
+    else{
+      addLine(`<span class="log-done"> Total distance: ${dist[t]}m</span>`);
+      addLine(`<span class="log-step">Route (${path.length} stops):</span>`);
+      path.forEach((id,i)=>addLine(`<span class="log-edge">${i===0?'START':i===path.length-1?'END ':''}</span>  ${locById[id].name} <span style="color:var(--text-dim)">(+${i===0?0:dist[id]-dist[path[i-1]]}m)</span>`));
+    }
+  };
+}
+function dijkstra(startId){
+  const dist={},prev={},visited=new Set();
+  LOCATIONS.forEach(l=>{dist[l.id]=Infinity;prev[l.id]=null;});dist[startId]=0;
+  const pq=[[0,startId]];
+  while(pq.length){pq.sort((a,b)=>a[0]-b[0]);const[d,u]=pq.shift();if(visited.has(u))continue;visited.add(u);adj[u].forEach(e=>{const nd=d+e.dist;if(nd<dist[e.to]){dist[e.to]=nd;prev[e.to]=u;pq.push([nd,e.to]);}});}
+  return{dist,prev};
+}
+
+// MST SECTION
+function initMSTSection(){
+  const canvas=document.getElementById('mstCanvas');resizeCanvas(canvas);
+  const proj=project(LOCATIONS,canvas.width,canvas.height,28);drawGraph(canvas,proj);
+  document.getElementById('btn-reset-mst').onclick=()=>{drawGraph(canvas,proj);document.getElementById('mst-log').innerHTML='';};
+  document.getElementById('mst-algo-select').onchange=function(){
+    document.getElementById('mst-info-text').innerHTML=this.value==='kruskal'
+      ?'<strong>Kruskal\'s Algorithm</strong><br>Sorts edges by weight and greedily adds, using Union-Find for cycle detection.<br><br><strong>Complexity:</strong> O(E log E)<br><strong>Structure:</strong> CustomDisjointSet'
+      :'<strong>Prim\'s Algorithm</strong><br>Grows MST from a root by always picking the cheapest crossing edge.<br><br><strong>Complexity:</strong> O((V+E) log V)<br><strong>Structure:</strong> CustomHeap';
+  };
+  document.getElementById('btn-run-mst').onclick=()=>{
+    const algo=document.getElementById('mst-algo-select').value;
+    const{mstEdges,totalWeight}=algo==='kruskal'?kruskal():prim('balme-library');
+    drawGraph(canvas,proj,new Set(),null,mstEdges,null);
+    const log=document.getElementById('mst-log');log.innerHTML='';
+    const addLine=html=>{const d=document.createElement('div');d.className='log-line';d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;};
+    addLine(`<span class="log-done"> MST  ${algo.charAt(0).toUpperCase()+algo.slice(1)}</span>`);
+    addLine(`<span class="log-step">Total MST weight: ${totalWeight}m | Edges: ${mstEdges.length}</span>`);addLine('');
+    mstEdges.forEach((e,i)=>addLine(`<span class="log-edge">[${i+1}]</span> ${locById[e.from].name}  ${locById[e.to].name} <span style="color:var(--text-dim)">${e.dist}m</span>`));
+  };
+}
+function kruskal(){const edges=[...ROADS].sort((a,b)=>a.dist-b.dist);const parent={},rank={};LOCATIONS.forEach(l=>{parent[l.id]=l.id;rank[l.id]=0;});function find(x){if(parent[x]!==x)parent[x]=find(parent[x]);return parent[x];}function union(a,b){const ra=find(a),rb=find(b);if(ra===rb)return false;if(rank[ra]<rank[rb])parent[ra]=rb;else if(rank[ra]>rank[rb])parent[rb]=ra;else{parent[rb]=ra;rank[ra]++;}return true;}const mstEdges=[];let totalWeight=0;edges.forEach(e=>{if(union(e.from,e.to)){mstEdges.push(e);totalWeight+=e.dist;}});return{mstEdges,totalWeight};}
+function prim(startId){const visited=new Set([startId]),mstEdges=[];let totalWeight=0;const pq=adj[startId].map(e=>({from:startId,to:e.to,dist:e.dist}));while(pq.length&&visited.size<LOCATIONS.length){pq.sort((a,b)=>a.dist-b.dist);const best=pq.shift();if(visited.has(best.to))continue;visited.add(best.to);mstEdges.push(best);totalWeight+=best.dist;adj[best.to].forEach(e=>{if(!visited.has(e.to))pq.push({from:best.to,to:e.to,dist:e.dist});});}return{mstEdges,totalWeight};}
+
+// DP SECTION
+const SECTORS=['Maintenance','Delivery','Waste','Security','Grounds'];
+const SECTOR_COLORS=['#00d4aa','#60a5fa','#f59e0b','#ef4444','#a78bfa'];
+
+const PW={Critical:4,High:3,Medium:2,Low:1};
+const UNIT=1000;
+function runDP(budget){
+  const B=Math.floor(budget/UNIT);
+  const bc={};
+  SECTORS.forEach(type=>{const reqs=SAMPLE_REQUESTS.filter(r=>r.type===type);const curve=new Array(B+1).fill(0);reqs.forEach(req=>{const w=Math.ceil(req.cost/UNIT),v=PW[req.priority];for(let b=B;b>=w;b--)curve[b]=Math.max(curve[b],curve[b-w]+v);});bc[type]=curve;});
+  const n=SECTORS.length,dp=Array.from({length:n+1},()=>new Array(B+1).fill(0)),give=Array.from({length:n+1},()=>new Array(B+1).fill(0));
+  for(let i=1;i<=n;i++){const c=bc[SECTORS[i-1]];for(let b=0;b<=B;b++){let best=0,bestG=0;for(let a=0;a<=b;a++){const cand=dp[i-1][b-a]+(c[a]||0);if(cand>best){best=cand;bestG=a;}}dp[i][b]=best;give[i][b]=bestG;}}
+  const alloc={};let rem=B;for(let i=n;i>=1;i--){const a=give[i][rem];alloc[SECTORS[i-1]]=a*UNIT;rem-=a;}
+  return{alloc,totalBenefit:dp[n][B]};
+}
+document.getElementById('btn-run-dp').onclick=()=>{
+  const budget=parseInt(document.getElementById('budget-input').value)||288000;
+  const{alloc,totalBenefit}=runDP(budget);
+  const barsEl=document.getElementById('dp-bars'),logEl=document.getElementById('dp-log'),sumEl=document.getElementById('dp-summary');
+  barsEl.innerHTML='';logEl.innerHTML='';let spent=0;
+  SECTORS.forEach((s,i)=>{
+    const amt=alloc[s]||0;spent+=amt;const pct=budget>0?(amt/budget*100).toFixed(1):0;
+    const row=document.createElement('div');row.className='budget-row';
+    row.innerHTML=`<div class="budget-label">${s}</div><div class="bar-track"><div class="bar-fill" style="background:${SECTOR_COLORS[i]}" data-pct="${pct}"></div></div><div class="budget-val">GHS ${amt.toLocaleString()}</div>`;
+    barsEl.appendChild(row);
+    const line=document.createElement('div');line.className='log-line';line.innerHTML=`<span class="log-step">${s}:</span> <span class="log-result">GHS ${amt.toLocaleString()}</span> <span style="color:var(--text-dim)">(${pct}%)</span>`;logEl.appendChild(line);
+  });
+  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(el=>el.style.width=el.dataset.pct+'%');},50);
+  const reserve=budget-spent;
+  sumEl.innerHTML=`<strong>Budget:</strong> GHS ${budget.toLocaleString()} &nbsp;·&nbsp; <strong style="color:var(--accent)">Spent:</strong> GHS ${spent.toLocaleString()} &nbsp;·&nbsp; <strong style="color:var(--accent3)">Reserve:</strong> GHS ${reserve.toLocaleString()} &nbsp;·&nbsp; <strong style="color:#a78bfa">Benefit:</strong> ${totalBenefit}`;
+  const sumLine=document.createElement('div');sumLine.className='log-line';sumLine.innerHTML=`<br><span class="log-done">Benefit Score: ${totalBenefit} · Reserve: GHS ${reserve.toLocaleString()}</span>`;logEl.appendChild(sumLine);
+};
+setTimeout(()=>document.getElementById('btn-run-dp').click(),300);
+</script>
+</body>
+</html>

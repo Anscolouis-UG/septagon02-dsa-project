@@ -59,17 +59,18 @@ public class Prim {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Prim's MST — UG Legon Campus  (data_base/roads.csv)");
+        System.out.println("  Prim's MST — UG Legon Campus  (data_base/edges_knn_sparse.csv)");
         System.out.println("==================================================\n");
 
         datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomMap<String, Integer> idToIndex = new datastructures.CustomMap<>();
         datastructures.CustomGraph graph = GraphLoader.load(
-            names, "data_base/locations.csv", "data_base/roads.csv");
+            names, idToIndex, "data_base/nodes.csv", "data_base/edges_knn_sparse.csv");
 
         int start = 0; // Main Gate
         System.out.println("Starting Prim's MST from: " + names.get(start) + "\n");
 
-        CustomArrayList<GraphEdge> mst = run(graph, GraphLoader.NUM_LOCATIONS + 1, start);
+        CustomArrayList<GraphEdge> mst = run(graph, GraphLoader.MAX_LOCATIONS, start);
 
         System.out.println("MST edges (" + mst.size() + " roads to connect campus):");
         for (int i = 0; i < mst.size(); i++) {

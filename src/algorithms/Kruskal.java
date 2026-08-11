@@ -58,15 +58,16 @@ public class Kruskal {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("  Ghana Smart Service Operations Optimizer");
-        System.out.println("  Kruskal's MST — UG Legon Campus (data_base/roads.csv)");
+        System.out.println("  Kruskal's MST — UG Legon Campus (data_base/edges_knn_sparse.csv)");
         System.out.println("==================================================\n");
 
         datastructures.CustomMap<Integer, String> names = new datastructures.CustomMap<>();
+        datastructures.CustomMap<String, Integer> idToIndex = new datastructures.CustomMap<>();
         datastructures.CustomGraph graph = GraphLoader.load(
-            names, "data_base/locations.csv", "data_base/roads.csv");
+            names, idToIndex, "data_base/nodes.csv", "data_base/edges_knn_sparse.csv");
 
         System.out.println("Computing Minimum Spanning Tree (Kruskal's)...\n");
-        CustomArrayList<GraphEdge> mst = run(graph, GraphLoader.NUM_LOCATIONS + 1);
+        CustomArrayList<GraphEdge> mst = run(graph, GraphLoader.MAX_LOCATIONS);
 
         System.out.println("MST edges (" + mst.size() + " roads to connect campus):");
         for (int i = 0; i < mst.size(); i++) {

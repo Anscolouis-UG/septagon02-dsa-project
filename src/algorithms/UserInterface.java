@@ -9,7 +9,14 @@ public class UserInterface {
 
         System.out.println("=============================================");
         System.out.println("  Java Console Searching & Sorting Program   ");
+        System.out.println("  University of Ghana, Legon Campus          ");
         System.out.println("=============================================");
+
+        // Load data on startup
+        String REQ_PATH = "data_base/service_requests.csv";
+        CustomArrayList<SearchSortDemo.ServiceRequest> list = SearchSortDemo.loadRequests(REQ_PATH);
+        
+        System.out.println("Loaded " + list.size() + " service requests from database.\n");
 
         while (running) {
             System.out.println("\n--- MAIN MENU ---");
@@ -18,7 +25,14 @@ public class UserInterface {
             System.out.println("3. Exit Program");
             System.out.print("Enter your choice (1-3): ");
 
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.next(); // consume
+                continue;
+            }
+
             int mainChoice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
             if (mainChoice == 3) {
                 System.out.println("\nThank you for using the program. Goodbye!");
@@ -31,118 +45,148 @@ public class UserInterface {
                 continue;
             }
 
-            CustomArrayList<Integer> userList = acceptArrayInput(scanner);
-
             if (mainChoice == 1) {
-                handleSearching(scanner, userList);
+                handleSearching(scanner, list);
             } else {
-                handleSorting(scanner, userList);
+                handleSorting(scanner, list);
             }
         }
         scanner.close();
     }
 
-    private static CustomArrayList<Integer> acceptArrayInput(java.util.Scanner scanner) {
-        System.out.print("\nHow many integers are in your list? ");
-        int size = scanner.nextInt();
-        CustomArrayList<Integer> list = new CustomArrayList<>();
-
-        System.out.println("Enter " + size + " integers (press Enter after each):");
-        for (int i = 0; i < size; i++) {
-            System.out.print("Element " + (i + 1) + ": ");
-            list.add(scanner.nextInt());
-        }
-        return list;
-    }
-
-    private static void handleSearching(java.util.Scanner scanner, CustomArrayList<Integer> list) {
+    private static void handleSearching(java.util.Scanner scanner, CustomArrayList<SearchSortDemo.ServiceRequest> list) {
         System.out.println("\n--- SEARCHING MENU ---");
-        System.out.println("1. Linear Search");
-        System.out.println("2. Binary Search");
+        System.out.println("1. Linear Search (by Request Type, e.g., 'Maintenance')");
+        System.out.println("2. Binary Search (by Request ID, e.g., 5)");
         System.out.print("Choose a search algorithm (1-2): ");
+        
+        if (!scanner.hasNextInt()) {
+            System.out.println("Invalid choice.");
+            scanner.nextLine();
+            return;
+        }
+        
         int searchChoice = scanner.nextInt();
-
-        System.out.print("Enter the target value to search for: ");
-        int target = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
         int resultIndex = -1;
 
         if (searchChoice == 1) {
-            resultIndex = SearchAlgorithms.linearSearch(list, x -> x == target);
-        } else if (searchChoice == 2) {
-            System.out.println("Note: Sorting list first (required for Binary Search)...");
-            // Copy list
-            CustomArrayList<Integer> sorted = new CustomArrayList<>();
-            for (int i = 0; i < list.size(); i++) sorted.add(list.get(i));
-            SortAlgorithms.insertionSort(sorted, (a, b) -> Integer.compare(a, b));
-            System.out.print("Sorted list: [");
-            for (int i = 0; i < sorted.size(); i++) {
-                System.out.print(sorted.get(i));
-                if (i < sorted.size() - 1) System.out.print(", ");
+            System.out.print("Enter the Request Type to search for (e.g., 'Maintenance', 'Delivery', 'Waste', 'Security', 'Grounds'): ");
+            String target = scanner.nextLine().trim();
+            resultIndex = SearchAlgorithms.linearSearch(list, r -> r.type.equalsIgnoreCase(target));
+            
+            if (resultIndex != -1) {
+                System.out.println("\nFound first instance of '" + target + "' at index: " + resultIndex);
+                System.out.println(list.get(resultIndex).toRow());
+            } else {
+                System.out.println("Target type '" + target + "' was not found in the list.");
             }
-            System.out.println("]");
-            resultIndex = SearchAlgorithms.binarySearch(sorted, target, (a, b) -> Integer.compare(a, b));
+        } else if (searchChoice == 2) {
+            System.out.print("Enter the Request ID to search for (e.g., 1-150): ");
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid ID.");
+                scanner.nextLine();
+                return;
+            }
+            int targetId = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("Note: Sorting list by ID first (required for Binary Search)...");
+            
+            // Copy list
+            CustomArrayList<SearchSortDemo.ServiceRequest> sorted = new CustomArrayList<>();
+            for (int i = 0; i < list.size(); i++) sorted.add(list.get(i));
+            
+            // Sort by ID
+            SortAlgorithms.insertionSort(sorted, (a, b) -> Integer.compare(a.id, b.id));
+            
+            SearchSortDemo.ServiceRequest dummy = new SearchSortDemo.ServiceRequest(new String[]{String.valueOf(targetId), "", "0", "", "", "", "", "", "", "0", ""});
+            resultIndex = SearchAlgorithms.binarySearch(sorted, dummy, (a, b) -> Integer.compare(a.id, b.id));
+            
+            if (resultIndex != -1) {
+                System.out.println("\nTarget ID " + targetId + " found at sorted index: " + resultIndex);
+                System.out.println(sorted.get(resultIndex).toRow());
+            } else {
+                System.out.println("Target ID " + targetId + " was not found in the list.");
+            }
         } else {
             System.out.println("Invalid search choice.");
-            return;
-        }
-
-        if (resultIndex != -1) {
-            System.out.println("Target " + target + " found at index: " + resultIndex);
-        } else {
-            System.out.println("Target " + target + " was not found in the list.");
         }
     }
 
-    private static void handleSorting(java.util.Scanner scanner, CustomArrayList<Integer> list) {
+    private static void handleSorting(java.util.Scanner scanner, CustomArrayList<SearchSortDemo.ServiceRequest> list) {
         System.out.println("\n--- SORTING MENU ---");
-        System.out.println("1. Bubble Sort");
-        System.out.println("2. Selection Sort");
-        System.out.println("3. Insertion Sort");
-        System.out.println("4. Merge Sort");
-        System.out.println("5. Quick Sort");
+        System.out.println("1. Bubble Sort (by Estimated Duration)");
+        System.out.println("2. Selection Sort (by Request Type alphabetically)");
+        System.out.println("3. Insertion Sort (by Priority Score, Highest First)");
+        System.out.println("4. Merge Sort (by Location ID alphabetically)");
+        System.out.println("5. Quick Sort (by Request ID)");
         System.out.print("Choose a sorting algorithm (1-5): ");
+        
+        if (!scanner.hasNextInt()) {
+            System.out.println("Invalid choice.");
+            scanner.nextLine();
+            return;
+        }
+        
         int sortChoice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
         // Copy list
-        CustomArrayList<Integer> copy = new CustomArrayList<>();
+        CustomArrayList<SearchSortDemo.ServiceRequest> copy = new CustomArrayList<>();
         for (int i = 0; i < list.size(); i++) copy.add(list.get(i));
 
-        SortAlgorithms.Comparator<Integer> cmp = (a, b) -> Integer.compare(a, b);
+        SortAlgorithms.Comparator<SearchSortDemo.ServiceRequest> cmp;
 
         switch (sortChoice) {
-            case 1: // Bubble sort — implemented inline since SortingAlgorithms works on int[]
+            case 1:
+                cmp = (a, b) -> Integer.compare(a.durationHours, b.durationHours);
+                // Bubble sort implemented inline since SortingAlgorithms doesn't have a generic one
                 for (int i = 0; i < copy.size() - 1; i++) {
                     for (int j = 0; j < copy.size() - 1 - i; j++) {
-                        if (copy.get(j) > copy.get(j + 1)) {
-                            int tmp = copy.get(j);
+                        if (cmp.compare(copy.get(j), copy.get(j + 1)) > 0) {
+                            SearchSortDemo.ServiceRequest tmp = copy.get(j);
                             copy.set(j, copy.get(j + 1));
                             copy.set(j + 1, tmp);
                         }
                     }
                 }
+                System.out.println("\nSorted by Estimated Duration (Bubble Sort):");
                 break;
-            case 2: SortAlgorithms.selectionSort(copy, cmp); break;
-            case 3: SortAlgorithms.insertionSort(copy, cmp); break;
-            case 4: SortAlgorithms.mergeSort(copy, cmp);     break;
-            case 5: SortAlgorithms.quickSort(copy, cmp);     break;
+            case 2:
+                cmp = (a, b) -> a.type.compareToIgnoreCase(b.type);
+                SortAlgorithms.selectionSort(copy, cmp); 
+                System.out.println("\nSorted by Request Type (Selection Sort):");
+                break;
+            case 3:
+                // Descending by priority score
+                cmp = (a, b) -> Integer.compare(b.priorityScore, a.priorityScore);
+                SortAlgorithms.insertionSort(copy, cmp);
+                System.out.println("\nSorted by Priority Score Descending (Insertion Sort):");
+                break;
+            case 4:
+                cmp = (a, b) -> a.locationId.compareToIgnoreCase(b.locationId);
+                SortAlgorithms.mergeSort(copy, cmp);
+                System.out.println("\nSorted by Location ID (Merge Sort):");
+                break;
+            case 5:
+                cmp = (a, b) -> Integer.compare(a.id, b.id);
+                SortAlgorithms.quickSort(copy, cmp);
+                System.out.println("\nSorted by Request ID (Quick Sort):");
+                break;
             default:
                 System.out.println("Invalid sorting choice.");
                 return;
         }
 
-        System.out.print("Original List: [");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.print(list.get(i));
-            if (i < list.size() - 1) System.out.print(", ");
+        // Print top 10 results to not flood the console
+        System.out.println("Showing top 15 results:");
+        for (int i = 0; i < Math.min(15, copy.size()); i++) {
+            System.out.println(copy.get(i).toRow());
         }
-        System.out.println("]");
-
-        System.out.print("Sorted List:   [");
-        for (int i = 0; i < copy.size(); i++) {
-            System.out.print(copy.get(i));
-            if (i < copy.size() - 1) System.out.print(", ");
+        if (copy.size() > 15) {
+            System.out.println("... and " + (copy.size() - 15) + " more.");
         }
-        System.out.println("]");
     }
 }

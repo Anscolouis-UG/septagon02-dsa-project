@@ -11,12 +11,12 @@ public class ResourceBST {
         private String resourceName;
         private String resourceType;
         private int capacity;
-        private int currentLocationId;
+        private String currentLocationId;
         private String availabilityStatus;
         private double costPerHour;
 
         public Resource(int resourceId, String resourceName, String resourceType, int capacity,
-                        int currentLocationId, String availabilityStatus, double costPerHour) {
+                        String currentLocationId, String availabilityStatus, double costPerHour) {
             this.resourceId = resourceId;
             this.resourceName = resourceName;
             this.resourceType = resourceType;
@@ -31,7 +31,7 @@ public class ResourceBST {
 
         @Override
         public String toString() {
-            return String.format("[%s | Type: %s | Status: %s | Loc ID: %d | Cost: $%.2f/hr]",
+            return String.format("[%s | Type: %s | Status: %s | Loc ID: %s | Cost: $%.2f/hr]",
                     resourceName, resourceType, availabilityStatus, currentLocationId, costPerHour);
         }
     }
@@ -98,7 +98,7 @@ public class ResourceBST {
             String[] columns = rows.get(index).split(",", -1);
             bst.insert(Integer.parseInt(columns[0]), new Resource(
                     Integer.parseInt(columns[0]), columns[1], columns[2],
-                    Integer.parseInt(columns[3]), Integer.parseInt(columns[4]),
+                    Integer.parseInt(columns[3]), columns[4],
                     columns[5], Double.parseDouble(columns[6])));
         }
 

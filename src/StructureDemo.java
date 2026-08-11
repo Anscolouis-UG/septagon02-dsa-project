@@ -10,8 +10,8 @@ public class StructureDemo {
     public static void main(String[] args) {
         BTree<Integer, ServiceRequest> requestBTree = new BTree<>();
         HashTable<Integer, ServiceRequest> requestHashTable = new HashTable<>();
-        CustomSet<Integer> visitedLocations = new CustomSet<>();
-        CustomMap<Integer, String> locationNamesMap = new CustomMap<>();
+        CustomSet<String> visitedLocations = new CustomSet<>();
+        CustomMap<String, String> locationNamesMap = new CustomMap<>();
         CustomMap<Integer, String> resourceMap = new CustomMap<>();
 
         System.out.println("==================================================");
@@ -71,22 +71,22 @@ public class StructureDemo {
                     break;
 
                 case "2":
-                    System.out.print("\nEnter Location ID to check (e.g., 1-50): ");
+                    System.out.print("\nEnter Location ID to check (e.g., balme-library): ");
                     try {
-                        int locId = Integer.parseInt(userScanner.nextLine().trim());
+                        String locId = userScanner.nextLine().trim();
                         boolean isVisited = visitedLocations.contains(locId);
                         String locName = locationNamesMap.get(locId);
 
                         System.out.println("\n--------------------------------------------------");
                         if (isVisited) {
-                            System.out.printf("   Location #%d (%s) is registered in Visited java.util.Set.%n", 
+                            System.out.printf("   Location %s (%s) is registered in Visited java.util.Set.%n", 
                                               locId, (locName != null ? locName : "Unknown"));
                         } else {
-                            System.out.println("   Location #" + locId + " has NOT been visited yet.");
+                            System.out.println("   Location " + locId + " has NOT been visited yet.");
                         }
                         System.out.println("--------------------------------------------------");
-                    } catch (NumberFormatException e) {
-                        System.out.println("   Please enter a valid numerical ID.");
+                    } catch (Exception e) {
+                        System.out.println("   Error checking location.");
                     }
                     break;
 
@@ -131,16 +131,16 @@ public class StructureDemo {
     // CSV Ingestion Helpers
     // ------------------------------------------------------------------
 
-    private static int loadLocations(CustomSet<Integer> set, CustomMap<Integer, String> namesMap) {
+    private static int loadLocations(CustomSet<String> set, CustomMap<String, String> namesMap) {
         int count = 0;
-        try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/locations.csv"))) {
+        try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/nodes.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
                 if (line.isEmpty()) continue;
                 String[] parts = line.split(",");
                 if (parts.length >= 2) {
-                    int locId = Integer.parseInt(parts[0].trim());
+                    String locId = parts[0].trim();
                     String locName = parts[1].trim();
 
                     set.add(locId);
@@ -149,14 +149,14 @@ public class StructureDemo {
                 }
             }
         } catch (Exception e) {
-            System.out.println(" Error loading locations.csv: " + e.getMessage());
+            System.out.println(" Error loading nodes.csv: " + e.getMessage());
         }
         return count;
     }
 
     private static int loadRequests(BTree<Integer, ServiceRequest> btree, 
                                     HashTable<Integer, ServiceRequest> hash,
-                                    CustomMap<Integer, String> locationNamesMap) {
+                                    CustomMap<String, String> locationNamesMap) {
         int count = 0;
         try (java.util.Scanner sc = new java.util.Scanner(new File("data_base/service_requests.csv"))) {
             if (sc.hasNextLine()) sc.nextLine(); // Skip header
@@ -168,13 +168,13 @@ public class StructureDemo {
                     int id = Integer.parseInt(parts[0].trim());
                     String type = parts[1].trim();
 
-                    // Determine location ID (use 3rd column if present, otherwise match ID)
-                    int locId = (parts.length >= 3) ? Integer.parseInt(parts[2].trim()) : id;
+                    // Determine location ID (use 3rd column if present, otherwise string id)
+                    String locId = (parts.length >= 3) ? parts[2].trim() : String.valueOf(id);
 
-                    // Look up real building name from locations.csv data
+                    // Look up real building name from nodes.csv data
                     String realLocationName = locationNamesMap.get(locId);
                     if (realLocationName == null) {
-                        realLocationName = "Location #" + locId;
+                        realLocationName = "Location " + locId;
                     }
 
                     ServiceRequest request = new ServiceRequest(id, type, realLocationName);

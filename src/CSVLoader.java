@@ -17,35 +17,27 @@ public class CSVLoader {
     }
 
     public int loadLocations(String csvPath, Database db) throws IOException, java.sql.SQLException {
-        return importCsv(csvPath, 8, "LOCATIONS", columns -> {
+        return importCsv(csvPath, 5, "LOCATIONS", columns -> {
             db.executeUpdate(
-                    "INSERT INTO LOCATIONS(location_id, name, district, area_type, latitude, longitude, operating_hours, building_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    Integer.parseInt(columns[0].trim()),
+                    "INSERT INTO LOCATIONS(id, name, category, latitude, longitude) VALUES (?, ?, ?, ?, ?)",
+                    columns[0].trim(),
                     columns[1].trim(),
                     columns[2].trim(),
-                    columns[3].trim(),
-                    Double.parseDouble(columns[4].trim()),
-                    Double.parseDouble(columns[5].trim()),
-                    columns[6].trim(),
-                    columns[7].trim().isEmpty() ? null : columns[7].trim());
-            auditLogger.logInsert("LOCATIONS", String.join(",", java.util.Arrays.copyOf(columns, 8)), userId);
+                    Double.parseDouble(columns[3].trim()),
+                    Double.parseDouble(columns[4].trim()));
+            auditLogger.logInsert("LOCATIONS", String.join(",", java.util.Arrays.copyOf(columns, 5)), userId);
         });
     }
 
     public int loadRoads(String csvPath, Database db) throws IOException, java.sql.SQLException {
-        return importCsv(csvPath, 9, "ROADS", columns -> {
+        return importCsv(csvPath, 4, "ROADS", columns -> {
             db.executeUpdate(
-                    "INSERT INTO ROADS(road_id, road_name, road_type, start_location, end_location, distance_m, speed_limit_kmh, one_way, surface) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    Integer.parseInt(columns[0].trim()),
+                    "INSERT INTO ROADS(source, target, distance_km, distance_m) VALUES (?, ?, ?, ?)",
+                    columns[0].trim(),
                     columns[1].trim(),
-                    columns[2].trim(),
-                    columns[3].trim(),
-                    columns[4].trim(),
-                    Double.parseDouble(columns[5].trim()),
-                    Integer.parseInt(columns[6].trim()),
-                    columns[7].trim(),
-                    columns[8].trim());
-            auditLogger.logInsert("ROADS", String.join(",", java.util.Arrays.copyOf(columns, 9)), userId);
+                    Double.parseDouble(columns[2].trim()),
+                    Double.parseDouble(columns[3].trim()));
+            auditLogger.logInsert("ROADS", String.join(",", java.util.Arrays.copyOf(columns, 4)), userId);
         });
     }
 
@@ -55,7 +47,7 @@ public class CSVLoader {
                     "INSERT INTO SERVICE_REQUESTS(request_id, request_type, requester_location_id, priority, status, date_created, deadline, assigned_team, required_resource_type, estimated_duration_hours, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     Integer.parseInt(columns[0].trim()),
                     columns[1].trim(),
-                    Integer.parseInt(columns[2].trim()),
+                    columns[2].trim(),
                     columns[3].trim(),
                     columns[4].trim(),
                     columns[5].trim(),
@@ -76,7 +68,7 @@ public class CSVLoader {
                     columns[1].trim(),
                     columns[2].trim(),
                     Integer.parseInt(columns[3].trim()),
-                    Integer.parseInt(columns[4].trim()),
+                    columns[4].trim(),
                     columns[5].trim(),
                     Double.parseDouble(columns[6].trim()));
             auditLogger.logInsert("RESOURCES", String.join(",", java.util.Arrays.copyOf(columns, 7)), userId);
@@ -159,8 +151,8 @@ public class CSVLoader {
     public static void main(String[] args) {
         String schemaPath = "data_base/schema.sql";
         String dbPath = "data_base/george.db";
-        String locationCsv = "data_base/locations.csv";
-        String roadsCsv = "data_base/roads.csv";
+        String locationCsv = "data_base/nodes.csv";
+        String roadsCsv = "data_base/edges_knn_sparse.csv";
         String resourcesCsv = "data_base/resources.csv";
         String requestsCsv = "data_base/service_requests.csv";
 
