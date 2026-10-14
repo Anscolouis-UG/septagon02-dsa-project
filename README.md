@@ -1,12 +1,12 @@
 # Septagon02 DSA Project
 
-> **Data Structures and Algorithms** group assignment — DCIT 204, University of Ghana, Legon  
-> Team Septagon
+> **Data Structures and Algorithms** group assignment — DCIT 308 AND 204, University of Ghana, Legon  
+> Team Septagon02
 
 A complete, zero-dependency Java implementation of 14 custom data structures and 10+ algorithms, applied to a **Ghana Smart Campus Operations Optimizer** for the University of Ghana, Legon Campus. The system models real campus locations, road networks, service requests, and resource management — all backed by custom-built data structures (no `java.util` collections).
-🌐 **[Live GUI Dashboard →](https://septagon02-campus-optimizer.netlify.app/)**
+ **[Live GUI Dashboard →](https://septagon02-campus-optimizer.netlify.app/)**
 
-📖 **[Full Technical Report →](TECHNICAL_REPORT.md)** · [PDF Version](DSA_Technical_Report_TEAM-SEPTAGON02.pdf) · [Performance Report](PERFORMANCE_REPORT.md)
+ **[Full Technical Report →](TECHNICAL_REPORT.md)** · [PDF Version](DSA_Technical_Report_TEAM-SEPTAGON02.pdf) · [Performance Report](PERFORMANCE_REPORT.md)
 
 ---
 
@@ -34,7 +34,7 @@ A complete, zero-dependency Java implementation of 14 custom data structures and
 
 The interactive GUI dashboard is deployed on Netlify and visualises every data structure and algorithm running on real UG Legon Campus data:
 
-🔗 **[https://septagon02-campus-optimizer.netlify.app/](https://septagon02-campus-optimizer.netlify.app/)**
+ **[https://septagon02-campus-optimizer.netlify.app/](https://septagon02-campus-optimizer.netlify.app/)**
 
 Features include:
 - Campus graph visualization with real geographic coordinates
@@ -316,17 +316,17 @@ CSV files → CSVLoader → george.db (SQLite) → CRUDOperations → CSVExporte
 
 The interactive GUI is a single-page web application deployed on Netlify:
 
-🔗 **[https://septagon02-campus-optimizer.netlify.app/](https://septagon02-campus-optimizer.netlify.app/)**
+ **[https://septagon02-campus-optimizer.netlify.app/](https://septagon02-campus-optimizer.netlify.app/)**
 
 **Features:**
-- 📊 **Dashboard** — Overview stats for locations, roads, requests, and resources
-- 🗺️ **Campus Graph** — Interactive visualization using real geographic coordinates
-- 🔍 **BFS/DFS Traversals** — Animated step-by-step graph traversals
-- 📍 **Dijkstra Pathfinder** — Shortest path between any two campus buildings
-- 🌲 **MST Viewer** — Kruskal and Prim minimum spanning tree visualization
-- 🔎 **Search & Sort** — Side-by-side algorithm comparison with timing
-- 🗄️ **Database CRUD** — Live query, insert, update, and delete operations
-- 💰 **DP Optimizer** — Knapsack-based budget allocation with visual breakdown
+-  **Dashboard** — Overview stats for locations, roads, requests, and resources
+-  **Campus Graph** — Interactive visualization using real geographic coordinates
+-  **BFS/DFS Traversals** — Animated step-by-step graph traversals
+-  **Dijkstra Pathfinder** — Shortest path between any two campus buildings
+-  **MST Viewer** — Kruskal and Prim minimum spanning tree visualization
+-  **Search & Sort** — Side-by-side algorithm comparison with timing
+-  **Database CRUD** — Live query, insert, update, and delete operations
+-  **DP Optimizer** — Knapsack-based budget allocation with visual breakdown
 
 Built with vanilla HTML/CSS/JS (no frameworks). Deployed via Netlify from the `gui/` folder.
 
@@ -432,4 +432,4 @@ Team Septagon02 comprises 14 members organized into functional engineering group
 
 ## License
 
-This project was developed as a course assignment for **DCIT 204 — Data Structures and Algorithms** at the **University of Ghana, Legon**.
+This project was developed as a course assignment for **DCIT 308 and DCIT 204 — Data Structures and Algorithms** at the **University of Ghana, Legon**.
